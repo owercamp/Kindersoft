@@ -1,0 +1,31 @@
+/*
+
+Colores de los logos:
+
+Azul claro: 
+#0086f9
+rgba(0,134,249,1);
+
+#85c4f9
+rgba(133,196.249.1);
+
+
+Naranja: 
+#ff5500
+rgba(255,85,0,1);
+
+Naranja claro:
+#fd8701
+rgba(253,135,1,1);
+
+
+Verde:
+#627700
+rgba(98,119,0,1);
+
+
+Verde claro:
+#a4b068
+rgba(164,176,104,1);
+
+*/

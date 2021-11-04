@@ -351,7 +351,7 @@
       <div class="row modal-body">
         <div class="col-md-12">
           <span hidden class="concemtsAccounts-modal"></span>
-          <table id="table-accounts" class="table table-striped" width="100%" style="font-size: 12px;">
+          <table id="table-accounts" class="table table-striped" width="100%">
             <thead>
               <th>FECHA DE COMPROMISO</th>
               <th>CONCEmtO</th>

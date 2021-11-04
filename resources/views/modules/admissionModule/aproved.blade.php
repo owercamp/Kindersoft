@@ -25,7 +25,7 @@
         @endif
       </div>
     </div>
-    <table id="tableDatatable" class="table table-hover text-center" width="100%" style="font-size: 13px;">
+    <table id="tableDatatable" class="table table-hover text-center" width="100%">
       <thead>
         <tr>
           <th>NIÑO/NIÑA</th>

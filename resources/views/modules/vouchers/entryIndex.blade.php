@@ -69,7 +69,7 @@
         </form>
       </div>
     </div>
-    <table id="tableDatatable" class="table table-hover text-center" width="100%" style="font-size: 12px;">
+    <table id="tableDatatable" class="table table-hover text-center" width="100%">
       <thead>
         <tr>
           <th>COMPROBANTE</th>

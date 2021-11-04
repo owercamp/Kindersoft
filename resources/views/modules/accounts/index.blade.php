@@ -69,7 +69,7 @@
   <div class="row sectionTable" style="display: none;">
     <div class="col-md-12">
       <h6 class="table-title text-center"></h6>
-      <table id="tableAccount" class="table text-center" width="100%" style="font-size: 12px;">
+      <table id="tableAccount" class="table text-center" width="100%">
         <thead>
           <tr>
             <th>ALUMNO</th>

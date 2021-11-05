@@ -9,7 +9,14 @@ window._ = require('lodash');
 try {
   window.Popper = require('popper.js').default;
   window.$ = window.jQuery = require('jquery');
+  require('jquery-mask-plugin');
+  window.datatable = require('datatables.net-dt');
+  window.Swal = require('sweetalert2');
 
+  require('@fortawesome/fontawesome-free');
+  require('../datapicker/js/bootstrap-datepicker');
+  require('../datapicker/locales/bootstrap-datepicker.es.min');
+  require('./myfunctions');
   require('bootstrap');
 } catch (e) { }
 

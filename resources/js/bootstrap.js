@@ -9,7 +9,7 @@ window._ = require('lodash');
 try {
   window.Popper = require('popper.js').default;
   window.$ = window.jQuery = require('jquery');
-  require('jquery-mask-plugin');
+  window.mask = require('jquery-mask-plugin');
   window.datatable = require('datatables.net-dt');
   window.Swal = require('sweetalert2');
 

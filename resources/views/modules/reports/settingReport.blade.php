@@ -57,7 +57,7 @@
     <div class="col-md-12">
       <form action="{{ route('legalizationExcel') }}" method="GET">
         @csrf
-        <button type="submit" class="bj-btn-table-add form-control-sm btn-excel">EXPORTAR A EXCEL</button>
+        <button type="submit" class="btn btn-outline-success form-control-sm btn-excel">EXPORTAR A EXCEL</button>
       </form>
     </div>
   </div>

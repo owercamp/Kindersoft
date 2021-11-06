@@ -41,7 +41,7 @@
           <form action="{{ route('legalizationsfinishedPdf') }}" method="GET" style="display: inline-block;">
             @csrf
             <input type="hidden" name="CodeContractForPDF" value="{{ $arrayLegalizations[$row][0] }}" class="form-control form-control-sm" required>
-            <button type="submit" title="DESCARGAR PDF" class="bj-btn-table-pdf form-control-sm">
+            <button type="submit" title="DESCARGAR PDF" class="btn btn-outline-danger rounded-circle form-control-sm">
               <i class="fas fa-file-pdf"></i>
             </button>
           </form>

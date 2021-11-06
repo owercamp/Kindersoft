@@ -451,3 +451,30 @@ header{
 	border-bottom: 1px solid #ccc;
 	background: transparent;
 }
+
+.squater {
+      border-radius: 40px;
+      border: 1px solid #6481FF;
+    }
+
+    small {
+      font-weight: bold;
+    }
+
+    small.text-muted {
+      text-align: right;
+      margin-right: 3px;
+    }
+
+    #photoSelected {
+      opacity: 0;
+    }
+
+    .sectionPhoto {
+      cursor: pointer;
+    }
+
+    .sectionPhoto:hover {
+      background: rgba(0, 0, 0, 0.1);
+      color: white;
+    }

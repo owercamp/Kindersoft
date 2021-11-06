@@ -11,7 +11,7 @@
     <div class="col-md-6">
       @php $yearNow = date('Y') @endphp
       <div class="btn-group mx-3" role='group'>
-        <a href="#" class="btn btn-primary btn-less"><i class="fas fa-angle-left"></i></a>
+        <a href="#" class="btn btn-outline-primary btn-less"><i class="fas fa-angle-left"></i></a>
         <button class="px-3" style="border-top: 1px solid #000; border-bottom: 1px solid #000;"> AÑO: </button>
         <button class="btn btn-default year" style="border-top: 1px solid #000; border-bottom: 1px solid #000;">{{ $yearNow }}</button>
         <a href="#" class="btn btn-default btn-plus" disabled><i class="fas fa-angle-right"></i></a>
@@ -21,7 +21,7 @@
       <div class="form-group">
         <input type="hidden" class="form-control form-control-sm" name="year" value="{{ $yearNow }}" readonly required>
         <input type="hidden" name="view_file" class="form-control form-control-sm" readonly required>
-        <button type="button" class="bj-btn-table-delete mx-3 my-3 form-control-sm" id="btn-drawPdf"><i class="fas fa-file-pdf"></i> DESCARGAR</button>
+        <button type="button" class="btn btn-outline-tertiary  mx-3 my-3 form-control-sm" id="btn-drawPdf"><i class="fas fa-file-pdf"></i> DESCARGAR</button>
       </div>
     </div>
   </div>
@@ -260,7 +260,7 @@
   	if(year <= parseInt(yearnow)){
   		if(year == parseInt(yearnow)){
   			$('.btn-plus').attr('disabled',true);
-  			$('.btn-plus').removeClass('btn-primary');
+  			$('.btn-plus').removeClass('btn-outline-primary');
   			$('.btn-plus').addClass('btn-default');
   		}
   		// statistic.data.datasets[0].data = [];
@@ -295,19 +295,19 @@
   		$('input[name=year]').val(year);
   		if(year == parseInt(yearnow)){
   			$('.btn-plus').attr('disabled',true);
-  			$('.btn-plus').removeClass('btn-primary');
+  			$('.btn-plus').removeClass('btn-outline-primary');
   			$('.btn-plus').addClass('btn-default');
   		}else{
   			$('.btn-plus').attr('disabled',false);
   			$('.btn-plus').removeClass('btn-default');
-  			$('.btn-plus').addClass('btn-primary');
+  			$('.btn-plus').addClass('btn-outline-primary');
   		}
   		$('.mountTable').html(year);
   		statistic.update();
   		convertCanvasToImage();
   	}else{
   		$('.btn-plus').attr('disabled',true);
-  		$('.btn-plus').removeClass('btn-primary');
+  		$('.btn-plus').removeClass('btn-outline-primary');
   		$('.btn-plus').addClass('btn-default');
   	}
   });
@@ -348,19 +348,19 @@
   		$('input[name=year]').val(year);
   		if(year == parseInt(yearnow)){
   			$('.btn-plus').attr('disabled',true);
-  			$('.btn-plus').removeClass('btn-primary');
+  			$('.btn-plus').removeClass('btn-outline-primary');
   			$('.btn-plus').addClass('btn-default');
   		}else{
   			$('.btn-plus').attr('disabled',false);
   			$('.btn-plus').removeClass('btn-default');
-  			$('.btn-plus').addClass('btn-primary');
+  			$('.btn-plus').addClass('btn-outline-primary');
   		}
   		$('.mountTable').html(year);
   		statistic.update();
   		convertCanvasToImage();
   	}else{
   		$('.btn-plus').attr('disabled',true);
-  		$('.btn-plus').removeClass('btn-primary');
+  		$('.btn-plus').removeClass('btn-outline-primary');
   		$('.btn-plus').addClass('btn-default');
   	}
   });

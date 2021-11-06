@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-6">
       <form action="{{ route('facturation.defeatedPdf') }}" method="GET" style="display: inline;">
-        <button type="submit" class="bj-btn-table-delete form-control-sm pdfFacturation-link" title="PDF">
+        <button type="submit" class="btn btn-outline-tertiary  form-control-sm pdfFacturation-link" title="PDF">
           <i class="fas fa-file-pdf"></i>
           CARTERA VENCIDA
         </button>
@@ -71,12 +71,12 @@
         <td>{{ $allDates[$i][4] }}</td>
         <td>${{ $allDates[$i][5] }}</td>
         <td>
-          <a href="#" class="bj-btn-table-edit editFacture-link" title="EDITAR FACTURA">
+          <a href="#" class="btn btn-outline-primary rounded-circle editFacture-link" title="EDITAR FACTURA">
             <i class="fas fa-edit"></i>
             <span hidden>{{ $allDates[$i][1] }}</span><!-- ID DE FACTURA -->
             <span hidden>{{ $allDates[$i][4] }}</span><!-- NOMBRE DE ALUMNO -->
           </a>
-          <a href="#" class="bj-btn-table-add createVoucher-link" title="GENERAR COMPROBANTE">
+          <a href="#" class="btn btn-outline-success rounded-circle createVoucher-link" title="GENERAR COMPROBANTE">
             <i class="fas fa-sync"></i>
             <span hidden>{{ $allDates[$i][0] }}</span>
             <span hidden>{{ $allDates[$i][1] }}</span>
@@ -86,23 +86,23 @@
           <form action="{{ route('facturation.pdf') }}" method="GET" style="display: inline;">
             <input type="hidden" name="legId" value="{{ $allDates[$i][0] }}" readonly>
             <input type="hidden" name="facId" value="{{ $allDates[$i][1] }}" readonly>
-            <button type="submit" class="bj-btn-table-delete pdfFacturation-link" title="PDF">
+            <button type="submit" class="btn btn-outline-tertiary rounded-circle  pdfFacturation-link" title="PDF">
               <i class="fas fa-file-pdf"></i>
             </button>
           </form>
           <form action="{{ route('facturation.pdf-mail') }}" method="GET" style="display: inline;">
             <input type="hidden" name="legId" value="{{ $allDates[$i][0] }}" readonly>
             <input type="hidden" name="facId" value="{{ $allDates[$i][1] }}" readonly>
-            <button type="submit" class="bj-btn-table-mail pdfFacturation-mail" title="EMAIL - PDF">
+            <button type="submit" class="btn btn-outline-info rounded-circle  pdfFacturation-mail" title="EMAIL - PDF">
               <i class="fas fa-mail-bulk"></i>
             </button>
           </form>
-          <a href="#" class="bj-btn-table-edit accountsPending-link" title="CARTERA PENDIENTE">
+          <a href="#" class="btn btn-outline-primary rounded-circle accountsPending-link" title="CARTERA PENDIENTE">
             <i class="fas fa-funnel-dollar"></i>
             <span hidden>{{ $allDates[$i][0] }}</span><!-- ID DE LEGALIZACION -->
             <span hidden>{{ $allDates[$i][4] }}</span><!-- NOMBRE DE ALUMNO -->
           </a>
-          <a href="#" class="bj-btn-table-cancel accountsCanceled-link" title="ANULAR FACTURA">
+          <a href="#" class="btn btn-outline-secondary rounded-circle accountsCanceled-link" title="ANULAR FACTURA">
             <i class="fas fa-times"></i>
             <span hidden>{{ $allDates[$i][0] }}</span><!-- ID DE LEGALIZACION -->
             <span hidden>{{ $allDates[$i][1] }}</span><!-- ID DE FACTURA -->
@@ -226,7 +226,7 @@
               </div>
               <div class="form-group text-center">
                 <input type="hidden" name="facId_edit" class="form-control form-control-sm" readonly required>
-                <button type="submit" class="bj-btn-table-edit form-control-sm btn-editFacture" disabled>GUARDAR CAMBIOS</button>
+                <button type="submit" class="btn btn-outline-primary form-control-sm btn-editFacture" disabled>GUARDAR CAMBIOS</button>
               </div>
             </div>
           </form>
@@ -323,7 +323,7 @@
                 </div>
               </div>
               <div class="form-group text-center">
-                <button type="submit" class="bj-btn-table-add btn-savevoucherentry">GENERAR COMPROBANTE</button>
+                <button type="submit" class="btn btn-outline-success btn-savevoucherentry">GENERAR COMPROBANTE</button>
               </div>
             </div>
           </form>
@@ -366,7 +366,7 @@
             <div class="form-group text-center" style="font-size: 12px;">
               <input type="hidden" name="concemts" class="form-control form-control-sm text-center" readonly required>
               <input type="hidden" name="legalization" class="form-control form-control-sm text-center" readonly required>
-              <button type="submit" class='bj-btn-table-delete'>DESCARGAR EN PDF <i class='fas fa-file-pdf'></i></button>
+              <button type="submit" class='btn btn-outline-tertiary '>DESCARGAR EN PDF <i class='fas fa-file-pdf'></i></button>
             </div>
           </form>
         </div>
@@ -409,7 +409,7 @@
             <div class="form-group text-center" style="font-size: 12px;">
               <input type="hidden" name="facId_canceled" class="form-control form-control-sm text-center" readonly required>
               <input type="hidden" name="legId_canceled" class="form-control form-control-sm text-center" readonly required>
-              <button type="submit" class='bj-btn-table-cancel'>ANULAR FACTURA</button>
+              <button type="submit" class='btn btn-outline-secondary'>ANULAR FACTURA</button>
             </div>
           </form>
         </div>

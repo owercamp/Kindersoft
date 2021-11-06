@@ -53,12 +53,12 @@
     </div>
     <div class="col-md-4 pt-4">
       <div class="form-group form-inline">
-        <button type="button" class="bj-btn-table-add form-control-sm btn-refreshTable">CONSULTAR</button>
+        <button type="button" class="btn btn-outline-success form-control-sm btn-refreshTable">CONSULTAR</button>
       </div>
     </div>
     <div class="col-md-4 pt-4">
       <div class="form-group form-inline">
-        <button type="button" class="bj-btn-table-edit form-control-sm btn-newAssistance">NUEVA ASISTENCIA</button>
+        <button type="button" class="btn btn-outline-primary form-control-sm btn-newAssistance">NUEVA ASISTENCIA</button>
       </div>
     </div>
   </div>
@@ -174,7 +174,7 @@
 
         <div class="row text-center border-bottom py-2">
           <div class="col-md-12">
-            <button type="button" class="bj-btn-table-edit form-control-sm btnAddAssistance">AÑADIR ALUMNO</button>
+            <button type="button" class="btn btn-outline-primary form-control-sm btnAddAssistance">AÑADIR ALUMNO</button>
           </div>
         </div>
         <table id="tableList" class="table table-hover text-center" width="100%">
@@ -194,7 +194,7 @@
         </table>
         <div class="row text-center border-top my-2">
           <div class="col-md-12 py-4">
-            <button type="button" class="bj-btn-table-add form-control-sm btnAssistanceFinal">VALIDAR ASISTENCIA</button>
+            <button type="button" class="btn btn-outline-success form-control-sm btnAssistanceFinal">VALIDAR ASISTENCIA</button>
           </div>
         </div>
         <div class="row text-center bj-spinner-modal">
@@ -209,7 +209,7 @@
         <div class="row assistanceAll" style="display: none;">
           <div class="col-md-12">
             <h6>Ha confirmado el total de alumnos de <b class="nameCourseSelected">Nombre del curso</b></h6>
-            <button type="submit" class="bj-btn-table-add form-control-sm float-left  mx-4 saveAssistance">GUARDAR ASISTENCIA</button>
+            <button type="submit" class="btn btn-outline-success form-control-sm float-left  mx-4 saveAssistance">GUARDAR ASISTENCIA</button>
           </div>
         </div>
         <div class="row assistanceNotAll" style="display: none;">
@@ -228,8 +228,8 @@
               </tbody>
             </table>
           </div>
-          <button type="submit" class="bj-btn-table-add form-control-sm float-left  mx-4 saveAssistance">CONTINUAR Y GUARDAR</button>
-          <button type="button" class="bj-btn-table-delete form-control-sm float-right mx-4" data-dismiss="modal">CANCELAR</button>
+          <button type="submit" class="btn btn-outline-success form-control-sm float-left  mx-4 saveAssistance">CONTINUAR Y GUARDAR</button>
+          <button type="button" class="btn btn-outline-tertiary  form-control-sm float-right mx-4" data-dismiss="modal">CANCELAR</button>
         </div>
       </div>
     </div>
@@ -349,14 +349,14 @@
             </div>
             <div class="row text-center">
               <div class="col-md-12">
-                <button type="button" class="bj-btn-table-add form-control-sm btn-saveFinalAssistance">ACTUALIZAR ASISTENCIA</button>
+                <button type="button" class="btn btn-outline-success form-control-sm btn-saveFinalAssistance">ACTUALIZAR ASISTENCIA</button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer text-center">
-        <button type="button" class="bj-btn-table-delete form-control-sm float-right mx-4" data-dismiss="modal">CERRAR</button>
+        <button type="button" class="btn btn-outline-tertiary  form-control-sm float-right mx-4" data-dismiss="modal">CERRAR</button>
       </div>
     </div>
   </div>
@@ -405,14 +405,14 @@
                 objectAssistances[i][1], // CURSO
                 "<h3 class='badge badge-danger' style='font-size: 15px;'>" + objectAssistances[i][2] + "</h3>",
                 "<h3 class='badge badge-success' style='font-size: 15px;'>" + objectAssistances[i][3] + "</h3>",
-                "<a href='#' class='bj-btn-table-edit form-control-sm btn-edit' title='EDITAR ASISTENCIA'><i class='fas fa-edit'></i><span hidden>" + objectAssistances[i][0] + "</span><span hidden>" + objectAssistances[i][1] + "</span><span hidden>" + (objectAssistances[i][2] + objectAssistances[i][3]) + "</span></a>"
+                "<a href='#' class='btn btn-outline-primary form-control-sm btn-edit' title='EDITAR ASISTENCIA'><i class='fas fa-edit'></i><span hidden>" + objectAssistances[i][0] + "</span><span hidden>" + objectAssistances[i][1] + "</span><span hidden>" + (objectAssistances[i][2] + objectAssistances[i][3]) + "</span></a>"
               ]).draw(false).node().id = objectAssistances[i][0];
             } else {
               rownow.add([
                 objectAssistances[i][1], // CURSO
                 "<h3 class='badge badge-danger' style='font-size: 15px;'>" + objectAssistances[i][2] + "</h3>",
                 "<h3 class='badge badge-success' style='font-size: 15px;'>" + objectAssistances[i][3] + "</h3>",
-                "<button type='button' class='bj-btn-table-add form-control-sm' title='ASISTENCIA FINALIZADA'><i class='fas fa-check-circle'></i><span hidden>" + objectAssistances[i][0] + "</span><span hidden>" + objectAssistances[i][1] + "</span><span hidden>" + (objectAssistances[i][2] + objectAssistances[i][3]) + "</span></button>"
+                "<button type='button' class='btn btn-outline-success form-control-sm' title='ASISTENCIA FINALIZADA'><i class='fas fa-check-circle'></i><span hidden>" + objectAssistances[i][0] + "</span><span hidden>" + objectAssistances[i][1] + "</span><span hidden>" + (objectAssistances[i][2] + objectAssistances[i][3]) + "</span></button>"
               ]).draw(false).node().id = objectAssistances[i][0];
             }
 
@@ -709,7 +709,7 @@
           '<td>' + observationArrival + '</td>' +
           '<td>' + assTempentry + '</td>' +
           '<td>' + come + '</td>' +
-          "<td><a herf='#' class='bj-btn-table-delete btnDeleteRow' title='ELIMINAR'><i class='fas fa-trash-alt'></i></a></td>" +
+          "<td><a herf='#' class='btn btn-outline-tertiary  btnDeleteRow' title='ELIMINAR'><i class='fas fa-trash-alt'></i></a></td>" +
           '</tr>'
         );
       } else {
@@ -923,7 +923,7 @@
                   "<tr id='" + objectAssistance[i][1] + "A' class='" + objectAssistance[i][4] + "-" + objectAssistance[i][5] + "'>" + // id de estudiante
                   "<td>" + objectAssistance[i][2] + "<span class='badge badge-success ml-2'>NO DEBE ASISTIR<span></td>" + // Nombre de estudiante
                   "<td>" + objectAssistance[i][3] + "</td>" + // Numero de documento
-                  "<td><button type='button' class='bj-btn-table-delete btn-addStudentToPresent' title='AGREGAR ALUMNO COMO PRESENTE CON DIA ADICIONAL'><i class='fas fa-redo-alt'></i></button></td>" +
+                  "<td><button type='button' class='btn btn-outline-tertiary  btn-addStudentToPresent' title='AGREGAR ALUMNO COMO PRESENTE CON DIA ADICIONAL'><i class='fas fa-redo-alt'></i></button></td>" +
                   "</tr>"
                 );
               } else {
@@ -931,7 +931,7 @@
                   "<tr id='" + objectAssistance[i][1] + "' class='" + objectAssistance[i][4] + "-" + objectAssistance[i][5] + "'>" + // id de estudiante
                   "<td>" + objectAssistance[i][2] + "</td>" + // Nombre de estudiante
                   "<td>" + objectAssistance[i][3] + "</td>" + // Numero de documento
-                  "<td><button type='button' class='bj-btn-table-add form-control-sm btn-addStudentToPresent' title='AGREGAR ALUMNO COMO PRESENTE'><i class='fas fa-redo-alt'></i></button></td>" +
+                  "<td><button type='button' class='btn btn-outline-success form-control-sm btn-addStudentToPresent' title='AGREGAR ALUMNO COMO PRESENTE'><i class='fas fa-redo-alt'></i></button></td>" +
                   "</tr>"
                 );
 

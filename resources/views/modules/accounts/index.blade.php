@@ -20,7 +20,7 @@
           <small class="text-muted">FACTURACION TRAMITADA:</small><br>
           <input type="hidden" name="xlsYear" class="form-control form-control-sm" readonly required>
           <input type="hidden" name="xlsMount" class="form-control form-control-sm" readonly required>
-          <button type="submit" class="bj-btn-table-add form-control-sm btn-facturesTramited">GENERAR EXCEL</button>
+          <button type="submit" class="btn btn-outline-success form-control-sm btn-facturesTramited">GENERAR EXCEL</button>
           <span hidden class="info-excel" style="color: red; font-size: 10px; font-weight: bold;"></span>
         </div>
       </form>
@@ -142,7 +142,7 @@
                 <!-- Dinamics -->
               </tbody>
             </table>
-            <a href="#" class="bj-btn-table-add link-saveAccountsStatus" style="display: none;"><span hidden></span>FACTURAR</a>
+            <a href="#" class="btn btn-outline-success link-saveAccountsStatus" style="display: none;"><span hidden></span>FACTURAR</a>
           </div>
         </div>
       </div>
@@ -375,20 +375,20 @@
               "<span hidden>" + year + '-' + mount + '-' + objectAccounts[i][0] + "</span>" + objectAccounts[i][2],
               objectAccounts[i][3],
               objectAccounts[i][4],
-              "<a href='#' class='bj-btn-table-add btn-details form-control-sm' title='DETALLES'><i class='fas fa-eye'></i></a>"
+              "<a href='#' class='btn btn-outline-success btn-details form-control-sm' title='DETALLES'><i class='fas fa-eye'></i></a>"
             ]).draw(false).node().id = objectAccounts[i][1];
 
           // rows += "<tr id='" + objectAccounts[i]['idStudent'] + "' class='" + objectAccounts[i]['legId'] + "'>" +
           // 	"<td><span hidden>" + year + '-' + mount + "</span>" + objectAccounts[i]['nameStudent'] + "</td>" +
           // 	"<td>" + objectAccounts[i]['nameGrade'] + "-" + objectAccounts[i]['nameCourse'] + "</td>" +
           // 	"<td>" + objectAccounts[i]['nameAttendant'] + "</td>" +
-          // 	"<td><a href='#' class='bj-btn-table-add btn-details' title='DETALLES'><i class='fas fa-eye'></i></a></td>" +
+          // 	"<td><a href='#' class='btn btn-outline-success btn-details' title='DETALLES'><i class='fas fa-eye'></i></a></td>" +
           // 	"</tr>"; 
           // $("#tableAccount tbody").append("<tr id='" + objectAccounts[i]['idStudent'] + "' class='" + objectAccounts[i]['legId'] + "'>" +
           // 	"<td><span hidden>" + year + '-' + mount + "</span>" + objectAccounts[i]['nameStudent'] + "</td>" +
           // 	"<td>" + objectAccounts[i]['nameGrade'] + "-" + objectAccounts[i]['nameCourse'] + "</td>" +
           // 	"<td>" + objectAccounts[i]['nameAttendant'] + "</td>" +
-          // 	"<td><a href='#' class='bj-btn-table-add btn-details' title='DETALLES'><i class='fas fa-eye'></i></a></td>" +
+          // 	"<td><a href='#' class='btn btn-outline-success btn-details' title='DETALLES'><i class='fas fa-eye'></i></a></td>" +
           // "</tr>");
         }
         // $('#tableAccount tbody').html(rows);

@@ -23,7 +23,7 @@
         <form action="{{ route('list.documents.pdf') }}" method="GET" style="display: inline-block;">
           @csrf
           <input type="hidden" name="eventList" value="list" class="form-control form-control-sm" required>
-          <button type="submit" title="DESCARGAR PDF" class="bj-btn-table-pdf form-control-sm">
+          <button type="submit" title="DESCARGAR PDF" class="btn btn-outline-danger form-control-sm">
             <i class="fas fa-file-pdf"></i> LISTADO DE DOCUMENTOS
           </button>
         </form>

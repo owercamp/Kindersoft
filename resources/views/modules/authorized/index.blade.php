@@ -39,7 +39,7 @@
       @endif
     </div>
     <div class="col-md-6">
-      <a href="{{ route('authorized.new') }}" class="bj-btn-table-add mx-5 my-2 form-control-sm">REGISTRAR AUTORIZADO</a>
+      <a href="{{ route('authorized.new') }}" class="btn btn-outline-success mx-5 my-2 form-control-sm">REGISTRAR AUTORIZADO</a>
     </div>
   </div>
   <table id="tableattendants" class="table table-hover text-center">
@@ -61,10 +61,10 @@
         <td>{{ $authorized->autRelationship }}</td>
         <td>{{ $authorized->autPhoneone }}</td>
         <td class="d-flex justify-content-around">
-          <a href="{{ route('authorized.details', $authorized->autId) }}" title="VER DETALLES" class="bj-btn-table-add"><i class="fas fa-eye"></i></a>
-          <a href="{{ route('authorized.edit', $authorized->autId) }}" title="EDITAR" class="bj-btn-table-edit"><i class="fas fa-edit"></i></a>
-          <a href="{{route('authorized.active', $authorized->autId)}}" title="ACTIVO" class="bj-btn-table-add"><i class="fa fa-check-circle"></i></a>
-          <!--<a href="{{ route('authorized.delete', $authorized->autId) }}" title="ELIMINAR" class="bj-btn-table-delete" onclick="return confirm('* Se eliminará el acudiente y los registro relacionados')"><i class="fas fa-trash-alt"></i></a>-->
+          <a href="{{ route('authorized.details', $authorized->autId) }}" title="VER DETALLES" class="btn btn-outline-success rounded-circle"><i class="fas fa-eye"></i></a>
+          <a href="{{ route('authorized.edit', $authorized->autId) }}" title="EDITAR" class="btn btn-outline-primary rounded-circle"><i class="fas fa-edit"></i></a>
+          <a href="{{route('authorized.active', $authorized->autId)}}" title="ACTIVO" class="btn btn-outline-success rounded-circle"><i class="fa fa-check-circle"></i></a>
+          <!--<a href="{{ route('authorized.delete', $authorized->autId) }}" title="ELIMINAR" class="btn btn-outline-tertiary " onclick="return confirm('* Se eliminará el acudiente y los registro relacionados')"><i class="fas fa-trash-alt"></i></a>-->
         </td>
       </tr>
       @else
@@ -74,10 +74,10 @@
         <td class="text-muted">{{ $authorized->autRelationship }}</td>
         <td class="text-muted">{{ $authorized->autPhoneone }}</td>
         <td class="d-flex justify-content-around">
-          <a href="{{ route('authorized.details', $authorized->autId) }}" title="VER DETALLES" class="bj-btn-table-add"><i class="fas fa-eye"></i></a>
-          <a href="{{ route('authorized.edit', $authorized->autId) }}" title="EDITAR" class="bj-btn-table-edit"><i class="fas fa-edit"></i></a>
-          <a href="{{route('authorized.inactive', $authorized->autId)}}" title="INACTIVO" class="bj-btn-table-cancel"><i class="fa fa-ban"></i></a>
-          <!--<a href="{{ route('authorized.delete', $authorized->autId) }}" title="ELIMINAR" class="bj-btn-table-delete" onclick="return confirm('* Se eliminará el acudiente y los registro relacionados')"><i class="fas fa-trash-alt"></i></a>-->
+          <a href="{{ route('authorized.details', $authorized->autId) }}" title="VER DETALLES" class="btn btn-outline-success"><i class="fas fa-eye"></i></a>
+          <a href="{{ route('authorized.edit', $authorized->autId) }}" title="EDITAR" class="btn btn-outline-primary"><i class="fas fa-edit"></i></a>
+          <a href="{{route('authorized.inactive', $authorized->autId)}}" title="INACTIVO" class="btn btn-outline-secondary"><i class="fa fa-ban"></i></a>
+          <!--<a href="{{ route('authorized.delete', $authorized->autId) }}" title="ELIMINAR" class="btn btn-outline-tertiary " onclick="return confirm('* Se eliminará el acudiente y los registro relacionados')"><i class="fas fa-trash-alt"></i></a>-->
         </td>
       </tr>
       @endif

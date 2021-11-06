@@ -65,9 +65,9 @@
           <td>{{$item->sch_id}}</td>
           <td>{{$item->sch_body}}</td>
           <td class="d-flex justify-content-center">
-            <button title="EDITAR" class="bj-btn-table-edit edit-hi" data-toggle="modal" data-target="#formEdit" style="margin-right: 5px"><i class="fas fa-edit"></i><span hidden>{{$item->sch_id}}</span>
+            <button title="EDITAR" class="btn btn-outline-primary rounded-circle edit-hi" data-toggle="modal" data-target="#formEdit" style="margin-right: 5px"><i class="fas fa-edit"></i><span hidden>{{$item->sch_id}}</span>
               <span hidden>{{$item->sch_body}}</span></button>
-            <button title="ELIMINAR" class="bj-btn-table-delete delete-hi" data-toggle="modal" data-target="#formDelete" style="margin-left: 5px"><i class="fas fa-trash-alt"></i><span hidden>{{$item->sch_id}}</span>
+            <button title="ELIMINAR" class="btn btn-outline-tertiary rounded-circle  delete-hi" data-toggle="modal" data-target="#formDelete" style="margin-left: 5px"><i class="fas fa-trash-alt"></i><span hidden>{{$item->sch_id}}</span>
               <span hidden>{{$item->sch_body}}</span></button>
           </td>
         </tr>
@@ -102,8 +102,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="bj-btn-table-delete" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="bj-btn-table-add">Actualizar</button>
+          <button type="button" class="btn btn-outline-tertiary " data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-outline-success">Actualizar</button>
         </div>
       </div>
     </div>
@@ -135,8 +135,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="bj-btn-table-edit" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="bj-btn-table-cancel delform">Eliminar</button>
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-outline-secondary delform">Eliminar</button>
         </div>
       </div>
     </div>
@@ -155,7 +155,7 @@
       $('.Delform').submit();
     }
   });
-  $('.bj-btn-table-add').click(function(e) {
+  $('.btn btn-outline-success').click(function(e) {
     e.preventDefault();
     $('.Hiform').submit();
   });

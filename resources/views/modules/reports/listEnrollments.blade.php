@@ -47,7 +47,7 @@
   </div>
   <div class="row">
     <div class="col-md-12 text-center">
-      <button type="button" class="bj-btn-table-edit form-control-sm btn-addStudent">AGREGAR ALUMNO</button>
+      <button type="button" class="btn btn-outline-primary form-control-sm btn-addStudent">AGREGAR ALUMNO</button>
     </div>
   </div>
   <table id="tableDatatable" class="table table-hover mt-3 tbl-reportStudents" width="100%" style="text-align: center;">
@@ -58,7 +58,6 @@
       <th>FECHA DE NACIMIENTO</th>
       <th>EDAD ACTUAL</th>
       <th>GRADO</th>
-      <th></th>
     </thead>
     <tbody>
       <!-- Filas dinamicas -->
@@ -69,7 +68,7 @@
       <form action="{{ route('listStudentExcel') }}" method="GET">
         @csrf
         <input type="hidden" name="idsExcel" class="form-control form-control-sm" readonly required>
-        <button type="submit" class="bj-btn-table-add form-control-sm btn-excel">EXPORTAR A EXCEL</button>
+        <button type="submit" class="btn btn-outline-success form-control-sm btn-excel">EXPORTAR A EXCEL</button>
       </form>
     </div>
   </div>
@@ -186,7 +185,7 @@
                 objectRow['birthdate'],
                 getYearsold(converterYearsoldFromBirtdate(objectRow['birthdate'])), // Calculo de la edad actualizada
                 objectRow['nameGrade'],
-                "<a href='#' class='bj-btn-table-delete form-control-sm remove-link' title='ELIMINAR FILA'><i class='fas fa-trash-alt'></i></a>"
+                "<a href='#' class='btn btn-outline-tertiary  form-control-sm remove-link' title='ELIMINAR FILA'><i class='fas fa-trash-alt'></i></a>"
               ]).draw(false).node().id = objectRow['idStudent'];
           }
         }

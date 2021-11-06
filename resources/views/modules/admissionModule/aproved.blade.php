@@ -52,11 +52,11 @@
             <form action="{{ route('saveaprovedAdmission') }}" method="POST" style="display: inline-block;">
               @csrf
               <input type="hidden" name="fmId" value="{{ $form->fmId }}" class="form-control form-control-sm" required>
-              <button type="submit" title="APROBAR FORMULARIO" class="bj-btn-table-add form-control-sm">
+              <button type="submit" title="APROBAR FORMULARIO" class="btn btn-outline-success rounded-circle form-control-sm">
                 <i class="fas fa-plus"></i>
               </button>
             </form>
-            <a href="#" title="EDITAR FORMULARIO" class="bj-btn-table-edit form-control-sm editForm-link">
+            <a href="#" title="EDITAR FORMULARIO" class="btn btn-outline-primary rounded-circle form-control-sm editForm-link">
               <i class="fas fa-edit"></i>
               <!-- updateAdmission -->
               <span hidden>{{ $form->fmId }}</span>
@@ -154,7 +154,7 @@
               @endphp
               <img hidden src="{{ asset('storage/admisiones/fotosaspirantes/'.$foto) }}">
             </a>
-            <a href="#" title="ELIMINAR FORMULARIO" class="bj-btn-table-delete form-control-sm deleteForm-link">
+            <a href="#" title="ELIMINAR FORMULARIO" class="btn btn-outline-tertiary rounded-circle  form-control-sm deleteForm-link">
               <i class="fas fa-trash-alt"></i>
               <!-- updateAdmission -->
               <span hidden>{{ $form->fmId }}</span>
@@ -1003,7 +1003,7 @@
           </div>
           <div class="form-group text-center pt-2 border-top">
             <input type="hidden" name="fmId_Edit" class="form-control form-control-sm" required>
-            <button type="submit" class="bj-btn-table-add form-control-sm btn-updateAdmission">GUARDAR</button>
+            <button type="submit" class="btn btn-outline-success form-control-sm btn-updateAdmission">GUARDAR</button>
           </div>
         </form>
       </div>
@@ -1032,7 +1032,7 @@
           </div>
           <div class="form-group text-center pt-2 border-top">
             <input type="hidden" name="fmId_Delete" class="form-control form-control-sm" required>
-            <button type="submit" class="bj-btn-table-delete form-control-sm">ELIMINAR INFORMACION/FORMULARIO</button>
+            <button type="submit" class="btn btn-outline-tertiary  form-control-sm">ELIMINAR INFORMACION/FORMULARIO</button>
           </div>
         </form>
       </div>

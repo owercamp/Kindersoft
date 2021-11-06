@@ -107,7 +107,7 @@
           </div>
           <hr>
           <div class="d-flex justify-content-center">
-            <button class="btn btn-info">{{ucwords('registrar salida')}}</button>
+            <button class="btn btn-outline-info">{{ucwords('registrar salida')}}</button>
           </div>
         </form>
       </div>

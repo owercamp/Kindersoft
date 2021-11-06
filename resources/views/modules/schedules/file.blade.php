@@ -19,9 +19,9 @@
         <td style="max-width: fit-content!important;">{{$item->id_fulldate}}</td>
         <td>{{$item->id_cont}}</td>
         <td class="d-flex justify-content-center">
-          <button title="VER" class="bj-btn-table-edit view-mail" data-toggle="modal" data-target="#formView" style="margin-right: 5px" onclick="view('{{$item->id_id}}')"><i class="fas fa-eye"></i>
+          <button title="VER" class="btn btn-outline-primary rounded-circle view-mail" data-toggle="modal" data-target="#formView" style="margin-right: 5px" onclick="view('{{$item->id_id}}')"><i class="fas fa-eye"></i>
           </button>
-          <button title="ELIMINAR" class="bj-btn-table-delete delete-mail" style="margin-right: 5px" onclick="del('{{$item->id_id}}')"><i class="fas fa-minus-circle"></i>
+          <button title="ELIMINAR" class="btn btn-outline-tertiary rounded-circle  delete-mail" style="margin-right: 5px" onclick="del('{{$item->id_id}}')"><i class="fas fa-minus-circle"></i>
           </button>
         </td>
       </tr>
@@ -60,7 +60,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

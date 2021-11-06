@@ -41,20 +41,20 @@
         <td>{{ $tracings[$i][5] }}</td>
         @if($tracings[$i][2] == 'ACEPTADO')
         <td>
-          <p class="badge rounded-pill bg-success text-white mb-0 p-2" style="font-size: 0.80rem;">{{ __('APROBADA') }}</p>
+          <p class="badge rounded-pill bg-success  mb-0 p-2" style="font-size: 0.80rem;">{{ __('APROBADA') }}</p>
         </td>
         @elseif($tracings[$i][2] == 'DENEGADO')
         <td>
-          <p class="badge rounded-pill bg-danger text-white mb-0 p-2" style="font-size: 0.80rem;">{{ __('DENEGADA') }}</p>
+          <p class="badge rounded-pill bg-danger  mb-0 p-2" style="font-size: 0.80rem;">{{ __('DENEGADA') }}</p>
         </td>
         @elseif($tracings[$i][2] == 'ELIMINADO')
         <td>
-          <p class="badge rounded-pill bg-secondary text-white mb-0 p-2" style="font-size: 0.80rem;">{{ __('CLIENTE ELIMINADO') }}</p>
+          <p class="badge rounded-pill bg-secondary  mb-0 p-2" style="font-size: 0.80rem;">{{ __('CLIENTE ELIMINADO') }}</p>
         </td>
         @endif
         <td>
           @if($tracings[$i][3] != 'eliminado')
-          <button type="button" title="DETALLES" class="bj-btn-table-add seeModalWithInfo">
+          <button type="button" title="DETALLES" class="btn btn-outline-success rounded-circle seeModalWithInfo">
             <i class="fas fa-eye"></i>
             <span hidden>{{ $tracings[$i][0] }}</span>
           </button>
@@ -79,7 +79,7 @@
               @csrf
               <div class="form-group">
                 <input type="hidden" class="form-control form-control-sm" name="CodeFromBtnDownload" readonly required>
-                <button type="submit" class="bj-btn-table-delete mx-3"><i class="fas fa-file-pdf"></i> DESCARGAR PDF</button>
+                <button type="submit" class="btn btn-outline-tertiary  mx-3"><i class="fas fa-file-pdf"></i> DESCARGAR PDF</button>
               </div>
             </form>
           </div>

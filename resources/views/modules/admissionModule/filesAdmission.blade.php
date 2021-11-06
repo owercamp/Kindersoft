@@ -44,7 +44,7 @@
           <td>{{ $form->celularacudiente2 }}</td>
           <td>
             <!-- @if($form->migracion === 0)
-                        <a href="#" title="MIGRACION DE DATOS" class="bj-btn-table-edit form-control-sm migrationForm-link">
+                        <a href="#" title="MIGRACION DE DATOS" class="btn btn-outline-primary form-control-sm migrationForm-link">
                             <i class="fas fa-copy"></i> -->
             <!-- migrationAdmission -->
             <!-- <span hidden>{{ $form->fmId }}</span>
@@ -62,7 +62,7 @@
             <form action="{{ route('pdfAdmission') }}" method="GET" style="display: inline-block;">
               @csrf
               <input type="hidden" name="fmId" value="{{ $form->fmId }}" class="form-control form-control-sm" required>
-              <button type="submit" title="DESCARGAR PDF" class="bj-btn-table-delete form-control-sm">
+              <button type="submit" title="DESCARGAR PDF" class="btn btn-outline-tertiary rounded-circle  form-control-sm">
                 <i class="fas fa-file-pdf"></i>
               </button>
             </form>

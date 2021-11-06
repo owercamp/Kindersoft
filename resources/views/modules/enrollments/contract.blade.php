@@ -38,7 +38,7 @@
         <td>{{ $arrayLegalizations[$row][2] }}</td>
         <td>{{ $arrayLegalizations[$row][3] }}</td>
         <td>
-          <a href="#" title="VER CONTRATO" class="bj-btn-table-add form-control-sm detailsLegalization-link">
+          <a href="#" title="VER CONTRATO" class="btn btn-outline-success rounded-circle form-control-sm detailsLegalization-link">
             <i class="fas fa-eye"></i>
             <span hidden>{{ $arrayLegalizations[$row][0] }}</span>
             <span hidden>{{ $arrayLegalizations[$row][1] }}</span>
@@ -46,7 +46,7 @@
             <span hidden>{{ $arrayLegalizations[$row][3] }}</span>
             <span hidden>{{ $arrayLegalizations[$row][4] }}</span>
           </a>
-          <a href="#" title="TERMINACION DE CONTRATO" class="bj-btn-table-cancel form-control-sm finishLegalization-link">
+          <a href="#" title="TERMINACION DE CONTRATO" class="btn btn-outline-secondary rounded-circle form-control-sm finishLegalization-link">
             <i class="fas fa-times"></i>
             <span hidden>{{ $arrayLegalizations[$row][0] }}</span>
             <span hidden>{{ $arrayLegalizations[$row][1] }}</span>
@@ -73,7 +73,7 @@
               @csrf
               <div class="form-group">
                 <input type="hidden" class="form-control form-control-sm" name="CodeContractForPDF" value="" readonly required>
-                <button type="submit" class="bj-btn-table-delete mx-3 form-control-sm"><i class="fas fa-file-pdf"></i> DESCARGAR</button>
+                <button type="submit" class="btn btn-outline-tertiary  mx-3 form-control-sm"><i class="fas fa-file-pdf"></i> DESCARGAR</button>
               </div>
             </form>
           </div>
@@ -168,7 +168,7 @@
             </div>
             <div class="form-group text-center" style="font-size: 12px;">
               <input type="hidden" name="legId_finish" class="form-control form-control-sm text-center" readonly required>
-              <button type="submit" class='bj-btn-table-cancel form-control-sm'>TERMINAR CONTRATO</button>
+              <button type="submit" class='btn btn-outline-secondary form-control-sm'>TERMINAR CONTRATO</button>
             </div>
           </form>
         </div>

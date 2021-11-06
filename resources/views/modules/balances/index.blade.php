@@ -71,7 +71,7 @@
   </div>
   <div class="row text-center">
     <div class="col-md-12">
-      <button type="button" class="bj-btn-table-add btnQueryBalance">CONSULTAR</button>
+      <button type="button" class="btn btn-outline-success btnQueryBalance">CONSULTAR</button>
     </div>
   </div>
   <div class="row text-center bj-spinner">

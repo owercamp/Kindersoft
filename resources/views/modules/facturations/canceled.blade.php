@@ -60,7 +60,7 @@
           <form action="{{ route('canceled.pdf') }}" method="GET" style="display: inline;">
             @csrf
             <input type="hidden" name="facId" value="{{ $facture->facId }}" class="form-control form-control-sm">
-            <button type="submit" title="PDF DE FACTURA" class="bj-btn-table-delete">
+            <button type="submit" title="PDF DE FACTURA" class="btn btn-outline-tertiary rounded-circle ">
               <i class="fas fa-file-pdf"></i>
             </button>
           </form>

@@ -8,7 +8,7 @@
         <h5>COMPROBANTES DE EGRESO</h5>
       </div>
       <div class="col-md-4">
-        <a href="#" title="AGREGAR" class="bj-btn-table-add form-control-sm newVoucherEgress-link">NUEVO COMPROBANTE</a>
+        <a href="#" title="AGREGAR" class="btn btn-outline-success form-control-sm newVoucherEgress-link">NUEVO COMPROBANTE</a>
       </div>
       <div class="col-md-4">
         <!-- Mensajes de creación de comprobantes de egreso -->
@@ -65,7 +65,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <button type="submit" class="bj-btn-table-add form-control-sm mt-4">GENERAR EXCEL</button>
+              <button type="submit" class="btn btn-outline-success form-control-sm mt-4">GENERAR EXCEL</button>
             </div>
           </div>
 
@@ -94,7 +94,7 @@
             <form action="{{ route('egressVouchers.pdf') }}" method="GET">
               @csrf
               <input type="hidden" name="vegId" value="{{ $egress->vegId }}" class="form-control form-control-sm" required>
-              <button type="submit" title="DESCARGAR" class="bj-btn-table-delete">
+              <button type="submit" title="DESCARGAR" class="btn btn-outline-tertiary rounded-circle ">
                 <i class="fas fa-file-pdf"></i>
               </button>
             </form>
@@ -228,7 +228,7 @@
                     </div>
                   </div>
                   <div class="col-md-1 m-auto pt-2 pl-0">
-                    <button type="button" class="btn btn-secondary btn-sm" id="iva"><i class="fas fa-times-circle fa-lg"></i></button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="iva"><i class="fas fa-times-circle fa-lg"></i></button>
                   </div>
                 </div>
                 <div class="row">
@@ -260,7 +260,7 @@
                     </div>
                   </div>
                   <div class="col-md-1 m-auto pt-2 pl-0">
-                    <button type="button" class="btn btn-secondary btn-sm" id="retencion"><i class="fas fa-times-circle fa-lg"></i></button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="retencion"><i class="fas fa-times-circle fa-lg"></i></button>
                   </div>
                 </div>
                 <div class="row">
@@ -292,7 +292,7 @@
                     </div>
                   </div>
                   <div class="col-md-1 m-auto pt-2 pl-0">
-                    <button type="button" class="btn btn-secondary btn-sm" id="ica"><i class="fas fa-times-circle fa-lg"></i></button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="ica"><i class="fas fa-times-circle fa-lg"></i></button>
                   </div>
                 </div>
                 <div class="row border-top border-bottom p-2">
@@ -348,7 +348,7 @@
 
             <div class="row border-top p-2 text-center">
               <div class="col-md-12">
-                <button type="submit" class="bj-btn-table-add form-control-sm">CONFIRMAR</button>
+                <button type="submit" class="btn btn-outline-success form-control-sm">CONFIRMAR</button>
               </div>
             </div>
           </div>
@@ -367,8 +367,8 @@
       iva = $('input[name=vegIva]').val();
     let total = $('input[name=vegPay]').val(),
       result = $('input[name=vegValueiva]').val();
-    if ($('#iva').hasClass('btn-secondary') == true) {
-      $(this).removeClass('btn-secondary').addClass('btn-primary');
+    if ($('#iva').hasClass('btn-outline-secondary') == true) {
+      $(this).removeClass('btn-outline-secondary').addClass('btn-outline-primary');
       $(this).find('svg').attr('data-icon', 'check-circle');
       result = Math.floor(subtotal * iva / 100);
       $('input[name=vegValueiva]').val(result);
@@ -379,7 +379,7 @@
       totalView = $('input[name=vegPay]').val();
       $('input[name=vegPayView]').val(new Intl.NumberFormat('es-CO').format(totalView));
     } else {
-      $(this).removeClass('btn-primary').addClass('btn-secondary');
+      $(this).removeClass('btn-outline-primary').addClass('btn-outline-secondary');
       $(this).find('svg').attr('data-icon', 'times-circle');
       if (subtotal != $('input[name=vegPay]').val()) {
         total = parseInt(total) - parseInt(result);
@@ -398,8 +398,8 @@
       ret = $('input[name=vegRetention]').val();
     let total = $('input[name=vegPay]').val(),
       result = $('input[name=vegValueretention]').val();
-    if ($('#retencion').hasClass('btn-secondary') == true) {
-      $(this).removeClass('btn-secondary').addClass('btn-primary');
+    if ($('#retencion').hasClass('btn-outline-secondary') == true) {
+      $(this).removeClass('btn-outline-secondary').addClass('btn-outline-primary');
       $(this).find('svg').attr('data-icon', 'check-circle');
       result = Math.floor(subtotal * ret / 100);
       $('input[name=vegValueretention]').val(result);
@@ -410,7 +410,7 @@
       totalView = $('input[name=vegPay]').val();
       $('input[name=vegPayView]').val(new Intl.NumberFormat('es-CO').format(totalView));
     } else {
-      $(this).removeClass('btn-primary').addClass('btn-secondary');
+      $(this).removeClass('btn-outline-primary').addClass('btn-outline-secondary');
       $(this).find('svg').attr('data-icon', 'times-circle');
       if (subtotal != $('input[name=vegPay]').val()) {
         total = parseInt(total) - parseInt(result);
@@ -429,8 +429,8 @@
       ret = $('input[name=vegReteica]').val();
     let total = $('input[name=vegPay]').val(),
       result = $('input[name=vegValuereteica]').val();
-    if ($('#ica').hasClass('btn-secondary') == true) {
-      $(this).removeClass('btn-secondary').addClass('btn-primary');
+    if ($('#ica').hasClass('btn-outline-secondary') == true) {
+      $(this).removeClass('btn-outline-secondary').addClass('btn-outline-primary');
       $(this).find('svg').attr('data-icon', 'check-circle');
       result = Math.floor(subtotal * ret / 100);
       $('input[name=vegValuereteica]').val(result);
@@ -441,7 +441,7 @@
       totalView = $('input[name=vegPay]').val();
       $('input[name=vegPayView]').val(new Intl.NumberFormat('es-CO').format(totalView));
     } else {
-      $(this).removeClass('btn-primary').addClass('btn-secondary');
+      $(this).removeClass('btn-outline-primary').addClass('btn-outline-secondary');
       $(this).find('svg').attr('data-icon', 'times-circle');
       if (subtotal != $('input[name=vegPay]').val()) {
         total = parseInt(total) - parseInt(result);

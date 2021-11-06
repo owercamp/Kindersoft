@@ -13,7 +13,12 @@ try {
   window.datatable = require('datatables.net-dt');
   window.Swal = require('sweetalert2');
 
-  require('@fortawesome/fontawesome-free');
+  require('../fontawesome/js/v4-shims');
+  require('../fontawesome/js/solid');
+  require('../fontawesome/js/regular');
+  require('../fontawesome/js/fontawesome');
+  require('../fontawesome/js/brands');
+  require('../fontawesome/js/all');
   require('../datapicker/js/bootstrap-datepicker');
   require('../datapicker/locales/bootstrap-datepicker.es.min');
   require('./myfunctions');

@@ -44,7 +44,7 @@
           <td>{{ $form->celularacudiente2 }}</td>
           <td>
             @if($form->migracion === 0)
-            <a href="#" title="MIGRACION DE DATOS" class="bj-btn-table-edit form-control-sm migrationForm-link">
+            <a href="#" title="MIGRACION DE DATOS" class="btn btn-outline-primary rounded-circle form-control-sm migrationForm-link">
               <i class="fas fa-copy"></i>
               <!-- migrationAdmission -->
               <span hidden>{{ $form->fmId }}</span>
@@ -74,7 +74,7 @@
 							@csrf
 							<input type="hidden" name="fmId" value="{{ $form->fmId }}"
 								class="form-control form-control-sm" required>
-							<button type="submit" title="DESCARGAR PDF" class="bj-btn-table-delete form-control-sm">
+							<button type="submit" title="DESCARGAR PDF" class="btn btn-outline-tertiary  form-control-sm">
 								<i class="fas fa-file-pdf"></i>
 							</button>
 						</form> -->
@@ -174,7 +174,7 @@
             <input type="hidden" name="json_migration" class="form-control form-control-sm" readonly required>
             <input type="hidden" name="json_dataAttendant1" class="form-control form-control-sm" readonly required>
             <input type="hidden" name="json_dataAttendant2" class="form-control form-control-sm" readonly required>
-            <button type="submit" class="bj-btn-table-edit form-control-sm">MIGRAR INFORMACION</button>
+            <button type="submit" class="btn btn-outline-primary form-control-sm">MIGRAR INFORMACION</button>
           </div>
         </form>
       </div>

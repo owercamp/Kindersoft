@@ -67,8 +67,8 @@ const sinComa = event => {
 
 function seeDirection($direction = '/home') {
   // const initial = "colchildren";
-  // const initial = "dreamhome";
-  const initial = ".";
+  const initial = "dreamhome";
+  // const initial = ".";
   const administrativeHumans = `${initial}/administrative/humans`,
     administrativeServices = `${initial}/administrative/services`,
     comercialCustomers = `${initial}/comercial/customers`,

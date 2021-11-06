@@ -846,5 +846,5 @@
   </div>
 </div>
 <hr>
-<button class="btn btn-success btn-block btn-sendform">ENVIAR</button>
+<button class="btn btn-outline-success btn-block btn-sendform">ENVIAR</button>
 <hr>

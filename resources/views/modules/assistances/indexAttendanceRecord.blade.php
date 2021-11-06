@@ -8,7 +8,7 @@
     <div class="w-100 d-flex justify-content-lg-center">
       <form action="{{route('pdf.Assistences')}}" method="post">
         @csrf
-        <button class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{strtoupper('pdf')}}</button>
+        <button class="btn btn-outline-danger"><i class="fas fa-file-pdf"></i> {{strtoupper('pdf')}}</button>
       </form>
     </div>
     <div class="container position-fixed d-flex justify-content-center" style="padding-top: 10em;">

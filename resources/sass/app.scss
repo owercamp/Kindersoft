@@ -12,13 +12,11 @@
 @import 'bjStyle';
 
 // ?Fontawesome
-@import '~@fortawesome/fontawesome-free/css/v4-shims.css';
-@import '~@fortawesome/fontawesome-free/css/svg-with-js.css';
-@import '~@fortawesome/fontawesome-free/css/solid.css';
-@import '~@fortawesome/fontawesome-free/css/regular.css';
-@import '~@fortawesome/fontawesome-free/css/fontawesome.css';
-@import '~@fortawesome/fontawesome-free/css/brands.css';
-@import '~@fortawesome/fontawesome-free/css/all.css';
+@import '../fontawesome/scss/v4-shims.scss';
+@import '../fontawesome/scss/solid.scss';
+@import '../fontawesome/scss/regular.scss';
+@import '../fontawesome/scss/fontawesome.scss';
+@import '../fontawesome/scss/brands.scss';
 
 // ?datatables
 @import '~datatables.net-dt/css/jquery.dataTables.css';

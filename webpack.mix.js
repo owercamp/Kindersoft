@@ -18,4 +18,4 @@ mix.browserSync('http://kindergarden.test/');
 
 mix.version();
 
-mix.disableSuccessNotifications();
+mix.disableNotifications();

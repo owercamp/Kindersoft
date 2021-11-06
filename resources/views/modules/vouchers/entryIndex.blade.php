@@ -6,7 +6,7 @@
     <div class="row border-bottom mb-3">
       <div class="col-md-6">
         <h3>COMPROBANTES DE INGRESO</h3>
-        <!-- <a href="#" title="AGREGAR" class="bj-btn-table-add form-control-sm newVoucherEntry-link">NUEVO COMPROBANTE</a> -->
+        <!-- <a href="#" title="AGREGAR" class="btn btn-outline-success form-control-sm newVoucherEntry-link">NUEVO COMPROBANTE</a> -->
       </div>
       <div class="col-md-6">
         <!-- Mensajes de creación de comprobantes de ingreso -->
@@ -62,7 +62,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <button type="submit" class="bj-btn-table-add form-control-sm mt-4">GENERAR EXCEL</button>
+              <button type="submit" class="btn btn-outline-success form-control-sm mt-4">GENERAR EXCEL</button>
             </div>
           </div>
 
@@ -89,7 +89,7 @@
           <td>{{ $entry->facCode }}</td>
           <td>{{ $entry->venPaid }}</td>
           <td>
-            <a href="#" class="bj-btn-table-add detailsVoucherentry-link" title="VER DETALLES">
+            <a href="#" class="btn btn-outline-success rounded-circle detailsVoucherentry-link" title="VER DETALLES">
               <i class="fas fa-eye"></i>
               <span hidden>{{ $entry->venId }}</span>
               <span hidden>{{ $entry->facId }}</span>
@@ -98,7 +98,7 @@
             <form action="{{ route('entryVouchers.pdf') }}" method="GET" style="display: inline;">
               @csrf
               <input type="hidden" name="venId" value="{{ $entry->venId }}" class="form-control form-control-sm">
-              <button type="submit" title="PDF DE COMPROBANTE" class="bj-btn-table-delete">
+              <button type="submit" title="PDF DE COMPROBANTE" class="btn btn-outline-tertiary rounded-circle ">
                 <i class="fas fa-file-pdf"></i>
                 <span hidden>{{ $entry->venId }}</span>
                 <span hidden>{{ $entry->idStudent }}</span>
@@ -107,12 +107,12 @@
             <form action="{{ route('entryVouchersFacturation.pdf') }}" method="GET" style="display: inline;">
               @csrf
               <input type="hidden" name="facId" value="{{ $entry->facId }}" class="form-control form-control-sm">
-              <button type="submit" title="PDF DE FACTURA" class="bj-btn-table-edit">
+              <button type="submit" title="PDF DE FACTURA" class="btn btn-outline-primary rounded-circle">
                 <i class="fas fa-file-pdf"></i>
                 <span hidden>{{ $entry->facId }}</span>
               </button>
             </form>
-            <!-- <a href="{{ route('entryVouchers.pdf',$entry->venId) }}" class="bj-btn-table-delete detailsVoucherentry-link" title="DESCARGAR">
+            <!-- <a href="{{ route('entryVouchers.pdf',$entry->venId) }}" class="btn btn-outline-tertiary  detailsVoucherentry-link" title="DESCARGAR">
 								<i class="fas fa-file-pdf"></i>
 								<span hidden>{{ $entry->venId }}</span>
 								<span hidden>{{ $entry->facId }}</span>
@@ -239,7 +239,7 @@
           </div>
           <div class="row">
             <div class="col-md-12 text-center">
-              <button type="submit" class="bj-btn-table-add">GENERAR EXCEL</button>
+              <button type="submit" class="btn btn-outline-success">GENERAR EXCEL</button>
             </div>
           </div>
         </form>

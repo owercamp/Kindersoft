@@ -33,96 +33,27 @@ class AdmissionguestController extends Controller
 
   function saveAdmission(Request $request)
   {
-    // dd($request->all());
-    /*
-						$request->firstname
-						$request->lastname
-						$request->gender
-						$request->day
-						$request->month
-						$request->year
-						$request->typedocument
-						$request->numberdocument
-						$request->nationality
-						$request->monthbord
-						$request->bloodtype
-						$request->typebord
-						$request->healthbad
-						$request->medical
-						$request->descripcionalergias
-						$request->terapia
-						$request->whatterapia
-						$request->health
-						$request->typeprogram
-						$request->brothers
-						$request->placebrother
-						$request->withlive
-						$request->other
-						$request->nameattendant1
-						$request->documentattendant1
-						$request->addressattendant1
-						$request->barrioattendant1
-						$request->localidadattendant1
-						$request->celularattendant1
-						$request->whatsappattendant1
-						$request->emailattendant1
-						$request->typeprofessionattendant1
-						$request->tituloattendant1
-						$request->typeworkattendant1
-						$request->bussinessattendant1
-						$request->addressbussinessattendant1
-						$request->citybussinessattendant1
-						$request->barrioempresaattendant1
-						$request->localidadempresaattendant1
-						$request->positionattendant1
-						$request->dateentryattendant1
-						$request->nameattendant2
-						$request->documentattendant2
-						$request->addressattendant2
-						$request->barrioattendant2
-						$request->localidadattendant2
-						$request->celularattendant2
-						$request->whatsappattendant2
-						$request->emailattendant2
-						$request->typeprofessionattendant2
-						$request->tituloattendant2
-						$request->typeworkattendant2
-						$request->bussinessattendant2
-						$request->addressbussinessattendant2
-						$request->citybussinessattendant2
-						$request->barrioempresaattendant2
-						$request->localidadempresaattendant2
-						$request->positionattendant2
-						$request->dateentryattendant2
-						$request->nameemergency
-						$request->documentemergency
-						$request->addressemergency
-						$request->barrioemergency
-						$request->localidademergency
-						$request->celularemergency
-						$request->whatsappemergency
-						$request->relationemergency
-						$request->emailemergency
-						$request->nameautorized1
-						$request->documentautorized1
-						$request->relationautorized1
-						$request->nameautorized2
-						$request->documentautorized2
-						$request->relationautorized2
-						$request->dayentry
-						$request->monthentry
-						$request->yearentry
-						$request->expectatives_likechild
-						$request->expectatives_activityschild
-						$request->expectatives_toychild
-						$request->expectatives_aspectchild
-						$request->expectatives_dreamforchild
-						$request->expectatives_learnchild
-						$request->cultural_eventfamily
-						$request->cultural_supportculturefamily
-						$request->cultural_gardenlearnculture
-						$request->cultural_shareculturefamily
-				*/
+    /******
+     * 
+     * TRATAMIENTO DE INFORMACION INGRESA EN EL FORMULARIO, REEMPLAZANDO COMAS POR PUNTOS
+     * 
+     */
+    
+    $direccionAcudiente1 = str_replace(',','.',$request->addressattendant1);
+    $direccionAcudiente2 = str_replace(',','.',$request->addressattendant2);
+    $formacionAcudiente1 = str_replace(',','.',$request->typeprofessionattendant1);
+    $formacionAcudiente2 = str_replace(',','.',$request->typeprofessionattendant2);
+    $nombreEmpresaAcudiente1 = str_replace(',','.',$request->bussinessattendant1);
+    $nombreEmpresaAcudiente2 = str_replace(',','.',$request->bussinessattendant2);
+    $direccionEmpresaAcudiente1 = str_replace(',','.',$request->addressbussinessattendant1);
+    $direccionEmpresaAcudiente2 = str_replace(',','.',$request->addressbussinessattendant2);
+
+    /******
+     * 
+     * VALIDACION REGISTRO EXISTENTE PARA ACTUALIZAR O CREAR UNO NUEVO
+     * 
+     */
+
     $validateform = Formadmission::where('numerodocumento', trim($request->numberdocument))->first();
     if ($validateform == null) {
       $namephoto = "photodefault.png";
@@ -167,17 +98,17 @@ class AdmissionguestController extends Controller
         'nombreacudiente1' => $this->ucwords($request->nameattendant1),
         'documentoacudiente1' => trim($request->documentattendant1),
         'docacu1' => trim($request->typedocumentattendant1),
-        'direccionacudiente1' => trim($request->addressattendant1),
+        'direccionacudiente1' => trim($direccionAcudiente1),
         'barrioacudiente1' => trim($request->barrioattendant1),
         'localidadacudiente1' => trim($request->localidadattendant1),
         'celularacudiente1' => trim($request->celularattendant1),
         'whatsappacudiente1' => trim($request->whatsappattendant1),
         'correoacudiente1' => $this->lower($request->emailattendant1),
-        'formacionacudiente1' => trim($request->typeprofessionattendant1),
+        'formacionacudiente1' => trim($formacionAcudiente1),
         'tituloacudiente1' => $this->upper($request->tituloattendant1),
         'tipoocupacionacudiente1' => trim($request->typeworkattendant1),
-        'empresaacudiente1' => $this->upper($request->bussinessattendant1),
-        'direccionempresaacudiente1' => $this->upper($request->addressbussinessattendant1),
+        'empresaacudiente1' => $this->upper($nombreEmpresaAcudiente1),
+        'direccionempresaacudiente1' => $this->upper($direccionEmpresaAcudiente1),
         'ciudadempresaacudiente1' => trim($request->citybussinessattendant1),
         'barrioempresaacudiente1' => trim($request->barrioempresaattendant1),
         'localidadempresaacudiente1' => trim($request->localidadempresaattendant1),
@@ -188,17 +119,17 @@ class AdmissionguestController extends Controller
         'nombreacudiente2' => $this->ucwords($request->nameattendant2),
         'documentoacudiente2' => trim($request->documentattendant2),
         'docacu2' => trim($request->typedocumentattendant2),
-        'direccionacudiente2' => trim($request->addressattendant2),
+        'direccionacudiente2' => trim($direccionAcudiente2),
         'barrioacudiente2' => trim($request->barrioattendant2),
         'localidadacudiente2' => trim($request->localidadattendant2),
         'celularacudiente2' => trim($request->celularattendant2),
         'whatsappacudiente2' => trim($request->whatsappattendant2),
         'correoacudiente2' => $this->lower($request->emailattendant2),
-        'formacionacudiente2' => trim($request->typeprofessionattendant2),
+        'formacionacudiente2' => trim($formacionAcudiente2),
         'tituloacudiente2' => $this->upper($request->tituloattendant2),
         'tipoocupacionacudiente2' => trim($request->typeworkattendant2),
-        'empresaacudiente2' => $this->upper($request->bussinessattendant2),
-        'direccionempresaacudiente2' => $this->upper($request->addressbussinessattendant2),
+        'empresaacudiente2' => $this->upper($nombreEmpresaAcudiente2),
+        'direccionempresaacudiente2' => $this->upper($direccionEmpresaAcudiente2),
         'ciudadempresaacudiente2' => trim($request->citybussinessattendant2),
         'barrioempresaacudiente2' => trim($request->barrioempresaattendant2),
         'localidadempresaacudiente2' => trim($request->localidadempresaattendant2),
@@ -279,18 +210,18 @@ class AdmissionguestController extends Controller
       $search->nombreacudiente1 = $this->ucwords($request->nameattendant1);
       $search->documentoacudiente1 = trim($request->documentattendant1);
       $search->docacu1 = trim($request->typedocumentattendant1);
-      $search->direccionacudiente1 = trim($request->addressattendant1);
+      $search->direccionacudiente1 = trim($direccionAcudiente1);
       $search->barrioacudiente1 = trim($request->barrioattendant1);
       $search->localidadacudiente1 = trim($request->localidadattendant1);
       $search->celularacudiente1 = trim($request->celularattendant1);
       $search->celularacudiente1 = trim($request->celularattendant1);
       $search->whatsappacudiente1 = trim($request->whatsappattendant1);
       $search->correoacudiente1 = $this->lower($request->emailattendant1);
-      $search->formacionacudiente1 = trim($request->typeprofessionattendant1);
+      $search->formacionacudiente1 = trim($formacionAcudiente1);
       $search->tituloacudiente1 = $this->upper($request->tituloattendant1);
       $search->tipoocupacionacudiente1 = trim($request->typeworkattendant1);
-      $search->empresaacudiente1 = $this->upper($request->bussinessattendant1);
-      $search->direccionempresaacudiente1 = $this->upper($request->addressbussinessattendant1);
+      $search->empresaacudiente1 = $this->upper($nombreEmpresaAcudiente1);
+      $search->direccionempresaacudiente1 = $this->upper($direccionEmpresaAcudiente1);
       $search->ciudadempresaacudiente1 = trim($request->citybussinessattendant1);
       $search->barrioempresaacudiente1 = trim($request->barrioempresaattendant1);
       $search->localidadempresaacudiente1 = trim($request->localidadempresaattendant1);
@@ -301,18 +232,18 @@ class AdmissionguestController extends Controller
       $search->nombreacudiente2 = $this->ucwords($request->nameattendant2);
       $search->documentoacudiente2 = trim($request->documentattendant2);
       $search->docacu2 = trim($request->typedocumentattendant2);
-      $search->direccionacudiente2 = trim($request->addressattendant2);
+      $search->direccionacudiente2 = trim($direccionAcudiente2);
       $search->barrioacudiente2 = trim($request->barrioattendant2);
       $search->barrioacudiente2 = trim($request->barrioattendant2);
       $search->localidadacudiente2 = trim($request->localidadattendant2);
       $search->celularacudiente2 = trim($request->celularattendant2);
       $search->whatsappacudiente2 = trim($request->whatsappattendant2);
       $search->correoacudiente2 = $this->lower($request->emailattendant2);
-      $search->formacionacudiente2 = trim($request->typeprofessionattendant2);
+      $search->formacionacudiente2 = trim($formacionAcudiente2);
       $search->tituloacudiente2 = $this->upper($request->tituloattendant2);
       $search->tipoocupacionacudiente2 = trim($request->typeworkattendant2);
-      $search->empresaacudiente2 = $this->upper($request->bussinessattendant2);
-      $search->direccionempresaacudiente2 = $this->upper($request->addressbussinessattendant2);
+      $search->empresaacudiente2 = $this->upper($nombreEmpresaAcudiente2);
+      $search->direccionempresaacudiente2 = $this->upper($direccionEmpresaAcudiente2);
       $search->ciudadempresaacudiente2 = trim($request->citybussinessattendant2);
       $search->barrioempresaacudiente2 = trim($request->barrioempresaattendant2);
       $search->localidadempresaacudiente2 = trim($request->localidadempresaattendant2);

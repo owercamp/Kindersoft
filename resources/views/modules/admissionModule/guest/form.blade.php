@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="{{mix('css/app.css')}}">
+  <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
   <!-- Fullcalendar -->
   <link rel="stylesheet" href="{{asset('plugins/fullcalendar/packages/core/main.min.css')}}">
@@ -120,7 +120,7 @@
   </main>
 
   <!-- Scripts -->
-  <script src="{{ mix('js/app.js') }}"></script>
+  <script src="{{ asset('js/app.js') }}"></script>
 
   <!-- Fullcalendar-->
   <script src="{{asset('plugins/fullcalendar/moment/main.js')}}"></script>

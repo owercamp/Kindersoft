@@ -834,6 +834,10 @@ class AdmissionmoduleController extends Controller
         ]);
       }
       $professionMother = Profession::where('title', $dataMother[10])->first();
+      $MotherSex = Formadmission::where('documentoacudiente1',$dataMother[0])->value('sexoacudiente1');
+      if(!$MotherSex){
+        $MotherSex = Formadmission::where('documentoacudiente2',$dataMother[0])->value('sexoacudiente2');
+      }
       if ($motherExist != null) {
         $names = \mb_split("\|", $dataMother[1]);
         try {
@@ -852,7 +856,7 @@ class AdmissionmoduleController extends Controller
         $motherExist->whatsapp = $dataMother[7];
         $motherExist->emailone = $dataMother[8];
         $motherExist->bloodtype_id = $MotherFather->rhacu2;
-        $motherExist->gender = $MotherFather->sexoacudiente2;
+        $motherExist->gender = $MotherSex;
         $motherExist->profession_id = $professionMother->id;
         $motherExist->company = $dataMother[11];
         $motherExist->position = $dataMother[12];
@@ -867,7 +871,7 @@ class AdmissionmoduleController extends Controller
         $names = \mb_split("\|", $dataMother[1]);
         Attendant::create([
           "firstname" => $this->upper($names[0]),
-          "threename" => ($this->upper($names[1]) != null) ? $this->upper($names[1]) : null,
+          "threename" => (isset($names[1])) ? $this->upper($names[1]) : null,
           "typedocument_id" => $MotherFather->docacu2,
           'numberdocument' => $dataMother[0],
           "address" => $dataMother[2],
@@ -878,7 +882,7 @@ class AdmissionmoduleController extends Controller
           "whatsapp" => $dataMother[7],
           "emailone" => $dataMother[8],
           "bloodtype_id" => $MotherFather->rhacu2,
-          "gender" => $MotherFather->sexoacudiente2,
+          "gender" => $MotherSex,
           "profession_id" => $professionMother->id,
           "company" => $dataMother[11],
           "position" => $dataMother[12],
@@ -900,6 +904,10 @@ class AdmissionmoduleController extends Controller
         ]);
       }
       $professionFather = Profession::where('title', $dataFather[10])->first();
+      $FatherSex = Formadmission::where('documentoacudiente1',$dataFather[0])->value('sexoacudiente1');
+      if(!$FatherSex){
+        $FatherSex = Formadmission::where('documentoacudiente2',$dataFather[0])->value('sexoacudiente2');
+      }
 
       if ($fatherExist != null) {
         $names = \mb_split("\|", $dataFather[1]);
@@ -919,7 +927,7 @@ class AdmissionmoduleController extends Controller
         $fatherExist->whatsapp = $dataFather[7];
         $fatherExist->emailone = $dataFather[8];
         $fatherExist->bloodtype_id = $MotherFather->rhacu1;
-        $fatherExist->gender = $MotherFather->sexoacudiente1;
+        $fatherExist->gender = $FatherSex;
         $fatherExist->profession_id = $professionFather->id;
         $fatherExist->company = $dataFather[11];
         $fatherExist->position = $dataFather[12];
@@ -934,7 +942,7 @@ class AdmissionmoduleController extends Controller
         $names = \mb_split("\|", $dataFather[1]);
         Attendant::create([
           "firstname" => $this->upper($names[0]),
-          "threename" => ($this->upper($names[1]) != null) ? $this->upper($names[1]) : null,
+          "threename" => (isset($names[1])) ? $this->upper($names[1]) : null,
           "typedocument_id" => $MotherFather->docacu1,
           "numberdocument" => $dataFather[0],
           "address" => $dataFather[2],
@@ -945,7 +953,7 @@ class AdmissionmoduleController extends Controller
           "whatsapp" => $dataFather[7],
           "emailone" => $dataFather[8],
           "bloodtype_id" => $MotherFather->rhacu1,
-          "gender" => $MotherFather->sexoacudiente1,
+          "gender" => $FatherSex,
           "profession_id" => ($professionFather->id != null) ? $professionFather->id : "23",
           "company" => $dataFather[11],
           "position" => $dataFather[12],

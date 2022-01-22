@@ -133,14 +133,16 @@
           <div class="col-md-12">
             <div class="form-group">
               <small class="text-muted">NOMBRE DE ACUDIENTE 1:</small>
-              <select name="legAttendantfather_id" class="form-control form-control-sm">
+              <input type="hidden" name="legAttendantfather_id">
+              <input type="text" name="acudiente1" class="form-control form-control-sm" disabled>
+              <!-- <select name="legAttendantfather_id" class="form-control form-control-sm">
                 <option value="">Seleccione el padre...</option>
                 @foreach($attendants as $attendant)
                 @if ($attendant->status == 'ACTIVO')
                 <option value="{{ $attendant->id }}">{{ $attendant->firstname . ' ' . $attendant->threename }}</option>
                 @endif
                 @endforeach
-              </select>
+              </select> -->
             </div>
             <div class="row">
               <div class="col-md-6">
@@ -158,14 +160,16 @@
             </div>
             <div class="form-group">
               <small class="text-muted">NOMBRE DE ACUDIENTE 2:</small>
-              <select name="legAttendantmother_id" class="form-control form-control-sm">
+              <input type="hidden" name="legAttendantmother_id">
+              <input type="text" name="acudiente2" class="form-control form-control-sm" disabled>
+              <!-- <select name="legAttendantmother_id" class="form-control form-control-sm">
                 <option value="">Seleccione la madre...</option>
                 @foreach($attendants as $attendant)
                 @if ($attendant->status == 'ACTIVO')
                 <option value="{{ $attendant->id }}">{{ $attendant->firstname . ' ' . $attendant->threename }}</option>
                 @endif
                 @endforeach
-              </select>
+              </select> -->
             </div>
             <div class="row">
               <div class="col-md-6">
@@ -376,26 +380,39 @@
   $(function() {});
 
   $('select[name=legStudent_id]').on('change', function(e) {
-    var selectedStudent = e.target.value;
+    let selectedStudent = $(this).val();
+    console.log(selectedStudent);
     if (selectedStudent !== null && selectedStudent !== '') {
-      $.get("{{ route('legStudentSelected') }}", {
-        selectedStudent: selectedStudent
-      }, function(objectStudent) {
-        $('input[name=infoLegalizationTypeDocumentStudent]').val('');
-        $('input[name=infoLegalizationTypeDocumentStudent]').val(objectStudent['type']);
-        $('input[name=infoLegalizationNumberDocumentStudent]').val('');
-        $('input[name=infoLegalizationNumberDocumentStudent]').val(objectStudent['numberdocument']);
-        $('input[name=infoLegalizationBirthdateStudent]').val('');
-        $('input[name=infoLegalizationBirthdateStudent]').val(objectStudent['birthdate']);
-        $('input[name=infoLegalizationYearsoldStudent]').val('');
-        // objectStudent['yearsold']
-        $('input[name=infoLegalizationYearsoldStudent]').val(converterYearsoldFromBirtdate(objectStudent['birthdate']));
-      });
-    } else {
-      $('input[name=infoLegalizationTypeDocumentStudent]').val('');
-      $('input[name=infoLegalizationNumberDocumentStudent]').val('');
-      $('input[name=infoLegalizationBirthdateStudent]').val('');
-      $('input[name=infoLegalizationYearsoldStudent]').val('');
+      $.ajax({
+        "_token": "{{ csrf_token() }}",
+        type: "POST",
+        dataType: "JSON",
+        data: {
+          selectedStudent: selectedStudent
+        },
+        url: "{{ route('legStudentSelected') }}",
+        beforeSend() {
+          Swal.fire(
+            'Consultando datos',
+            'por favor espere',
+            'info'
+          )
+        },
+        success(res) {
+          $('input[name=infoLegalizationTypeDocumentStudent]').val(res[0]['type']);
+          $('input[name=infoLegalizationNumberDocumentStudent]').val(res[0]['numberdocument']);
+          $('input[name=infoLegalizationBirthdateStudent]').val(res[0]['birthdate']);
+          $('input[name=infoLegalizationYearsoldStudent]').val(converterYearsoldFromBirtdate(res[0]['birthdate']));
+          $('input[name=legAttendantfather_id]').val(res[1]['id']);
+          $('input[name=infoLegalizationTypeDocumentAttendantFather]').val(res[1]['type']);
+          $('input[name=infoLegalizationNumberDocumentAttendantFather]').val(res[1]['numberdocument']);
+          $('input[name=legAttendantmother_id]').val(res[2]['id']);
+          $('input[name=infoLegalizationTypeDocumentAttendantMother]').val(res[2]['type']);
+          $('input[name=infoLegalizationNumberDocumentAttendantMother]').val(res[2]['numberdocument']);
+          $('input[name=acudiente1]').val(`${res[1]['firstname']} ${(res[1]['threename'] != null) ? res[1]['threename'] : ''}`);
+          $('input[name=acudiente2]').val(`${res[2]['firstname']} ${(res[2]['threename'] != null) ? res[2]['threename'] : ''}`);
+        }
+      })
     }
   });
 
@@ -442,39 +459,39 @@
   // 	}
   // });
 
-  $('select[name=legAttendantfather_id]').on('change', function(e) {
-    var selectedAttendant = e.target.value;
-    if (selectedAttendant !== null && selectedAttendant !== '') {
-      $.get("{{ route('legAttendantSelected') }}", {
-        selectedAttendant: selectedAttendant
-      }, function(objectAttendant) {
-        $('input[name=infoLegalizationTypeDocumentAttendantFather]').val('');
-        $('input[name=infoLegalizationTypeDocumentAttendantFather]').val(objectAttendant['type']);
-        $('input[name=infoLegalizationNumberDocumentAttendantFather]').val('');
-        $('input[name=infoLegalizationNumberDocumentAttendantFather]').val(objectAttendant['numberdocument']);
-      });
-    } else {
-      $('input[name=infoLegalizationTypeDocumentAttendantFather]').val('');
-      $('input[name=infoLegalizationNumberDocumentAttendantFather]').val('');
-    }
-  });
+  // $('select[name=legAttendantfather_id]').on('change', function(e) {
+  //   var selectedAttendant = e.target.value;
+  //   if (selectedAttendant !== null && selectedAttendant !== '') {
+  //     $.get("{{ route('legAttendantSelected') }}", {
+  //       selectedAttendant: selectedAttendant
+  //     }, function(objectAttendant) {
+  //       $('input[name=infoLegalizationTypeDocumentAttendantFather]').val('');
+  //       $('input[name=infoLegalizationTypeDocumentAttendantFather]').val(objectAttendant['type']);
+  //       $('input[name=infoLegalizationNumberDocumentAttendantFather]').val('');
+  //       $('input[name=infoLegalizationNumberDocumentAttendantFather]').val(objectAttendant['numberdocument']);
+  //     });
+  //   } else {
+  //     $('input[name=infoLegalizationTypeDocumentAttendantFather]').val('');
+  //     $('input[name=infoLegalizationNumberDocumentAttendantFather]').val('');
+  //   }
+  // });
 
-  $('select[name=legAttendantmother_id]').on('change', function(e) {
-    var selectedAttendant = e.target.value;
-    if (selectedAttendant !== null && selectedAttendant !== '') {
-      $.get("{{ route('legAttendantSelected') }}", {
-        selectedAttendant: selectedAttendant
-      }, function(objectAttendant) {
-        $('input[name=infoLegalizationTypeDocumentAttendantMother]').val('');
-        $('input[name=infoLegalizationTypeDocumentAttendantMother]').val(objectAttendant['type']);
-        $('input[name=infoLegalizationNumberDocumentAttendantMother]').val('');
-        $('input[name=infoLegalizationNumberDocumentAttendantMother]').val(objectAttendant['numberdocument']);
-      });
-    } else {
-      $('input[name=infoLegalizationTypeDocumentAttendantMother]').val('');
-      $('input[name=infoLegalizationNumberDocumentAttendantMother]').val('');
-    }
-  });
+  // $('select[name=legAttendantmother_id]').on('change', function(e) {
+  //   var selectedAttendant = e.target.value;
+  //   if (selectedAttendant !== null && selectedAttendant !== '') {
+  //     $.get("{{ route('legAttendantSelected') }}", {
+  //       selectedAttendant: selectedAttendant
+  //     }, function(objectAttendant) {
+  //       $('input[name=infoLegalizationTypeDocumentAttendantMother]').val('');
+  //       $('input[name=infoLegalizationTypeDocumentAttendantMother]').val(objectAttendant['type']);
+  //       $('input[name=infoLegalizationNumberDocumentAttendantMother]').val('');
+  //       $('input[name=infoLegalizationNumberDocumentAttendantMother]').val(objectAttendant['numberdocument']);
+  //     });
+  //   } else {
+  //     $('input[name=infoLegalizationTypeDocumentAttendantMother]').val('');
+  //     $('input[name=infoLegalizationNumberDocumentAttendantMother]').val('');
+  //   }
+  // });
 
   // EVENTOS DE SECCION DEL BANCO
   // $('input[name=legPaid]').on('click',function(e){

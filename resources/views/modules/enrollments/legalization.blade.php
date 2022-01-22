@@ -381,7 +381,18 @@
 
   $('select[name=legStudent_id]').on('change', function(e) {
     let selectedStudent = $(this).val();
-    console.log(selectedStudent);
+    $('input[name=infoLegalizationTypeDocumentStudent]').val("");
+    $('input[name=infoLegalizationNumberDocumentStudent]').val("");
+    $('input[name=infoLegalizationBirthdateStudent]').val("");
+    $('input[name=infoLegalizationYearsoldStudent]').val("");
+    $('input[name=legAttendantfather_id]').val("");
+    $('input[name=infoLegalizationTypeDocumentAttendantFather]').val("");
+    $('input[name=infoLegalizationNumberDocumentAttendantFather]').val("");
+    $('input[name=legAttendantmother_id]').val("");
+    $('input[name=infoLegalizationTypeDocumentAttendantMother]').val("");
+    $('input[name=infoLegalizationNumberDocumentAttendantMother]').val("");
+    $('input[name=acudiente1]').val("");
+    $('input[name=acudiente2]').val("");
     if (selectedStudent !== null && selectedStudent !== '') {
       $.ajax({
         "_token": "{{ csrf_token() }}",

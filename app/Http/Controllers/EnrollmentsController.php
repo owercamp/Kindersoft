@@ -344,7 +344,7 @@ class EnrollmentsController extends Controller
   {
     DB::beginTransaction();
     try {
-      dd($request->all());
+      // dd($request->all());
       $validateLegalization = Legalization::where([
         ['legStudent_id', trim($request->legStudent_id)],
         ['legStatus', 'ACTIVO']
@@ -573,11 +573,11 @@ class EnrollmentsController extends Controller
           return $pdf->download($namefile);
         }
       } else {
-        return back()->with("Error", "No se encuentra registrada la legalización de matricula");
+        return redirect()->route('contracts')->with("SecondaryNewLegalizationEnrollment", "No se encuentra registrada la legalización de matricula");
       }
       return redirect()->route('contracts')->with('SuccessExportContract', 'Contrato generado correctamente');
     } else {
-      dd('no ingreso');
+      return redirect()->route('contracts')->with("SecondaryNewLegalizationEnrollment", "Ha ocurrido un error");
     }
   }
 

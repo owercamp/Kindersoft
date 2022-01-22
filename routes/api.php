@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Attendant;
 use App\Models\Course;
 use App\Models\Entry;
 use App\Models\Formadmission;
@@ -533,14 +534,22 @@ Route::get('getHealth', function (Request $request) {
 
 
 //SELECCIONAR ESTUDIANTE PARA LEGALIZACION DE MATRICULA
-Route::get('legStudentSelected', function (Request $request) {
+Route::post('legStudentSelected', function (Request $request) {
+  $arreglo = [];
   $student = App\Models\Student::select(
     'students.*',
     'documents.type'
   )
     ->join('documents', 'documents.id', 'students.typedocument_id')
     ->where('students.id', $request->selectedStudent)->first();
-  return response()->json($student);
+  $data = Formadmission::where('numerodocumento',$student->numberdocument)->first();
+  $acudiente1 = Attendant::where('numberdocument',$data->documentoacudiente1)->join('documents','documents.id','typedocument_id')->select('attendants.id','documents.type','attendants.numberdocument','attendants.firstname','attendants.firstname','threename')->first(); 
+  $acudiente2 = Attendant::where('numberdocument',$data->documentoacudiente2)->join('documents','documents.id','typedocument_id')->select('attendants.id','documents.type','attendants.numberdocument','attendants.firstname','attendants.firstname','threename')->first(); 
+    $arreglo[0] = $student;
+    $arreglo[1] = $acudiente1;
+    $arreglo[2] = $acudiente2;
+
+  return response()->json($arreglo);
 })->name('legStudentSelected');
 
 //SELECCIONAR CURSO DE GRADO SELECCIONADO PARA LEGALIZACION DE MATRICULA

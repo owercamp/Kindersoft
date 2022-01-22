@@ -342,84 +342,70 @@ class EnrollmentsController extends Controller
 
   public function newlegalizationEnrollment(Request $request)
   {
+    DB::beginTransaction();
     try {
-      // dd($request->all());
-      $validateLegalization = Legalization::where('legStudent_id', trim($request->legStudent_id))->where('legStatus', 'ACTIVO')->first();
-      if ($validateLegalization == null) {
-        if (trim($request->legAttendantfather_id) !== null && trim($request->legAttendantfather_id) !== '' && trim($request->legAttendantmother_id) !== null && trim($request->legAttendantmother_id) !== '') {
-          Legalization::create([
-            'legStudent_id' => trim($request->legStudent_id),
-            'legAttendantfather_id' => trim($request->legAttendantfather_id),
-            'legAttendantmother_id' => trim($request->legAttendantmother_id),
-            'legGrade_id' => trim($request->legGrade_id),
-            // 'legCourse_id' => trim($request->legCourse_id),
-            'legJourney_id' => trim($request->legJourney_id),
-            'legDateInitial' => trim($request->infoLegalizationDateInitialStudent),
-            'legDateFinal' => trim($request->infoLegalizationDateFinalStudent),
-            'legDateCreate' => date('Y-m-d')
-          ]);
-        } elseif (trim($request->legAttendantfather_id) === null || trim($request->legAttendantfather_id) === '' && trim($request->legAttendantmother_id) !== null && trim($request->legAttendantmother_id) !== '') {
-          Legalization::create([
-            'legStudent_id' => trim($request->legStudent_id),
-            'legAttendantfather_id' => null,
-            'legAttendantmother_id' => trim($request->legAttendantmother_id),
-            'legGrade_id' => trim($request->legGrade_id),
-            // 'legCourse_id' => trim($request->legCourse_id),
-            'legJourney_id' => trim($request->legJourney_id),
-            'legDateInitial' => trim($request->infoLegalizationDateInitialStudent),
-            'legDateFinal' => trim($request->infoLegalizationDateFinalStudent),
-            'legDateCreate' => date('Y-m-d')
-          ]);
-        } elseif (trim($request->legAttendantfather_id) !== null && trim($request->legAttendantfather_id) !== '' && trim($request->legAttendantmother_id) === null || trim($request->legAttendantmother_id) === '') {
-          Legalization::create([
-            'legStudent_id' => trim($request->legStudent_id),
-            'legAttendantfather_id' => trim($request->legAttendantfather_id),
-            'legAttendantmother_id' => null,
-            'legGrade_id' => trim($request->legGrade_id),
-            // 'legCourse_id' => trim($request->legCourse_id),
-            'legJourney_id' => trim($request->legJourney_id),
-            'legDateInitial' => trim($request->infoLegalizationDateInitialStudent),
-            'legDateFinal' => trim($request->infoLegalizationDateFinalStudent),
-            'legDateCreate' => date('Y-m-d')
-          ]);
+      dd($request->all());
+      $validateLegalization = Legalization::where([
+        ['legStudent_id', trim($request->legStudent_id)],
+        ['legStatus', 'ACTIVO']
+      ])->count();
+      if ($validateLegalization == 0) {
+        /*** SE CREA UNA NUEVA INSTANCIA DEL MODELO DE LEGALIZACION DE CONTRATO ***/
+        $legalization = new Legalization;
+        $legalization->legStudent_id = trim($request->legStudent_id);
+        $legalization->legAttendantfather_id = (isset($request->legAttendantfather_id) ? trim($request->legAttendantfather_id) : null);
+        $legalization->legAttendantmother_id = (isset($request->legAttendantmother_id) ? trim($request->legAttendantmother_id) : null);
+        $legalization->legGrade_id = trim($request->legGrade_id);
+        $legalization->legJourney_id = trim($request->legJourney_id);
+        $legalization->legDateInitial = trim($request->infoLegalizationDateInitialStudent);
+        $legalization->legDateFinal = trim($request->infoLegalizationDateFinalStudent);
+        $legalization->legDateCreate = date('Y-m-d');
+        $legalization->save();
+
+        /*** SE CREA UNA NUEVA INSTANCIA DEL MODELO DE LISTADO DEL CURSO ***/
+        $listCourse = new listcourse;
+        $listCourse->listGrade_id = trim($request->legGrade_id);
+        $listCourse->listCourse_id = null;
+        $listCourse->listStudent_id = trim($request->legStudent_id);
+        $listCourse->save();
+
+        /*** SE CREA UNA NUEVA INSTANCIA DEL MODELO DE BILLETERA ***/
+        $wallet = new Wallet;
+        $wallet->waStudent_id = trim($request->legStudent_id);
+        $wallet->save();
+
+        if (trim($request->payValuemountContract) == 'Infinity') {
+          $request->payValuemountContract = 0;
         }
-        $newLegalization = Legalization::where('legStudent_id', trim($request->legStudent_id))->first();
-        if ($newLegalization !== null) {
-          Listcourse::create([
-            'listGrade_id' => $newLegalization->legGrade_id,
-            'listCourse_id' => null,
-            'listStudent_id' => $newLegalization->legStudent_id
-          ]);
-          Wallet::create([
-            'waStudent_id' => $newLegalization->legStudent_id
-          ]);
-          if (trim($request->payValuemountContract) == 'Infinity') {
-            $request->payValuemountContract = 0;
-          }
-          if (trim($request->payValuemountEnrollment) == 'Infinity') {
-            $request->payValuemountEnrollment = 0;
-          }
-          Pay::create([
-            'payValueContract' => trim($request->payValueContract),
-            'payDuesQuotationContract' => trim($request->payDuesQuotationContract),
-            'payValuemountContract' => trim($request->payValuemountContract),
-            'payDatepaidsContract' => trim($request->payDatepaidsContract),
-            'payValueEnrollment' => trim($request->payValueEnrollment),
-            'payDuesQuotationEnrollment' => trim($request->payDuesQuotationEnrollment),
-            'payValuemountEnrollment' => trim($request->payValuemountEnrollment),
-            'payDatepaidsEnrollment' => trim($request->payDatepaidsEnrollment),
-            'payLegalization_id' => trim($newLegalization->legId)
-          ]);
-          //GUARDAR CADA FECHA DE PAGO EN LA TABLA DE CONCEPTOS
-          $this->setConcepts(trim($request->payDatepaidsContract), trim($request->payDuesQuotationContract), trim($request->payValuemountContract), 'PENSION - CUOTA ', $newLegalization->legId);
-          $this->setConcepts(trim($request->payDatepaidsEnrollment), trim($request->payDuesQuotationEnrollment), trim($request->payValuemountEnrollment), 'MATRICULA - CUOTA ', $newLegalization->legId);
+        if (trim($request->payValuemountEnrollment) == 'Infinity') {
+          $request->payValuemountEnrollment = 0;
         }
+
+        /*** SE CREA UNA NUEVA INSTACION DE MODELO DE PAGO ***/
+        $pay = new Pay;
+        $pay->payValueContract  = trim($request->payValueContract);
+        $pay->payDuesQuotationContract = trim($request->payDuesQuotationContract);
+        $pay->payValuemountContract = trim($request->payValuemountContract);
+        $pay->payDatepaidsContract = trim($request->payDatepaidsContract);
+        $pay->payValueEnrollment = trim($request->payValueEnrollment);
+        $pay->payDuesQuotationEnrollment = trim($request->payDuesQuotationEnrollment);
+        $pay->payValuemountEnrollment = trim($request->payValuemountEnrollment);
+        $pay->payDatepaidsEnrollment = trim($request->payDatepaidsEnrollment);
+        $pay->payLegalization_id = $legalization->legId;
+        $pay->save();
+
+
+        //GUARDAR CADA FECHA DE PAGO EN LA TABLA DE CONCEPTOS
+        $this->setConcepts(trim($request->payDatepaidsContract), trim($request->payDuesQuotationContract), trim($request->payValuemountContract), 'PENSION - CUOTA ', $legalization->legId);
+        $this->setConcepts(trim($request->payDatepaidsEnrollment), trim($request->payDuesQuotationEnrollment), trim($request->payValuemountEnrollment), 'MATRICULA - CUOTA ', $legalization->legId);
         //GUARDA LA INFORMACION EN TABLAS LEGALIZACION, LISTA DE CURSO, CARTERA Y PAGOS
+        DB::commit();
         return redirect()->route('legalizationEnrollment')->with('SuccessNewLegalizationEnrollment', 'Legalizacion registrada correctamente');
       } else {
         return redirect()->route('legalizationEnrollment')->with('SecondaryNewLegalizationEnrollment', 'Ya existe una legalizacion para el estudiante seleccionado');
       }
     } catch (Exception $ex) {
+      DB::rollback();
       return redirect()->route('legalizationEnrollment.new')->with('SecondaryNewLegalizationEnrollment', 'No es posible crear la legalización');
     }
   }
@@ -545,32 +531,40 @@ class EnrollmentsController extends Controller
 
   public function contractPdf(Request $request)
   {
-    try {
-      if (isset($request->CodeContractForPDF)) {
-        $legalization = Legalization::find($request->CodeContractForPDF);
-        if ($legalization->legAttendantfather_id !== null && $legalization->legAttendantmother_id !== null) {
-          $attendantFather = Attendant::find($legalization->legAttendantfather_id);
-          $attendantMother = Attendant::find($legalization->legAttendantmother_id);
-        } elseif ($legalization->legAttendantfather_id !== null && $legalization->legAttendantmother_id === null) {
-          $attendantFather = Attendant::find($legalization->legAttendantfather_id);
-        } elseif ($legalization->legAttendantfather_id === null && $legalization->legAttendantmother_id !== null) {
-          $attendantMother = Attendant::find($legalization->legAttendantmother_id);
-        }
-        $student = Student::find($legalization->legStudent_id);
-        $grade = Grade::find($legalization->legGrade_id);
-        $course = Course::find($legalization->legCourse_id);
-        $garden = Garden::select(
-          'garden.*',
-          'citys.name AS garNameCity',
-          'locations.name AS garNameLocation',
-          'districts.name AS garNameDistrict'
-        )
-          ->join('citys', 'citys.id', 'garden.garCity_id')
-          ->join('locations', 'locations.id', 'garden.garLocation_id')
-          ->join('districts', 'districts.id', 'garden.garDistrict_id')
-          ->first();
-        $paid = Pay::where('payLegalization_id', $legalization->legId)->first();
-        //dd($paid);
+    /*** se debe validar el porque no descargar el pdf ***/
+    if ($request->CodeContractForPDF) {
+      $legalization = Legalization::find($request->CodeContractForPDF);
+
+      if ($legalization->legAttendantfather_id !== null && $legalization->legAttendantmother_id !== null) {
+        $attendantFather = Attendant::find($legalization->legAttendantfather_id);
+        $attendantMother = Attendant::find($legalization->legAttendantmother_id);
+      } elseif ($legalization->legAttendantfather_id !== null && $legalization->legAttendantmother_id === null) {
+        $attendantFather = Attendant::find($legalization->legAttendantfather_id);
+      } elseif ($legalization->legAttendantfather_id === null && $legalization->legAttendantmother_id !== null) {
+        $attendantMother = Attendant::find($legalization->legAttendantmother_id);
+      }
+      $student = Student::find($legalization->legStudent_id);
+      $grade = Grade::find($legalization->legGrade_id);
+      $course = Course::find($legalization->legCourse_id);
+      $garden = Garden::select(
+        'garden.*',
+        'citys.name AS garNameCity',
+        'locations.name AS garNameLocation',
+        'districts.name AS garNameDistrict'
+      )
+        ->join('citys', 'citys.id', 'garden.garCity_id')
+        ->join('locations', 'locations.id', 'garden.garLocation_id')
+        ->join('districts', 'districts.id', 'garden.garDistrict_id')
+        ->first();
+
+        $paid = Pay::where('payLegalization_id', $legalization->legId)->get();
+        
+        $count = $paid->count();
+        
+      /******************************************************************************************
+       *  SE DEBE VALIDAR QUE PAID TRAIGA INFORMACIÓN DE LO CONTRARIO DEBE RETORNAR QUE FALLO   *
+       ******************************************************************************************/
+      if ($count > 0) {
         if ($legalization !== null && $student !== null && $garden !== null) {
           $namefile = 'CONTRATO_' . $student->firstname . '_' . $student->threename . '.pdf';
           $pdf = App::make('dompdf.wrapper');
@@ -578,10 +572,12 @@ class EnrollmentsController extends Controller
           // return $pdf->stream($namefile);
           return $pdf->download($namefile);
         }
-        return redirect()->route('contracts')->with('SuccessExportContract', 'Contrato generado correctamente');
+      } else {
+        return back()->with("Error", "No se encuentra registrada la legalización de matricula");
       }
-    } catch (Exception $ex) {
-      return redirect()->route('contracts')->with('SecondaryExportContract', 'No fue posible exportar a PDF, comuniquese con el administrador');
+      return redirect()->route('contracts')->with('SuccessExportContract', 'Contrato generado correctamente');
+    } else {
+      dd('no ingreso');
     }
   }
 

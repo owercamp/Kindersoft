@@ -44,6 +44,7 @@ class LegalizationsExcel implements FromView
 	        ->join('districts','districts.id','students.dictricthome_id')
 	        ->join('bloodtypes','bloodtypes.id','students.bloodtype_id')
 	        ->join('healths','healths.id','students.health_id')
+					->where('legStatus',"ACTIVO")
 	        ->get();
 
 	    $contract = array();

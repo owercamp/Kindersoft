@@ -79,6 +79,7 @@ class ReportsController extends Controller
             DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent")
         )
         ->join('students','students.id','legalizations.legStudent_id')
+        ->where('legStatus','ACTIVO')
         ->orderBy('nameStudent','asc')
         ->get();
         $dates = array();

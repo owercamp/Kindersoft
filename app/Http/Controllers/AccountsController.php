@@ -37,35 +37,28 @@ class AccountsController extends Controller
 
   function getAccount(Request $request)
   {
-    $accounts = Legalization::select(
-      'legalizations.legId',
-      'students.id as idStudent',
-      DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-      'grades.name as nameGrade',
-      // 'courses.name as nameCourse',
-      DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant")
-    )
-      ->join('concepts', 'concepts.conLegalization_id', 'legalizations.legId')
-      ->join('students', 'students.id', 'legalizations.legStudent_id')
-      ->join('grades', 'grades.id', 'legalizations.legGrade_id')
-      // ->join('courses','courses.id','legalizations.legCourse_id')
-      ->join('attendants', 'attendants.id', 'legalizations.legAttendantfather_id')
-      ->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])
-      ->distinct('conLegalization_id')->get();
-    $dates = array();
+    $accounts = Legalization::with('student:id,firstname,threename,fourname', 'father:id,firstname,threename', 'mother:id,firstname,threename','grade:id,name','journey')
+    ->join('concepts', 'concepts.conLegalization_id', 'legalizations.legId')
+    ->where('legStatus', 'ACTIVO')
+    ->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])
+    ->distinct('conLegalization_id')
+    ->get();
+
+    $dates = [];
     foreach ($accounts as $account) {
       $totalConceptPending = Concept::where('conLegalization_id', $account->legId)->where('conStatus', 'PENDIENTE')->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])->count();
       if ($totalConceptPending > 0) {
         array_push($dates, [
           $account->legId,
-          $account->idStudent,
-          $account->nameStudent,
-          $account->nameGrade,
+          $account->student->id,
+          $account->student->firstname." ".$account->student->threename." ".$account->student->fourname,
+          $account->grade->name,
           // $account->nameCourse,
-          $account->nameAttendant
+          $account->father->firstname." ".$account->father->threename."</br>".$account->mother->firstname." ".$account->mother->threename
         ]);
       }
     }
+
     return response()->json($dates);
   }
 

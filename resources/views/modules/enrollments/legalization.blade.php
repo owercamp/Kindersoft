@@ -414,14 +414,18 @@
           $('input[name=infoLegalizationNumberDocumentStudent]').val(res[0]['numberdocument']);
           $('input[name=infoLegalizationBirthdateStudent]').val(res[0]['birthdate']);
           $('input[name=infoLegalizationYearsoldStudent]').val(converterYearsoldFromBirtdate(res[0]['birthdate']));
-          $('input[name=legAttendantfather_id]').val(res[1]['id']);
-          $('input[name=infoLegalizationTypeDocumentAttendantFather]').val(res[1]['type']);
-          $('input[name=infoLegalizationNumberDocumentAttendantFather]').val(res[1]['numberdocument']);
-          $('input[name=legAttendantmother_id]').val(res[2]['id']);
-          $('input[name=infoLegalizationTypeDocumentAttendantMother]').val(res[2]['type']);
-          $('input[name=infoLegalizationNumberDocumentAttendantMother]').val(res[2]['numberdocument']);
-          $('input[name=acudiente1]').val(`${res[1]['firstname']} ${(res[1]['threename'] != null) ? res[1]['threename'] : ''}`);
-          $('input[name=acudiente2]').val(`${res[2]['firstname']} ${(res[2]['threename'] != null) ? res[2]['threename'] : ''}`);
+          if (res[1] != null) {
+            $('input[name=legAttendantfather_id]').val((res[1]['id'] != null) ? res[1]['id'] : '');
+            $('input[name=infoLegalizationTypeDocumentAttendantFather]').val((res[1]['type'] != null) ? res[1]['type'] : '');
+            $('input[name=infoLegalizationNumberDocumentAttendantFather]').val((res[1]['numberdocument'] != null) ? res[1]['numberdocument'] : '');
+            $('input[name=acudiente1]').val(`${(res[1]['firstname'] != null) ? res[1]['firstname'] : ''} ${(res[1]['threename'] != null) ? res[1]['threename'] : ''}`);
+          }
+          if (res[2] != null) {
+            $('input[name=legAttendantmother_id]').val((res[2]['id'] != null) ? res[2]['id'] : '');
+            $('input[name=infoLegalizationTypeDocumentAttendantMother]').val((res[2]['type'] != null) ? res[2]['type'] : '');
+            $('input[name=infoLegalizationNumberDocumentAttendantMother]').val((res[2]['numberdocument'] != null) ? res[2]['numberdocument'] : '');
+            $('input[name=acudiente2]').val(`${(res[2]['firstname'] != null) ? res[2]['firstname'] : ''} ${(res[2]['threename'] != null) ? res[2]['threename'] : ''}`);
+          }
         }
       })
     }

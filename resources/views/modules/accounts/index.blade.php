@@ -189,6 +189,7 @@
   });
 
   $('#tableAccount tbody').on('click', 'a.btn-details', function(e) {
+    /** SE DEBE VALIDAR PORQUE NO CARGA LOS ITEM EN EL FORMULARIO DE FACTURACIÓN **/
     e.preventDefault();
     var yearandmount = $(this).parents('tr').find('td:first').find('span').text();
     var separated = yearandmount.split('-');
@@ -227,17 +228,18 @@
             $('.legDateFinal-modal').text(objectConcepts[i][9]);
           } else if (objectConcepts[i][0] == 'CONCEPTO') {
             if (objectConcepts[i][5] == 'PENDIENTE') {
+              console.log(new Intl.NumberFormat().format(objectConcepts[i][4]));
               $(".table-modal tbody").append("<tr id='" + objectConcepts[i][1] + "'>" +
                 "<td>" + objectConcepts[i][2] + "</td>" +
                 "<td>" + objectConcepts[i][3] + "</td>" +
-                "<td>" + objectConcepts[i][4] + "</td>" +
+                "<td>" + new Intl.NumberFormat().format(objectConcepts[i][4]) + "</td>" +
                 "<td><input type='checkbox' name='item-concept' id='" + objectConcepts[i][1] + "'></td>" +
                 "</tr>");
             } else {
               $(".table-modal tbody").append("<tr id='" + objectConcepts[i][1] + "'>" +
                 "<td>" + objectConcepts[i][2] + "</td>" +
                 "<td>" + objectConcepts[i][3] + "</td>" +
-                "<td>" + objectConcepts[i][4] + "</td>" +
+                "<td>" + new Intl.NumberFormat().format(objectConcepts[i][4]) + "</td>" +
                 "<td><span class='badge badge-success'>FACTURADO</span></td>" +
                 "</tr>");
             }

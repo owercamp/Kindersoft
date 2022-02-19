@@ -535,12 +535,14 @@ function loadDatatables() {
   });
 
   $('#AssistTable').DataTable({
+    scrollY: '65vh',
+    scrollCollapse: true,
+    paging: false,
+    info: false,
     language: {
       processing: "Procesamiento en curso...",
       search: "Buscar:",
       lengthMenu: "Mostrar _MENU_ registros",
-      info: "Mostrando _START_ a _END_ de _TOTAL_ registros. ",
-      infoEmpty: "Mostrando dato 0 a 0 de 0 registros",
       emptyTable: "No hay registros disponibles",
       infoFiltered: "Filtrado de _MAX_ elementos totales",
       infoPostFix: "",

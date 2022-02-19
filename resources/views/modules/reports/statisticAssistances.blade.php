@@ -217,6 +217,7 @@
         for (var i = 0; i < count; i++) {
           $('select[name=saStudent]').append('<option value=' + objectStudents[i]['id'] + '>' + objectStudents[i]['nameStudent'] + '</option>');
         }
+        /** NO ESISTEN PERIODOS ACADEMICOS PARA EL AÑO 2022 **/
         $.get("{{ route('getPeriodsOfCourse') }}", {
           courseSelected: courseSelected
         }, function(objectPeriods) {

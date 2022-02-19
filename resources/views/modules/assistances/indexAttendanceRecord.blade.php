@@ -9,6 +9,7 @@
       <form action="{{route('pdf.Assistences')}}" method="post">
         @csrf
         <button class="btn btn-outline-danger"><i class="fas fa-file-pdf"></i> {{strtoupper('pdf')}}</button>
+        <input type="hidden" name="datepdf">
       </form>
     </div>
     <div class="container position-fixed d-flex justify-content-center" style="padding-top: 10em;">
@@ -49,7 +50,7 @@
           </select>
         </div>
       </div>
-    </div>
+    </div class="table-responsive">
     <table class="table text-center table-striped w-100" id="AssistTable">
       <thead>
         <tr>
@@ -117,6 +118,7 @@
 
   $('input[name=searchDate]').change(() => {
     const dt = $('input[name=searchDate]').val();
+    $('input[name=datepdf]').val(dt);
     $.ajax({
       "_token": "{{csrf_token()}}",
       url: "{{route('getAssistDate')}}",

@@ -100,7 +100,7 @@ class AssistancesController extends Controller
     return view('modules.assistances.indexAttendanceRecord', compact('grades'));
   }
 
-  function pdfAssistences()
+  function pdfAssistences(Request $request)
   {
     $date = Carbon::today('America/Bogota')->locale('es')->isoFormat('LL');
     $day = Carbon::today('America/Bogota')->locale('es')->dayName;
@@ -108,7 +108,18 @@ class AssistancesController extends Controller
     $registers = Presence::select('presences.*', 'students.*', 'courses.*')
       ->join('students', 'students.id', 'presences.pre_student')
       ->join('courses', 'courses.id', 'presences.pre_course')
-      ->where('pre_status', 'PRESENTE')->get();
+      ->where('pre_status', 'PRESENTE');
+
+    /*** SE FILTRAN LOS REGISTROS ENCONTRADOS SI HAY UN A FECHA SELECCIONADA ***/
+    if ($request->datepdf != null || $request->datepdf != '') {
+      $infoDate = explode('-', $request->datepdf);
+      $date = Carbon::createFromDate($infoDate[0], $infoDate[1], $infoDate[2], 'America/Bogota')->locale('es')->isoFormat('LL');
+      $day = Carbon::createFromDate($infoDate[0], $infoDate[1], $infoDate[2], 'America/Bogota')->locale('es')->dayName;
+      $dateNow = $day . " " . $date;
+      $registers = $registers->where('pre_date', $dateNow);
+    }
+    $registers = $registers->get();
+
     $pdf = App::make('dompdf.wrapper');
     $name = "Asistencia del " . $dateNow;
     $pdf = PDF::loadview('modules.assistances.PDFAssistances', compact('dateNow', 'registers'));

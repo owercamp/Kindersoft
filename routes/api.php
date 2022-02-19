@@ -2554,7 +2554,7 @@ Route::get('getStudentFromCourseWithEnrollment', function (Request $request) {
     ->get();
   $filterStudents = array();
   foreach ($students as $student) {
-    $legalization = App\Models\Legalization::where('legStudent_id', $student->id)->first();
+    $legalization = App\Models\Legalization::where([['legStudent_id', $student->id],['legStatus','ACTIVO']])->first();
     $dateStart = Date('Y-m-d', strtotime($legalization->legDateInitial));
     $dateEnd = Date('Y-m-d', strtotime($legalization->legDateFinal));
     if (($datenow >= $dateStart) && ($datenow <= $dateEnd)) {

@@ -119,6 +119,32 @@
   $('input[name=searchDate]').change(() => {
     const dt = $('input[name=searchDate]').val();
     $('input[name=datepdf]').val(dt);
+    // $('#AssistTable').DataTable({
+    //   "serverSide": true,
+    //   "processing": true,
+    //   "ajax": {
+    //     "_token": "{{csrf_token()}}",
+    //     url: "{{route('getAssistDate')}}",
+    //     type: "POST",
+    //     dataType: "JSON",
+    //     data: {
+    //       dt: dt
+    //     },
+    //   },
+    //   "columns":[
+    //     {data: pre_date},
+    //     {data: pre_student},
+    //     {data: pre_course},
+    //     {data: pre_harrival},
+    //     {data: pre_hexit}
+    //   ]
+    // });
+
+
+
+
+
+
     $.ajax({
       "_token": "{{csrf_token()}}",
       url: "{{route('getAssistDate')}}",

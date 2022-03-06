@@ -14,10 +14,10 @@ class Presence extends Model
 
   public function student()
   {
-    return $this->belongsTo(Student::class, 'pre_student');
+    return $this->belongsTo(Student::class, 'pre_student', 'id');
   }
   public function course()
   {
-    return $this->belongsTo(Course::class, 'pre_course');
+    return $this->belongsTo(Course::class, 'pre_course', 'id');
   }
 }

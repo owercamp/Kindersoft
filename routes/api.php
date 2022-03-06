@@ -542,12 +542,12 @@ Route::post('legStudentSelected', function (Request $request) {
   )
     ->join('documents', 'documents.id', 'students.typedocument_id')
     ->where('students.id', $request->selectedStudent)->first();
-  $data = Formadmission::where('numerodocumento',$student->numberdocument)->first();
-  $acudiente1 = Attendant::where('numberdocument',$data->documentoacudiente1)->join('documents','documents.id','typedocument_id')->select('attendants.id','documents.type','attendants.numberdocument','attendants.firstname','attendants.firstname','threename')->first(); 
-  $acudiente2 = Attendant::where('numberdocument',$data->documentoacudiente2)->join('documents','documents.id','typedocument_id')->select('attendants.id','documents.type','attendants.numberdocument','attendants.firstname','attendants.firstname','threename')->first(); 
-    $arreglo[0] = $student;
-    $arreglo[1] = $acudiente1;
-    $arreglo[2] = $acudiente2;
+  $data = Formadmission::where('numerodocumento', $student->numberdocument)->first();
+  $acudiente1 = Attendant::where('numberdocument', $data->documentoacudiente1)->join('documents', 'documents.id', 'typedocument_id')->select('attendants.id', 'documents.type', 'attendants.numberdocument', 'attendants.firstname', 'attendants.firstname', 'threename')->first();
+  $acudiente2 = Attendant::where('numberdocument', $data->documentoacudiente2)->join('documents', 'documents.id', 'typedocument_id')->select('attendants.id', 'documents.type', 'attendants.numberdocument', 'attendants.firstname', 'attendants.firstname', 'threename')->first();
+  $arreglo[0] = $student;
+  $arreglo[1] = $acudiente1;
+  $arreglo[2] = $acudiente2;
 
   return response()->json($arreglo);
 })->name('legStudentSelected');
@@ -2554,7 +2554,7 @@ Route::get('getStudentFromCourseWithEnrollment', function (Request $request) {
     ->get();
   $filterStudents = array();
   foreach ($students as $student) {
-    $legalization = App\Models\Legalization::where([['legStudent_id', $student->id],['legStatus','ACTIVO']])->first();
+    $legalization = App\Models\Legalization::where([['legStudent_id', $student->id], ['legStatus', 'ACTIVO']])->first();
     $dateStart = Date('Y-m-d', strtotime($legalization->legDateInitial));
     $dateEnd = Date('Y-m-d', strtotime($legalization->legDateFinal));
     if (($datenow >= $dateStart) && ($datenow <= $dateEnd)) {
@@ -3223,9 +3223,13 @@ Route::post('getAssistDate', function (Request $request) {
   $date = Carbon::create($request->dt)->locale('es')->isoFormat('LL');
   $day = Carbon::create($request->dt)->locale('es')->dayName;
   $dateSearch = ucfirst($day) . " " . $date;
-  $query = Presence::where([['pre_date', trim($dateSearch)], ['pre_status', "PRESENTE"]])
-    ->join('students', 'students.id', 'presences.pre_student')
-    ->join('courses', 'courses.id', 'presences.pre_course')->get();
+
+  $query = Presence::with('student:id,firstname,threename,fourname', 'course:id,name')->where([['pre_date', trim($dateSearch)], ['pre_status', "PRESENTE"]])->get();
+
+  // $query = Presence::where([['pre_date', trim($dateSearch)], ['pre_status', "PRESENTE"]])
+  //   ->join('students', 'students.id', 'presences.pre_student')
+  //   ->join('courses', 'courses.id', 'presences.pre_course')->get();
+
   return response()->json($query);
 })->name("getAssistDate");
 

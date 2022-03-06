@@ -35,7 +35,7 @@ class AccountsController extends Controller
     return view('modules.accounts.index');
   }
 
-  function getAccount(Request $request)
+  public function getAccount(Request $request)
   {
     $accounts = Legalization::with('student:id,firstname,threename,fourname', 'father:id,firstname,threename', 'mother:id,firstname,threename','grade:id,name','journey')
     ->join('concepts', 'concepts.conLegalization_id', 'legalizations.legId')

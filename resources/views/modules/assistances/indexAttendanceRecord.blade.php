@@ -116,35 +116,11 @@
     })
   });
 
+ 
   $('input[name=searchDate]').change(() => {
     const dt = $('input[name=searchDate]').val();
+    console.log(dt);
     $('input[name=datepdf]').val(dt);
-    // $('#AssistTable').DataTable({
-    //   "serverSide": true,
-    //   "processing": true,
-    //   "ajax": {
-    //     "_token": "{{csrf_token()}}",
-    //     url: "{{route('getAssistDate')}}",
-    //     type: "POST",
-    //     dataType: "JSON",
-    //     data: {
-    //       dt: dt
-    //     },
-    //   },
-    //   "columns":[
-    //     {data: pre_date},
-    //     {data: pre_student},
-    //     {data: pre_course},
-    //     {data: pre_harrival},
-    //     {data: pre_hexit}
-    //   ]
-    // });
-
-
-
-
-
-
     $.ajax({
       "_token": "{{csrf_token()}}",
       url: "{{route('getAssistDate')}}",
@@ -159,12 +135,13 @@
       },
       success(response) {
         $('#MyData').empty();
+        console.log(response);
         response.forEach(element => {
           const hexit = (element.pre_hexit != null) ? element.pre_hexit : "";
           $('#MyData').append(`<tr>
           <td>${element.pre_date}</td>
-          <td>${element.firstname} ${element.threename} ${element.fourname}</td>
-          <td>${element.name}</td>
+          <td>${element.student.firstname} ${element.student.threename} ${element.student.fourname}</td>
+          <td>${element.course.name}</td>
           <td>${element.pre_harrival}</td>
           <td>${hexit}</td>
           </tr>`)

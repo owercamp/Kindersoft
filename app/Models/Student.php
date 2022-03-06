@@ -29,10 +29,47 @@ class Student extends Model
 		'additionalHealtDescription'
 	];
 
+	/**
+	 * The attributes that should be cast to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' => 'integer',
+		'typedocument_id' => 'integer',
+		'numberdocument' => 'string',
+		'photo' => 'string',
+		'firstname' => 'string',
+		'threename' => 'string',
+		'fourname' => 'string',
+		'birthdate' => 'date',
+		'yearsold' => 'string',
+		'address' => 'string',
+		'cityhome_id' => 'integer',
+		'locationhome_id' => 'integer',
+		'dictricthome_id' => 'integer',
+		'bloodtype_id' => 'integer',
+		'gender' => 'string',
+		'health_id' => 'integer',
+		'additionalHealt' => 'string',
+		'additionalHealtDescription' => 'string'
+	];
+
 	public $timestamps = false;
 
 	public function weektrackings()
 	{
 		return $this->hasMany(Weeklytracking::class, 'wtStudent_id');
+	}
+
+	/**
+	 * Get the student
+	 *
+	 * @param  string
+	 * @return string
+	 */
+	public function getfullnameAttribute()
+	{
+		return $this->firstname." ".$this->threename." ".$this->fourname;
 	}
 }

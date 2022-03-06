@@ -3224,11 +3224,7 @@ Route::post('getAssistDate', function (Request $request) {
   $day = Carbon::create($request->dt)->locale('es')->dayName;
   $dateSearch = ucfirst($day) . " " . $date;
 
-  $query = Presence::with('student:id,firstname,threename,fourname', 'course:id,name')->where([['pre_date', trim($dateSearch)], ['pre_status', "PRESENTE"]])->get();
-
-  // $query = Presence::where([['pre_date', trim($dateSearch)], ['pre_status', "PRESENTE"]])
-  //   ->join('students', 'students.id', 'presences.pre_student')
-  //   ->join('courses', 'courses.id', 'presences.pre_course')->get();
+  $query = Presence::with('student:id,firstname,threename,fourname', 'course:id,name')->where([['pre_date', trim($dateSearch)], ['pre_status', "PRESENTE"]])->orderby('pre_course', 'asc')->get();
 
   return response()->json($query);
 })->name("getAssistDate");
@@ -3247,7 +3243,7 @@ Route::post('getDataStudent', function (Request $request) {
   $query = Presence::where('pre_student', $request->student)
     ->join('students', 'students.id', 'presences.pre_student')
     ->join('courses', 'courses.id', 'presences.pre_course')
-    ->orderBy('pre_date', 'asc')->get();
+    ->orderBy('created_at', 'asc')->get();
   return response()->json($query);
 })->name('getDataStudent');
 

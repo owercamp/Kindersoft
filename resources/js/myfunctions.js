@@ -539,6 +539,8 @@ function loadDatatables() {
     scrollCollapse: true,
     paging: false,
     info: false,
+    searching: false,
+    ordering: false,
     language: {
       processing: "Procesamiento en curso...",
       search: "Buscar:",

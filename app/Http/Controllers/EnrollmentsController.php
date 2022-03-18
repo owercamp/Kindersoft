@@ -632,6 +632,7 @@ class EnrollmentsController extends Controller
     )
       ->join('students', 'students.id', 'legalizations.legStudent_id')
       ->whereBetween('legDateInitial', [$yearnow . '-01-01', $yearnow . '-12-31'])
+      ->where('legStatus',"ACTIVO")
       ->orderBy('nameStudent', 'asc')
       ->get();
     $garden = Garden::select(
@@ -653,7 +654,7 @@ class EnrollmentsController extends Controller
       //dd($request->codeCertificatedPdf);
       if (isset($request->codeCertificatedPdf)) {
         // $listCourse = Listcourse::where('listStudent_id',$request->codeCertificatedPdf)->first();
-        $legalization = Legalization::where('legStudent_id', $request->codeCertificatedPdf)->first();
+        $legalization = Legalization::where([['legStudent_id', $request->codeCertificatedPdf],['legStatus',"ACTIVO"]])->first();
         $student = Student::find($legalization->legStudent_id);
         $attendant = Attendant::find($legalization->legAttendantfather_id);
         $garden = Garden::select(
@@ -670,6 +671,7 @@ class EnrollmentsController extends Controller
           $namefile = $student->firstname . $student->threename . $student->fourname . '_CertificadoEscolar.pdf';
           $pdf = App::make('dompdf.wrapper');
           $pdf->loadView('modules.enrollments.certificatesPdf', compact('legalization', 'student', 'attendant', 'garden'));
+          // return $pdf->stream();
           return $pdf->download($namefile);
         }
         return redirect()->route('certificates')->with('SuccessExportCertificate', 'Certificado generado correctamente');

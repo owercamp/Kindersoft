@@ -604,6 +604,7 @@ Route::get('getDatesCertificate', function (Request $request) {
   )
     ->join('students', 'students.id', 'legalizations.legStudent_id')
     ->join('attendants', 'attendants.id', 'legalizations.legAttendantfather_id')
+    ->where("legStatus","ACTIVO")
     ->where('legStudent_id', $request->selectedStudent)->first();
 
   return response()->json($legalization);

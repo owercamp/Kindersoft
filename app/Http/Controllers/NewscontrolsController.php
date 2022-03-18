@@ -2,143 +2,148 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assistance;
+use App\Models\Autorization;
+use App\Models\Course;
+use App\Models\Eventcreation;
+use App\Models\Eventdiary;
+use App\Models\Extracurricular;
+use App\Models\Extratime;
+use App\Models\Feeding;
+use App\Models\FeedingControl;
+use App\Models\Garden;
+use App\Models\Grade;
+use App\Models\HealthControl;
+use App\Models\Journey;
+use App\Models\Legalization;
+use App\Models\Presence;
+use App\Models\Sphincters;
+use App\Models\Student;
+use App\Models\Supplie;
+use App\Models\Transport;
+use App\Models\Uniform;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\Sphincters;
-use App\Models\FeedingControl;
-use App\Models\HealthControl;
-use App\Models\Legalization;
-use App\Models\Student;
-use App\Models\Grade;
-
-use App\Models\Assistance;
-use App\Models\Course;
-use App\Models\Autorization;
-use App\Models\Journey;
-use App\Models\Feeding;
-use App\Models\Uniform;
-use App\Models\Supplie;
-use App\Models\Extratime;
-use App\Models\Extracurricular;
-use App\Models\Transport;
-use App\Models\Garden;
-use App\Models\Eventcreation;
-use App\Models\Eventdiary;
-
 class NewscontrolsCOntroller extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
 
-    /*-----------------------------------
-		 - CONTROL DE ALIMENTACION -
-    -----------------------------------*/
-    function feedingsControlTo(){
-    	$datenow = Date('Y-m-d');
-    	$hour = Date('G');
-			if($hour < 5){
-				$datenow = Date('Y-m-d',strtotime($datenow . ' - 1 days'));
-			}
-    	$feedingsControl = FeedingControl::where('fcDate',$datenow)->distinct('fcLegalization_id')->get();
+	/*-----------------------------------
+	 - CONTROL DE ALIMENTACION -
+	 -----------------------------------*/
+	function feedingsControlTo()
+	{
+		$datenow = Date('Y-m-d');
+		$hour = Date('G');
+		if ($hour < 5) {
+			$datenow = Date('Y-m-d', strtotime($datenow . ' - 1 days'));
+		}
+		$feedingsControl = FeedingControl::where('fcDate', $datenow)->distinct('fcLegalization_id')->get();
 		// dd($feedingsControl);
-    	$result = array();
-    	foreach ($feedingsControl as $feeding) {
-    		$dates = legalization::select(
-    			'legalizations.*',
-    			DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-    			'students.yearsold',
-    			'grades.name as grade',
-    			DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
-    			'attendants.phoneone',
-    			'attendants.emailone'
-    		)
-    		->join('students','students.id','legStudent_id')
-    		->join('attendants','attendants.id','legAttendantfather_id')
-    		->join('grades','grades.id','legGrade_id')
-    		->where('legId',$feeding->fcLegalization_id)->first();
-    		
-    		if($dates != null){
-    			array_push($result,[
-    				$dates->legId,
-    				$dates->nameStudent,
-    				$dates->yearsold,
-    				$dates->grade,
-    				$dates->nameAttendant,
-    				$dates->phoneone,
-    				$dates->emailone,
-    				$feeding->fcNews
-    			]);
-    		}else{
-    			$dates = legalization::select(
-	    			'legalizations.*',
-	    			DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-	    			'students.yearsold',
-	    			'grades.name as grade',
-	    			DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
-	    			'attendants.phoneone',
-	    			'attendants.emailone'
-	    		)
-	    		->join('students','students.id','legStudent_id')
-	    		->join('attendants','attendants.id','legAttendantmother_id')
-	    		->join('grades','grades.id','legGrade_id')
-	    		->where('legId',$feeding->fcLegalization_id)->first();
+		$result = array();
+		foreach ($feedingsControl as $feeding) {
+			$dates = legalization::select(
+				'legalizations.*',
+				DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
+				'students.yearsold',
+				'grades.name as grade',
+				DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
+				'attendants.phoneone',
+				'attendants.emailone'
+			)
+				->join('students', 'students.id', 'legStudent_id')
+				->join('attendants', 'attendants.id', 'legAttendantfather_id')
+				->join('grades', 'grades.id', 'legGrade_id')
+				->where('legId', $feeding->fcLegalization_id)->first();
 
-	    		if($dates != null){
-		    		array_push($result,[
-	    				$dates->legId,
-	    				$dates->nameStudent,
-	    				$dates->yearsold,
-	    				$dates->grade,
-	    				$dates->nameAttendant,
-	    				$dates->phoneone,
-	    				$dates->emailone,
-	    				$feeding->fcNews
-	    			]);
-	    		}
-    		}
-    	}
-    	$grades = Grade::all();
-    	return view('modules.newscontrols.feedingsControl',compact('result','datenow','grades'));
-    }
+			if ($dates != null) {
+				array_push($result, [
+					$dates->legId,
+					$dates->nameStudent,
+					$dates->yearsold,
+					$dates->grade,
+					$dates->nameAttendant,
+					$dates->phoneone,
+					$dates->emailone,
+					$feeding->fcNews
+				]);
+			}
+			else {
+				$dates = legalization::select(
+					'legalizations.*',
+					DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
+					'students.yearsold',
+					'grades.name as grade',
+					DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
+					'attendants.phoneone',
+					'attendants.emailone'
+				)
+					->join('students', 'students.id', 'legStudent_id')
+					->join('attendants', 'attendants.id', 'legAttendantmother_id')
+					->join('grades', 'grades.id', 'legGrade_id')
+					->where('legId', $feeding->fcLegalization_id)->first();
 
-    function newFeedings(Request $request){
-    	try{
-    		// dd($request->all());
-	    	/*
-				$request->newControl_DateHidden
-				$request->newControl_Date
-				$request->newControl_Grade
-				$request->newControl_Course
-				$request->newControl_Student
-				$request->newControl_type
-				$request->newControl_NewFeedings
-	    	*/
+				if ($dates != null) {
+					array_push($result, [
+						$dates->legId,
+						$dates->nameStudent,
+						$dates->yearsold,
+						$dates->grade,
+						$dates->nameAttendant,
+						$dates->phoneone,
+						$dates->emailone,
+						$feeding->fcNews
+					]);
+				}
+			}
+		}
+		$grades = Grade::all();
+		return view('modules.newscontrols.feedingsControl', compact('result', 'datenow', 'grades'));
+	}
+
+	function newFeedings(Request $request)
+	{
+		try {
+			// dd($request->all());
+			/*
+			 $request->newControl_DateHidden
+			 $request->newControl_Date
+			 $request->newControl_Grade
+			 $request->newControl_Course
+			 $request->newControl_Student
+			 $request->newControl_type
+			 $request->newControl_NewFeedings
+			 */
 			$hour = Date('G');
-			if($hour < 5){
+			if ($hour < 5) {
 				$date = trim($request->newControl_DateHidden);
-			}else{
+			}
+			else {
 				$date = Date('Y-m-d');
 			}
 			$legalization = Legalization::select('legalizations.legId')
-									->where('legStudent_id',trim($request->newControl_Student))
-									->where('legGrade_id',trim($request->newControl_Grade))
-									->first();
+				->where('legStudent_id', trim($request->newControl_Student))
+				->where('legGrade_id', trim($request->newControl_Grade))
+				->first();
 			$student = Student::find(trim($request->newControl_Student));
 			$nameStudent = $student->firstname . ' ' . $student->threename . ' ' . $student->fourname;
 			// VALIDAR SI EXISTE YA NOVEDADES PARA EL ALUMNO Y FECHA SELECCIONADA
-			$validateFeeding = FeedingControl::where('fcDate',$date)
-									->where('fcLegalization_id',$legalization->legId)
-									->first();
+			$validateFeeding = FeedingControl::where('fcDate', $date)
+				->where('fcLegalization_id', $legalization->legId)
+				->first();
 			// dd($legalization->legId);
 			$joinTypenew = trim($request->newControl_type) . '=|=' . trim($request->newControl_NewFeedings);
-			if($validateFeeding != null){
+			if ($validateFeeding != null) {
 				$validateFeeding->fcNews .= '==' . $joinTypenew;
 				$validateFeeding->save();
 				return redirect()->route('feedings.control')->with('PrimaryUpdateFeedings', 'NOVEDAD AGREGADA CORRECTAMENTE PARA ALUMNO: ' . $nameStudent);
-			}else{
+			}
+			else {
 				FeedingControl::create([
 					'fcDate' => $date,
 					'fcLegalization_id' => $legalization->legId,
@@ -146,118 +151,124 @@ class NewscontrolsCOntroller extends Controller
 				]);
 				return redirect()->route('feedings.control')->with('SuccessCreateFeedings', 'NOVEDAD CREADA CORRECTAMENTE PARA ALUMNO: ' . $nameStudent);
 			}
-    	}catch(Exception $ex){
-    		return redirect()->route('feedings.control')->with('SecondaryCreateFeedings', 'NO ES POSIBLE AÑADIR NOVEDADES AHORA A LA BASE DE DATOS');
-    	}	
-    }
-    /*-----------------------------------
-		# CONTROL DE ALIMENTACION #
-    -----------------------------------*/
+		}
+		catch (Exception $ex) {
+			return redirect()->route('feedings.control')->with('SecondaryCreateFeedings', 'NO ES POSIBLE AÑADIR NOVEDADES AHORA A LA BASE DE DATOS');
+		}
+	}
+	/*-----------------------------------
+	 # CONTROL DE ALIMENTACION #
+	 -----------------------------------*/
 
 
-    /*-----------------------------------
-		 - CONTROL DE ESFINTERES -
-    -----------------------------------*/
-    function sphinctersControlTo(){
-    	$datenow = Date('Y-m-d');
-    	$hour = Date('G');
-			if($hour < 5){
-				$datenow = Date('Y-m-d',strtotime($datenow . ' - 1 days'));
+	/*-----------------------------------
+	 - CONTROL DE ESFINTERES -
+	 -----------------------------------*/
+	function sphinctersControlTo()
+	{
+		$datenow = Date('Y-m-d');
+		$hour = Date('G');
+		if ($hour < 5) {
+			$datenow = Date('Y-m-d', strtotime($datenow . ' - 1 days'));
+		}
+		$sphincters = Sphincters::where('spDate', $datenow)->distinct('spLegalization_id')->get();
+		$result = array();
+		foreach ($sphincters as $sphincter) {
+			$dates = legalization::select(
+				'legalizations.*',
+				DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
+				'students.yearsold',
+				'grades.name as grade',
+				DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
+				'attendants.phoneone',
+				'attendants.emailone'
+			)
+				->join('students', 'students.id', 'legStudent_id')
+				->join('attendants', 'attendants.id', 'legAttendantfather_id')
+				->join('grades', 'grades.id', 'legGrade_id')
+				->where('legId', $sphincter->spLegalization_id)->first();
+
+			if ($dates != null) {
+				array_push($result, [
+					$dates->legId,
+					$dates->nameStudent,
+					$dates->yearsold,
+					$dates->grade,
+					$dates->nameAttendant,
+					$dates->phoneone,
+					$dates->emailone,
+					$sphincter->spNews
+				]);
 			}
-    	$sphincters = Sphincters::where('spDate',$datenow)->distinct('spLegalization_id')->get();
-    	$result = array();
-    	foreach ($sphincters as $sphincter) {
-    		$dates = legalization::select(
-    			'legalizations.*',
-    			DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-    			'students.yearsold',
-    			'grades.name as grade',
-    			DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
-    			'attendants.phoneone',
-    			'attendants.emailone'
-    		)
-    		->join('students','students.id','legStudent_id')
-    		->join('attendants','attendants.id','legAttendantfather_id')
-    		->join('grades','grades.id','legGrade_id')
-    		->where('legId',$sphincter->spLegalization_id)->first();
-    		
-    		if($dates != null){
-    			array_push($result,[
-    				$dates->legId,
-    				$dates->nameStudent,
-    				$dates->yearsold,
-    				$dates->grade,
-    				$dates->nameAttendant,
-    				$dates->phoneone,
-    				$dates->emailone,
-    				$sphincter->spNews
-    			]);
-    		}else{
-    			$dates = legalization::select(
-	    			'legalizations.*',
-	    			DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-	    			'students.yearsold',
-	    			'grades.name as grade',
-	    			DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
-	    			'attendants.phoneone',
-	    			'attendants.emailone'
-	    		)
-	    		->join('students','students.id','legStudent_id')
-	    		->join('attendants','attendants.id','legAttendantmother_id')
-	    		->join('grades','grades.id','legGrade_id')
-	    		->where('legId',$sphincter->spLegalization_id)->first();
+			else {
+				$dates = legalization::select(
+					'legalizations.*',
+					DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
+					'students.yearsold',
+					'grades.name as grade',
+					DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
+					'attendants.phoneone',
+					'attendants.emailone'
+				)
+					->join('students', 'students.id', 'legStudent_id')
+					->join('attendants', 'attendants.id', 'legAttendantmother_id')
+					->join('grades', 'grades.id', 'legGrade_id')
+					->where('legId', $sphincter->spLegalization_id)->first();
 
-	    		if($dates != null){
-		    		array_push($result,[
-	    				$dates->legId,
-	    				$dates->nameStudent,
-	    				$dates->yearsold,
-	    				$dates->grade,
-	    				$dates->nameAttendant,
-	    				$dates->phoneone,
-	    				$dates->emailone,
-	    				$sphincter->spNews
-	    			]);
-	    		}
-    		}
-    	}
-    	$grades = Grade::all();
-    	return view('modules.newscontrols.sphincters',compact('result','datenow','grades'));
-    }
+				if ($dates != null) {
+					array_push($result, [
+						$dates->legId,
+						$dates->nameStudent,
+						$dates->yearsold,
+						$dates->grade,
+						$dates->nameAttendant,
+						$dates->phoneone,
+						$dates->emailone,
+						$sphincter->spNews
+					]);
+				}
+			}
+		}
+		$grades = Grade::all();
+		return view('modules.newscontrols.sphincters', compact('result', 'datenow', 'grades'));
+	}
 
-    function newSphincters(Request $request){
-    	try{
-    		// dd($request->all());
-	    	/*
-				$request->newControl_DateHidden
-				$request->newControl_Date
-				$request->newControl_Grade
-				$request->newControl_Course
-				$request->newControl_Student
-				$request->newControl_NewSphinters
-	    	*/
+	function newSphincters(Request $request)
+	{
+		try {
+			// dd($request->all());
+			/*
+			 $request->newControl_DateHidden
+			 $request->newControl_Date
+			 $request->newControl_Grade
+			 $request->newControl_Course
+			 $request->newControl_Student
+			 $request->newControl_NewSphinters
+			 */
 			$hour = Date('G');
-			if($hour < 5){
+			if ($hour < 5) {
 				$date = trim($request->newControl_DateHidden);
-			}else{
+			}
+			else {
 				$date = Date('Y-m-d');
 			}
 			$legalization = Legalization::select('legalizations.legId')
-									->where('legStudent_id',trim($request->newControl_Student))
-									->where('legGrade_id',trim($request->newControl_Grade))
-									->first();
+				->where('legStudent_id', trim($request->newControl_Student))
+				->where('legGrade_id', trim($request->newControl_Grade))
+				->first();
 			$student = Student::find(trim($request->newControl_Student));
 			$nameStudent = $student->firstname . ' ' . $student->threename . ' ' . $student->fourname;
 			// VALIDAR SI EXISTE YA NOVEDADES PARA EL ALUMNO Y FECHA SELECCIONADA
-			$validateSphincter = Sphincters::where('spDate',$date)
-									->where('spLegalization_id',$legalization->legId)
-									->first();
+			$validateSphincter = Sphincters::where('spDate', $date)
+				->where('spLegalization_id', $legalization->legId)
+				->first();
 			// dd($legalization->legId);
-			if($validateSphincter != null){
+			if ($validateSphincter != null) {
 				$validateSphincter->spNews .= '==' . trim($request->newControl_NewSphinters);
 				$validateSphincter->save();
 				return redirect()->route('sphincters')->with('PrimaryUpdateSphincters', 'NOVEDAD AGREGADA CORRECTAMENTE PARA ALUMNO: ' . $nameStudent);
-			}else{
+			}
+			else {
 				Sphincters::create([
 					'spDate' => $date,
 					'spLegalization_id' => $legalization->legId,
@@ -265,118 +276,124 @@ class NewscontrolsCOntroller extends Controller
 				]);
 				return redirect()->route('sphincters')->with('PrimarySuccessSphincters', 'NOVEDAD CREADA CORRECTAMENTE PARA ALUMNO:' . $nameStudent);
 			}
-    	}catch(Exception $ex){
-    		return redirect()->route('sphincters')->with('SecondarySuccessSphincters', 'NO ES POSIBLE AÑADIR NOVEDADES AHORA A LA BASE DE DATOS');
-    	}	
-    }
-    /*-----------------------------------
-		# CONTROL DE ESFINTERES #
-    -----------------------------------*/
+		}
+		catch (Exception $ex) {
+			return redirect()->route('sphincters')->with('SecondarySuccessSphincters', 'NO ES POSIBLE AÑADIR NOVEDADES AHORA A LA BASE DE DATOS');
+		}
+	}
+	/*-----------------------------------
+	 # CONTROL DE ESFINTERES #
+	 -----------------------------------*/
 
-    /*-----------------------------------
-		 - CONTROL DE ENFERMERIA -
-    -----------------------------------*/
-    function healthsControlTo(){
-    	$datenow = Date('Y-m-d');
-    	$hour = Date('G');
-			if($hour < 5){
-				$datenow = Date('Y-m-d',strtotime($datenow . ' - 1 days'));
-			}
-    	$healthsControl = HealthControl::where('hcDate',$datenow)->distinct('hcLegalization_id')->get();
+	/*-----------------------------------
+	 - CONTROL DE ENFERMERIA -
+	 -----------------------------------*/
+	function healthsControlTo()
+	{
+		$datenow = Date('Y-m-d');
+		$hour = Date('G');
+		if ($hour < 5) {
+			$datenow = Date('Y-m-d', strtotime($datenow . ' - 1 days'));
+		}
+		$healthsControl = HealthControl::where('hcDate', $datenow)->distinct('hcLegalization_id')->get();
 		// dd($healthsControl);
-    	$result = array();
-    	foreach ($healthsControl as $health) {
-    		$dates = legalization::select(
-    			'legalizations.*',
-    			DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-    			'students.yearsold',
-    			'grades.name as grade',
-    			DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
-    			'attendants.phoneone',
-    			'attendants.emailone'
-    		)
-    		->join('students','students.id','legStudent_id')
-    		->join('attendants','attendants.id','legAttendantfather_id')
-    		->join('grades','grades.id','legGrade_id')
-    		->where('legId',$health->hcLegalization_id)->first();
-    		
-    		if($dates != null){
-    			array_push($result,[
-    				$dates->legId,
-    				$dates->nameStudent,
-    				$dates->yearsold,
-    				$dates->grade,
-    				$dates->nameAttendant,
-    				$dates->phoneone,
-    				$dates->emailone,
-    				$health->hcNews
-    			]);
-    		}else{
-    			$dates = legalization::select(
-	    			'legalizations.*',
-	    			DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-	    			'students.yearsold',
-	    			'grades.name as grade',
-	    			DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
-	    			'attendants.phoneone',
-	    			'attendants.emailone'
-	    		)
-	    		->join('students','students.id','legStudent_id')
-	    		->join('attendants','attendants.id','legAttendantmother_id')
-	    		->join('grades','grades.id','legGrade_id')
-	    		->where('legId',$health->hcLegalization_id)->first();
+		$result = array();
+		foreach ($healthsControl as $health) {
+			$dates = legalization::select(
+				'legalizations.*',
+				DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
+				'students.yearsold',
+				'grades.name as grade',
+				DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
+				'attendants.phoneone',
+				'attendants.emailone'
+			)
+				->join('students', 'students.id', 'legStudent_id')
+				->join('attendants', 'attendants.id', 'legAttendantfather_id')
+				->join('grades', 'grades.id', 'legGrade_id')
+				->where('legId', $health->hcLegalization_id)->first();
 
-	    		if($dates != null){
-		    		array_push($result,[
-	    				$dates->legId,
-	    				$dates->nameStudent,
-	    				$dates->yearsold,
-	    				$dates->grade,
-	    				$dates->nameAttendant,
-	    				$dates->phoneone,
-	    				$dates->emailone,
-	    				$health->hcNews
-	    			]);
-	    		}
-    		}
-    	}
-    	$grades = Grade::all();
-    	return view('modules.newscontrols.healthControl',compact('result','datenow','grades'));
-    }
+			if ($dates != null) {
+				array_push($result, [
+					$dates->legId,
+					$dates->nameStudent,
+					$dates->yearsold,
+					$dates->grade,
+					$dates->nameAttendant,
+					$dates->phoneone,
+					$dates->emailone,
+					$health->hcNews
+				]);
+			}
+			else {
+				$dates = legalization::select(
+					'legalizations.*',
+					DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
+					'students.yearsold',
+					'grades.name as grade',
+					DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
+					'attendants.phoneone',
+					'attendants.emailone'
+				)
+					->join('students', 'students.id', 'legStudent_id')
+					->join('attendants', 'attendants.id', 'legAttendantmother_id')
+					->join('grades', 'grades.id', 'legGrade_id')
+					->where('legId', $health->hcLegalization_id)->first();
 
-    function newHealths(Request $request){
-    	try{
-    		// dd($request->all());
-	    	/*
-				$request->newControl_DateHidden
-				$request->newControl_Date
-				$request->newControl_Grade
-				$request->newControl_Course
-				$request->newControl_Student
-				$request->newControl_NewHealths
-	    	*/
+				if ($dates != null) {
+					array_push($result, [
+						$dates->legId,
+						$dates->nameStudent,
+						$dates->yearsold,
+						$dates->grade,
+						$dates->nameAttendant,
+						$dates->phoneone,
+						$dates->emailone,
+						$health->hcNews
+					]);
+				}
+			}
+		}
+		$grades = Grade::all();
+		return view('modules.newscontrols.healthControl', compact('result', 'datenow', 'grades'));
+	}
+
+	function newHealths(Request $request)
+	{
+		try {
+			// dd($request->all());
+			/*
+			 $request->newControl_DateHidden
+			 $request->newControl_Date
+			 $request->newControl_Grade
+			 $request->newControl_Course
+			 $request->newControl_Student
+			 $request->newControl_NewHealths
+			 */
 			$hour = Date('G');
-			if($hour < 5){
+			if ($hour < 5) {
 				$date = trim($request->newControl_DateHidden);
-			}else{
+			}
+			else {
 				$date = Date('Y-m-d');
 			}
 			$legalization = Legalization::select('legalizations.legId')
-									->where('legStudent_id',trim($request->newControl_Student))
-									->where('legGrade_id',trim($request->newControl_Grade))
-									->first();
+				->where('legStudent_id', trim($request->newControl_Student))
+				->where('legGrade_id', trim($request->newControl_Grade))
+				->first();
 			$student = Student::find(trim($request->newControl_Student));
 			$nameStudent = $student->firstname . ' ' . $student->threename . ' ' . $student->fourname;
 			// VALIDAR SI EXISTE YA NOVEDADES PARA EL ALUMNO Y FECHA SELECCIONADA
-			$validateHealth = HealthControl::where('hcDate',$date)
-									->where('hcLegalization_id',$legalization->legId)
-									->first();
+			$validateHealth = HealthControl::where('hcDate', $date)
+				->where('hcLegalization_id', $legalization->legId)
+				->first();
 			// dd($legalization->legId);
-			if($validateHealth != null){
+			if ($validateHealth != null) {
 				$validateHealth->hcNews .= '==' . trim($request->newControl_NewHealths);
 				$validateHealth->save();
 				return redirect()->route('health.control')->with('PrimaryUpdateHealths', 'NOVEDAD AGREGADA CORRECTAMENTE PARA ALUMNO: ' . $nameStudent);
-			}else{
+			}
+			else {
 				HealthControl::create([
 					'hcDate' => $date,
 					'hcLegalization_id' => $legalization->legId,
@@ -384,164 +401,135 @@ class NewscontrolsCOntroller extends Controller
 				]);
 				return redirect()->route('health.control')->with('SuccessCreateHealths', 'NOVEDAD CREADA CORRECTAMENTE PARA ALUMNO: ' . $nameStudent);
 			}
-    	}catch(Exception $ex){
-    		return redirect()->route('health.control')->with('SecondaryCreateHealths', 'NO ES POSIBLE AÑADIR NOVEDADES AHORA A LA BASE DE DATOS');
-    	}	
-    }
-    /*-----------------------------------
-		# CONTROL DE ENFERMERIA #
-    -----------------------------------*/
+		}
+		catch (Exception $ex) {
+			return redirect()->route('health.control')->with('SecondaryCreateHealths', 'NO ES POSIBLE AÑADIR NOVEDADES AHORA A LA BASE DE DATOS');
+		}
+	}
+	/*-----------------------------------
+	 # CONTROL DE ENFERMERIA #
+	 -----------------------------------*/
 
-    /*-----------------------------------
-		 - REPORTES DIARIOS -
-    -----------------------------------*/
+	/*-----------------------------------
+	 - REPORTES DIARIOS -
+	 -----------------------------------*/
 
-    function reportdailyTo(){
-    	return view('modules.newscontrols.reportdaily');
-    }
+	function reportdailyTo()
+	{
+		return view('modules.newscontrols.reportdaily');
+	}
 
-    function reportdailyPdf(Request $request){
-    	try{
-    		
+	function reportdailyPdf(Request $request)
+	{
+		try {
+
 			// $request->date_report
-    		// dd($request->all());
-    		
-    		$date = Date('Y-m-d',strtotime($request->date_report));
-    		// dd($date);
-			 	
-			$assistances = Assistance::where('assDate',$date)->get();
+			// dd($request->all());
+
+			$date = Date('Y-m-d', strtotime($request->date_report));
+			
+			$dates = Carbon::create($request->date_report)->locale('es')->isoFormat('LL');
+			$day = Carbon::create($request->date_report)->locale('es')->dayName;
+			$dateSearch = ucfirst($day) . " " . $dates;
+
+			$assistances = Presence::with('student:id,firstname,threename,fourname','course:id,name')->where('pre_date',$dateSearch)->get();	
+			$countPresent = Presence::with('student:id,firstname,threename,fourname','course:id,name')->where([['pre_date',$dateSearch],['pre_status','PRESENTE']])->count();	
+
 			$idsPresents = '';
 			$idsAbsents = '';
 			$consolidated = array();
-			foreach ($assistances as $assistance) {
-				$course = Course::find($assistance->assCourse_id);
-				$separatedPresent = explode('%', $assistance->assPresents);
+			//CARGA DE ALUMNOS PRESENTES
+			$datesPresents = array();
 
-				// RECORRER ALUMNOS PRESENTES
-				$datesPresents = array();
-				$findP = strpos($assistance->assPresents,'%');
-				if($findP !== false){
-					$separatedPresent = explode('%', $assistance->assPresents);
-					$countPresent = count($separatedPresent);
-					for ($a=0; $a < count($separatedPresent); $a++) {
-						$separatedStudent = explode('/', $separatedPresent[$a]);
-						$idsPresents .= $separatedStudent[0] . ':';
-						$student = Student::find($separatedStudent[0]);
-						array_push($datesPresents,[
-							$student->id, // id Estudiante
-							$student->firstname . ' ' . $student->threename . ' ' . $student->fourname, // Estudiante
-							$separatedStudent[1], // Hora llegada
-							$separatedStudent[2], // Hora salida
-							$separatedStudent[3], // Observacion llegada
-							$separatedStudent[4], // Observacion salida
-							$separatedStudent[5], // Temperatura llegada
-							$separatedStudent[6] // Temperatura salida
+			foreach ($assistances as $key => $assistance) {
+				if ($assistance->pre_status == "PRESENTE") {
+					/** ALMACENAMOS LOS ALUMNOS PRESENTES **/
+					array_push($consolidated,[
+						'ASISTENCIA',
+						$assistance->course->name, //nombre del curso
+						$countPresent,
+						$assistance->student->firstname." ".$assistance->student->threename." ".$assistance->student->fourname, // nombre del estudiante
+						$assistance->pre_harrival, // Hora Llegada
+						$assistance->pre_hexit, // Hora Salida
+					]);
+					} else {
+						/** ALMACENAMOS LOS ALUMNOS INASISTENTES **/
+						array_push($consolidated,[
+							'INASISTENCIA',
+							$assistance->course->name, //nombre del curso
+							$assistance->student->firstname." ".$assistance->student->threename." ".$assistance->student->fourname, // nombre del estudiante
 						]);
 					}
-				}else{
-					$countPresent = 1;
-					$separatedStudent = explode('/', $assistance->assPresents);
-					$student = Student::find($separatedStudent[0]);
-					array_push($datesPresents,[
-						$student->id, // id Estudiante
-						$student->firstname . ' ' . $student->threename . ' ' . $student->fourname, // Estudiante
-						$separatedStudent[1], // Hora llegada
-						$separatedStudent[5], // Temperatura llegada
-						$separatedStudent[3], // Observacion llegada
-						$separatedStudent[2], // Hora salida
-						$separatedStudent[6], // Temperatura salida
-						$separatedStudent[4] // Observacion salida
-					]);
 				}
-
-				array_push($consolidated, [
-					'ASISTENCIA',
-					$course->name,
-					$countPresent,
-					$datesPresents
-				]);
-
-				if($assistance->assAbsents != 'N/A'){
-					$separatedAbsent = explode('-', $assistance->assAbsents);
-					for ($a=0; $a < count($separatedAbsent); $a++) { 
-						$findA = strpos($separatedAbsent[$a],'A');
-						if($findA === false){
-							$student = Student::find($separatedAbsent[$a]);
-							if($student != null){
-								$idsAbsents .= $separatedAbsent[$a] . ':';
-								array_push($consolidated, [
-									'INASISTENCIA',
-									$course->name,
-									$student->firstname . ' ' . $student->threename . ' ' . $student->fourname
-								]);
-							}
-						}
-					}
-				}
-			}
 
 			$studentsall = Student::all();
 			foreach ($studentsall as $student) {
-				$legalization = Legalization::where('legStudent_id',$student->id)->first();
+				$legalization = Legalization::where('legStudent_id', $student->id)->first();
 				$details = array();
-				if($legalization != null){
+				if ($legalization != null) {
 					// AUTORIZACIONES
-					$autorization = Autorization::where('auDate',$date)->where('auStudent_id',$student->id)->first();
-					if($autorization != null){
-						$separatedItemsAutorized = explode('-',$autorization->auAutorized);
-						for ($a=0; $a < count($separatedItemsAutorized); $a++) {
+					$autorization = Autorization::where('auDate', $date)->where('auStudent_id', $student->id)->first();
+					if ($autorization != null) {
+						$separatedItemsAutorized = explode('-', $autorization->auAutorized);
+						for ($a = 0; $a < count($separatedItemsAutorized); $a++) {
 							$separatedAutorizedIds = explode(':', $separatedItemsAutorized[$a]);
-							if($separatedAutorizedIds[0] == 'JORNADA'){
+							if ($separatedAutorizedIds[0] == 'JORNADA') {
 								$journey = Journey::find($separatedAutorizedIds[1]);
-								if($journey != null){
+								if ($journey != null) {
 									array_push($details, [
 										'JORNADA',
 										$journey->jouJourney
 									]);
 								}
-							}else if($separatedAutorizedIds[0] == 'ALIMENTACION'){
+							}
+							else if ($separatedAutorizedIds[0] == 'ALIMENTACION') {
 								$feeding = Feeding::find($separatedAutorizedIds[1]);
-								if($feeding != null){
+								if ($feeding != null) {
 									array_push($details, [
 										'ALIMENTACION',
 										$feeding->feeConcept
 									]);
 								}
-							}else if($separatedAutorizedIds[0] == 'UNIFORME'){
+							}
+							else if ($separatedAutorizedIds[0] == 'UNIFORME') {
 								$uniform = Uniform::find($separatedAutorizedIds[1]);
-								if($uniform != null){
+								if ($uniform != null) {
 									array_push($details, [
 										'UNIFORME',
 										$uniform->uniConcept
 									]);
 								}
-							}else if($separatedAutorizedIds[0] == 'MATERIAL ESCOLAR'){
+							}
+							else if ($separatedAutorizedIds[0] == 'MATERIAL ESCOLAR') {
 								$supplie = Supplie::find($separatedAutorizedIds[1]);
-								if($supplie != null){
+								if ($supplie != null) {
 									array_push($details, [
 										'MATERIAL ESCOLAR',
 										$supplie->supConcept
 									]);
 								}
-							}else if($separatedAutorizedIds[0] == 'TIEMPO EXTRA'){
+							}
+							else if ($separatedAutorizedIds[0] == 'TIEMPO EXTRA') {
 								$extratime = Extratime::find($separatedAutorizedIds[1]);
-								if($extratime != null){
+								if ($extratime != null) {
 									array_push($details, [
 										'TIEMPO EXTRA',
 										$extratime->extTConcept
 									]);
 								}
-							}else if($separatedAutorizedIds[0] == 'EXTRACURRICULAR'){
+							}
+							else if ($separatedAutorizedIds[0] == 'EXTRACURRICULAR') {
 								$extracurricular = Extracurricular::find($separatedAutorizedIds[1]);
-								if($extracurricular != null){
+								if ($extracurricular != null) {
 									array_push($details, [
 										'EXTRACURRICULAR',
 										$extracurricular->extConcept . ' ' . $extracurricular->extIntensity
 									]);
 								}
-							}else if($separatedAutorizedIds[0] == 'TRANSPORTE'){
+							}
+							else if ($separatedAutorizedIds[0] == 'TRANSPORTE') {
 								$transport = Transport::find($separatedAutorizedIds[1]);
-								if($transport != null){
+								if ($transport != null) {
 									array_push($details, [
 										'TRANSPORTE',
 										$transport->traConcept
@@ -551,11 +539,11 @@ class NewscontrolsCOntroller extends Controller
 						}
 					}
 					//CONTROL DE ALIMENTACION
-					$controlfeeding = FeedingControl::where('fcDate',$date)->where('fcLegalization_id',$legalization->legId)->first();
-					if($controlfeeding != null){
+					$controlfeeding = FeedingControl::where('fcDate', $date)->where('fcLegalization_id', $legalization->legId)->first();
+					if ($controlfeeding != null) {
 						$separatedNews = explode('==', $controlfeeding->fcNews);
-						for ($fc=0; $fc < count($separatedNews); $fc++) { 
-							$separatedItems = explode('=|=',$separatedNews[$fc]); 
+						for ($fc = 0; $fc < count($separatedNews); $fc++) {
+							$separatedItems = explode('=|=', $separatedNews[$fc]);
 							array_push($details, [
 								'CONTROL DE ALIMENTACION',
 								$separatedItems[0],
@@ -564,10 +552,10 @@ class NewscontrolsCOntroller extends Controller
 						}
 					}
 					//CONTROL DE ESFINTERES
-					$controlsphincter = Sphincters::where('spDate',$date)->where('spLegalization_id',$legalization->legId)->first();
-					if($controlsphincter != null){
+					$controlsphincter = Sphincters::where('spDate', $date)->where('spLegalization_id', $legalization->legId)->first();
+					if ($controlsphincter != null) {
 						$separatedNews = explode('==', $controlsphincter->spNews);
-						for ($s=0; $s < count($separatedNews); $s++) {
+						for ($s = 0; $s < count($separatedNews); $s++) {
 							array_push($details, [
 								'CONTROL DE ESFINTERES',
 								$separatedNews[$s]
@@ -575,10 +563,10 @@ class NewscontrolsCOntroller extends Controller
 						}
 					}
 					//CONTROL DE ENFERMERIA
-					$controlhealth = HealthControl::where('hcDate',$date)->where('hcLegalization_id',$legalization->legId)->first();
-					if($controlhealth != null){
+					$controlhealth = HealthControl::where('hcDate', $date)->where('hcLegalization_id', $legalization->legId)->first();
+					if ($controlhealth != null) {
 						$separatedNews = explode('==', $controlhealth->hcNews);
-						for ($h=0; $h < count($separatedNews); $h++) {
+						for ($h = 0; $h < count($separatedNews); $h++) {
 							array_push($details, [
 								'CONTROL DE ENFERMERIA',
 								$separatedNews[$h]
@@ -586,13 +574,14 @@ class NewscontrolsCOntroller extends Controller
 						}
 					}
 				}
-				if(count($details) > 0){
+				if (count($details) > 0) {
 					array_push($consolidated, [
 						'DETALLES',
 						$student->firstname . ' ' . $student->threename . ' ' . $student->fourname,
 						$details
 					]);
-				}else{
+				}
+				else {
 					array_push($consolidated, [
 						'DETALLES',
 						$student->firstname . ' ' . $student->threename . ' ' . $student->fourname,
@@ -602,7 +591,7 @@ class NewscontrolsCOntroller extends Controller
 			}
 
 			// REPORTE DE EVENTOS (Independiente del alumno o legalización)
-			$controlevents = Eventdiary::where('edDate',$date)->where('edStatus',1)->get();
+			$controlevents = Eventdiary::where('edDate', $date)->where('edStatus', 1)->get();
 			foreach ($controlevents as $controlevent) {
 				$creation = Eventcreation::find($controlevent->edCreation_id);
 				array_push($consolidated, [
@@ -612,463 +601,75 @@ class NewscontrolsCOntroller extends Controller
 					$controlevent->edDescriptionout
 				]);
 			}
-			// if(strlen($idsPresents) > 0 && $idsPresents != ''){
-			// 	$idPresent = explode(':', substr($idsPresents,0,-1)); // Quitar el ultimo caracter y convertir la cadena a arreglo
-			// 	for ($i=0; $i < count($idPresent); $i++) {
-			// 		$student = Student::find($idPresent[$i]);
-			// 		$legalization = Legalization::where('legStudent_id',$student->id)->first();
-			// 		$details = array();
-			// 		// AUTORIZACIONES
-			// 		$autorization = Autorization::where('auDate',$date)->where('auStudent_id',$student->id)->first();
-			// 		if($autorization != null){
-			// 			$separatedItemsAutorized = explode('-',$autorization->auAutorized);
-			// 			for ($a=0; $a < count($separatedItemsAutorized); $a++) {
-			// 				$separatedAutorizedIds = explode(':', $separatedItemsAutorized[$a]);
-			// 				if($separatedAutorizedIds[0] == 'JORNADA'){
-			// 					$journey = Journey::find($separatedAutorizedIds[1]);
-			// 					if($journey != null){
-			// 						array_push($details, [
-			// 							'JORNADA',
-			// 							$journey->jouJourney
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'ALIMENTACION'){
-			// 					$feeding = Feeding::find($separatedAutorizedIds[1]);
-			// 					if($feeding != null){
-			// 						array_push($details, [
-			// 							'ALIMENTACION',
-			// 							$feeding->feeConcept
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'UNIFORME'){
-			// 					$uniform = Uniform::find($separatedAutorizedIds[1]);
-			// 					if($uniform != null){
-			// 						array_push($details, [
-			// 							'UNIFORME',
-			// 							$uniform->uniConcept
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'MATERIAL ESCOLAR'){
-			// 					$supplie = Supplie::find($separatedAutorizedIds[1]);
-			// 					if($supplie != null){
-			// 						array_push($details, [
-			// 							'MATERIAL ESCOLAR',
-			// 							$supplie->supConcept
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'TIEMPO EXTRA'){
-			// 					$extratime = Extratime::find($separatedAutorizedIds[1]);
-			// 					if($extratime != null){
-			// 						array_push($details, [
-			// 							'TIEMPO EXTRA',
-			// 							$extratime->extTConcept
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'EXTRACURRICULAR'){
-			// 					$extracurricular = Extracurricular::find($separatedAutorizedIds[1]);
-			// 					if($extracurricular != null){
-			// 						array_push($details, [
-			// 							'EXTRACURRICULAR',
-			// 							$extracurricular->extConcept . ' ' . $extracurricular->extIntensity
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'TRANSPORTE'){
-			// 					$transport = Transport::find($separatedAutorizedIds[1]);
-			// 					if($transport != null){
-			// 						array_push($details, [
-			// 							'TRANSPORTE',
-			// 							$transport->traConcept
-			// 						]);
-			// 					}
-			// 				}
-			// 			}
-			// 		}
-			// 		//CONTROL DE ALIMENTACION
-			// 		$controlfeeding = FeedingControl::where('fcDate',$date)->where('fcLegalization_id',$legalization->legId)->first();
-			// 		if($controlfeeding != null){
-			// 			$separatedNews = explode('==', $controlfeeding->fcNews);
-			// 			for ($fc=0; $fc < count($separatedNews); $fc++) { 
-			// 				$separatedItems = explode('=|=',$separatedNews[$fc]); 
-			// 				array_push($details, [
-			// 					'CONTROL DE ALIMENTACION',
-			// 					$separatedItems[0],
-			// 					$separatedItems[1]
-			// 				]);
-			// 			}
-			// 		}
-			// 		//CONTROL DE ESFINTERES
-			// 		$controlsphincter = Sphincters::where('spDate',$date)->where('spLegalization_id',$legalization->legId)->first();
-			// 		if($controlsphincter != null){
-			// 			$separatedNews = explode('==', $controlsphincter->spNews);
-			// 			for ($s=0; $s < count($separatedNews); $s++) {
-			// 				array_push($details, [
-			// 					'CONTROL DE ESFINTERES',
-			// 					$separatedNews[$s]
-			// 				]);
-			// 			}
-			// 		}
-			// 		//CONTROL DE ENFERMERIA
-			// 		$controlhealth = HealthControl::where('hcDate',$date)->where('hcLegalization_id',$legalization->legId)->first();
-			// 		if($controlhealth != null){
-			// 			$separatedNews = explode('==', $controlhealth->hcNews);
-			// 			for ($h=0; $h < count($separatedNews); $h++) {
-			// 				array_push($details, [
-			// 					'CONTROL DE ENFERMERIA',
-			// 					$separatedNews[$h]
-			// 				]);
-			// 			}
-			// 		}
-			// 		if(count($details) > 0){
-			// 			array_push($consolidated, [
-			// 				'DETALLES',
-			// 				$student->firstname . ' ' . $student->threename . ' ' . $student->fourname,
-			// 				$details
-			// 			]);
-			// 		}else{
-			// 			array_push($consolidated, [
-			// 				'DETALLES',
-			// 				$student->firstname . ' ' . $student->threename . ' ' . $student->fourname,
-			// 				'SIN REGISTROS'
-			// 			]);
-			// 		}
-			// 	}// END FOR
-			// }// END IF STUDENT != NULL
-
-			// if(strlen($idsAbsents) > 0 && $idsAbsents != ''){
-			// 	$idsAbsent = explode(':', substr($idsAbsents,0,-1)); // Quitar el ultimo caracter y convertir la cadena a arreglo
-			// 	for ($i=0; $i < count($idsAbsent); $i++) {
-			// 		$student = Student::find($idsAbsent[$i]);
-			// 		$legalization = Legalization::where('legStudent_id',$student->id)->first();
-			// 		$details = array();
-			// 		// AUTORIZACIONES
-			// 		$autorization = Autorization::where('auDate',$date)->where('auStudent_id',$student->id)->first();
-			// 		if($autorization != null){
-			// 			$separatedItemsAutorized = explode('-',$autorization->auAutorized);
-			// 			for ($a=0; $a < count($separatedItemsAutorized); $a++) {
-			// 				$separatedAutorizedIds = explode(':', $separatedItemsAutorized[$a]);
-			// 				if($separatedAutorizedIds[0] == 'JORNADA'){
-			// 					$journey = Journey::find($separatedAutorizedIds[1]);
-			// 					if($journey != null){
-			// 						array_push($details, [
-			// 							'JORNADA',
-			// 							$journey->jouJourney
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'ALIMENTACION'){
-			// 					$feeding = Feeding::find($separatedAutorizedIds[1]);
-			// 					if($feeding != null){
-			// 						array_push($details, [
-			// 							'ALIMENTACION',
-			// 							$feeding->feeConcept
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'UNIFORME'){
-			// 					$uniform = Uniform::find($separatedAutorizedIds[1]);
-			// 					if($uniform != null){
-			// 						array_push($details, [
-			// 							'UNIFORME',
-			// 							$uniform->uniConcept
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'MATERIAL ESCOLAR'){
-			// 					$supplie = Supplie::find($separatedAutorizedIds[1]);
-			// 					if($supplie != null){
-			// 						array_push($details, [
-			// 							'MATERIAL ESCOLAR',
-			// 							$supplie->supConcept
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'TIEMPO EXTRA'){
-			// 					$extratime = Extratime::find($separatedAutorizedIds[1]);
-			// 					if($extratime != null){
-			// 						array_push($details, [
-			// 							'TIEMPO EXTRA',
-			// 							$extratime->extTConcept
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'EXTRACURRICULAR'){
-			// 					$extracurricular = Extracurricular::find($separatedAutorizedIds[1]);
-			// 					if($extracurricular != null){
-			// 						array_push($details, [
-			// 							'EXTRACURRICULAR',
-			// 							$extracurricular->extConcept . ' ' . $extracurricular->extIntensity
-			// 						]);
-			// 					}
-			// 				}else if($separatedAutorizedIds[0] == 'TRANSPORTE'){
-			// 					$transport = Transport::find($separatedAutorizedIds[1]);
-			// 					if($transport != null){
-			// 						array_push($details, [
-			// 							'TRANSPORTE',
-			// 							$transport->traConcept
-			// 						]);
-			// 					}
-			// 				}
-			// 			}
-			// 		}
-			// 		//CONTROL DE ALIMENTACION
-			// 		$controlfeeding = FeedingControl::where('fcDate',$date)->where('fcLegalization_id',$legalization->legId)->first();
-			// 		if($controlfeeding != null){
-			// 			$separatedNews = explode('==', $controlfeeding->fcNews);
-			// 			for ($fc=0; $fc < count($separatedNews); $fc++) { 
-			// 				$separatedItems = explode('=|=',$separatedNews[$fc]); 
-			// 				array_push($details, [
-			// 					'CONTROL DE ALIMENTACION',
-			// 					$separatedItems[0],
-			// 					$separatedItems[1]
-			// 				]);
-			// 			}
-			// 		}
-			// 		//CONTROL DE ESFINTERES
-			// 		$controlsphincter = Sphincters::where('spDate',$date)->where('spLegalization_id',$legalization->legId)->first();
-			// 		if($controlsphincter != null){
-			// 			$separatedNews = explode('==', $controlsphincter->spNews);
-			// 			for ($s=0; $s < count($separatedNews); $s++) {
-			// 				array_push($details, [
-			// 					'CONTROL DE ESFINTERES',
-			// 					$separatedNews[$s]
-			// 				]);
-			// 			}
-			// 		}
-			// 		//CONTROL DE ENFERMERIA
-			// 		$controlhealth = HealthControl::where('hcDate',$date)->where('hcLegalization_id',$legalization->legId)->first();
-			// 		if($controlhealth != null){
-			// 			$separatedNews = explode('==', $controlhealth->hcNews);
-			// 			for ($h=0; $h < count($separatedNews); $h++) {
-			// 				array_push($details, [
-			// 					'CONTROL DE ENFERMERIA',
-			// 					$separatedNews[$h]
-			// 				]);
-			// 			}
-			// 		}
-			// 		if(count($details) > 0){
-			// 			array_push($consolidated, [
-			// 				'DETALLES',
-			// 				$student->firstname . ' ' . $student->threename . ' ' . $student->fourname,
-			// 				$details
-			// 			]);
-			// 		}else{
-			// 			array_push($consolidated, [
-			// 				'DETALLES',
-			// 				$student->firstname . ' ' . $student->threename . ' ' . $student->fourname,
-			// 				'SIN REGISTROS'
-			// 			]);
-			// 		}
-			// 	}// END FOR
-			// }// END IF STUDENT != NULL
-
-			// AUTORIZACIONES ('Jornadas','Alimentacion','Material escolar,'Uniforme','Tiempo extra','Extracurricular','Transporte')	
-			// $autorizations = Autorization::where('auDate',$date)->get();
-			// if(count($autorizations) > 0){
-			// 	foreach ($autorizations as $autorization) {
-			// 		$details = array();
-			// 		$student = Student::find($autorization->auStudent_id);
-			// 		$separatedItemsAutorized = explode('-',$autorization->auAutorized);
-			// 		for ($a=0; $a < count($separatedItemsAutorized); $a++) { 
-			// 			$separatedAutorizedIds = explode(':', $separatedItemsAutorized[$a]);
-			// 			if($separatedAutorizedIds[0] == 'JORNADA'){
-			// 				$journey = Journey::find($separatedAutorizedIds[1]);
-			// 				if($journey != null){
-			// 					array_push($details, [
-			// 						'JORNADA',
-			// 						$journey->jouJourney
-			// 					]);
-			// 				}
-			// 			}else if($separatedAutorizedIds[0] == 'ALIMENTACION'){
-			// 				$feeding = Feeding::find($separatedAutorizedIds[1]);
-			// 				if($feeding != null){
-			// 					array_push($details, [
-			// 						'ALIMENTACION',
-			// 						$feeding->feeConcept
-			// 					]);
-			// 				}
-			// 			}else if($separatedAutorizedIds[0] == 'UNIFORME'){
-			// 				$uniform = Uniform::find($separatedAutorizedIds[1]);
-			// 				if($uniform != null){
-			// 					array_push($details, [
-			// 						'UNIFORME',
-			// 						$uniform->uniConcept
-			// 					]);
-			// 				}
-			// 			}else if($separatedAutorizedIds[0] == 'MATERIAL ESCOLAR'){
-			// 				$supplie = Supplie::find($separatedAutorizedIds[1]);
-			// 				if($supplie != null){
-			// 					array_push($details, [
-			// 						'MATERIAL ESCOLAR',
-			// 						$supplie->supConcept
-			// 					]);
-			// 				}
-			// 			}else if($separatedAutorizedIds[0] == 'TIEMPO EXTRA'){
-			// 				$extratime = Extratime::find($separatedAutorizedIds[1]);
-			// 				if($extratime != null){
-			// 					array_push($details, [
-			// 						'TIEMPO EXTRA',
-			// 						$extratime->extTConcept
-			// 					]);
-			// 				}
-			// 			}else if($separatedAutorizedIds[0] == 'EXTRACURRICULAR'){
-			// 				$extracurricular = Extracurricular::find($separatedAutorizedIds[1]);
-			// 				if($extracurricular != null){
-			// 					array_push($details, [
-			// 						'EXTRACURRICULAR',
-			// 						$extracurricular->extConcept . ' ' . $extracurricular->extIntensity
-			// 					]);
-			// 				}
-			// 			}else if($separatedAutorizedIds[0] == 'TRANSPORTE'){
-			// 				$transport = Transport::find($separatedAutorizedIds[1]);
-			// 				if($transport != null){
-			// 					array_push($details, [
-			// 						'TRANSPORTE',
-			// 						$transport->traConcept
-			// 					]);
-			// 				}
-			// 			}
-			// 		}
-			// 		array_push($consolidated, [
-			// 			'NOVEDAD',
-			// 			$student->firstname . ' ' . $student->threename . ' ' . $student->fourname,
-			// 			$details
-			// 		]);
-			// 	}
-			// }else{
-			// 	array_push($consolidated, [
-			// 		'NOVEDAD',
-			// 		'SIN REGISTROS'
-			// 	]);
-			// }
-			
-			// // CONTROL DE ALIMENTACION
-			// $controlfeeding = FeedingControl::where('fcDate',$date)->get();
-			// if(count($controlfeeding) > 0){
-			// 	foreach ($controlfeeding as $control) {
-			// 		$details = array();
-			// 		$student = Legalization::select(
-			// 				DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent")
-			// 			)
-			// 		->join('students','students.id','legalizations.legStudent_id')
-			// 		->where('legId',$control->fcLegalization_id)->first();
-			// 		$separatedNews = explode('==', $control->fcNews);
-			// 		for ($fc=0; $fc < count($separatedNews); $fc++) { 
-			// 			$separatedItems = explode('=|=',$separatedNews[$fc]); 
-			// 			array_push($details, [
-			// 				'CONTROL DE ALIMENTACION',
-			// 				$separatedItems[0],
-			// 				$separatedItems[1]
-			// 			]);
-			// 		}
-			// 		array_push($consolidated, [
-			// 			'ALIMENTACION',
-			// 			$student->nameStudent,
-			// 			$details
-			// 		]);
-			// 	}
-			// }else{
-			// 	array_push($consolidated, [
-			// 		'ALIMENTACION',
-			// 		'SIN REGISTROS'
-			// 	]);
-			// }
-
-			// // CONTROL DE ESFINTERES
-			// $controlsphincters = Sphincters::where('spDate',$date)->get();
-			// if(count($controlsphincters) > 0){
-			// 	foreach ($controlsphincters as $control) {
-			// 		$details = array();
-			// 		$student = Legalization::select(
-			// 				DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent")
-			// 			)
-			// 		->join('students','students.id','legalizations.legStudent_id')
-			// 		->where('legId',$control->spLegalization_id)->first();
-			// 		$separatedNews = explode('==', $control->spNews);
-			// 		for ($sp=0; $sp < count($separatedNews); $sp++) {
-			// 			array_push($details, [
-			// 				'CONTROL DE ESFINTERES',
-			// 				$separatedNews[$sp]
-			// 			]);
-			// 		}
-			// 		array_push($consolidated, [
-			// 			'ESFINTERES',
-			// 			$student->nameStudent,
-			// 			$details
-			// 		]);
-			// 	}
-			// }else{
-			// 	array_push($consolidated, [
-			// 		'ESFINTERES',
-			// 		'SIN REGISTROS'
-			// 	]);
-			// }
-
-			// // CONTROL DE ENFERMERIA
-			// $controlhealths = HealthControl::where('hcDate',$date)->get();
-			// if(count($controlhealths) > 0){
-			// 	foreach ($controlhealths as $control) {
-			// 		$details = array();
-			// 		$student = Legalization::select(
-			// 				DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent")
-			// 			)
-			// 		->join('students','students.id','legalizations.legStudent_id')
-			// 		->where('legId',$control->hcLegalization_id)->first();
-			// 		$separatedNews = explode('==', $control->hcNews);
-			// 		for ($hc=0; $hc < count($separatedNews); $hc++) {
-			// 			array_push($details, [
-			// 				'CONTROL DE ENFERMERIA',
-			// 				$separatedNews[$hc]
-			// 			]);
-			// 		}
-			// 		array_push($consolidated, [
-			// 			'ENFERMERIA',
-			// 			$student->nameStudent,
-			// 			$details
-			// 		]);
-			// 	}
-			// }else{
-			// 	array_push($consolidated, [
-			// 		'ENFERMERIA',
-			// 		'SIN REGISTROS'
-			// 	]);
-			// }
 			// dd($consolidated);
-			if(count($consolidated) > 0){
-				$garden = Garden::select('garden.*','citys.name as nameCity','locations.name as nameLocation')
-	                        ->join('citys','citys.id','garden.garCity_id')
-	                        ->join('locations','locations.id','garden.garLocation_id')
-	                        ->first();
-				// dd($consolidated);
+			if (count($consolidated) > 0) {
+				$garden = Garden::select('garden.*', 'citys.name as nameCity', 'locations.name as nameLocation')
+					->join('citys', 'citys.id', 'garden.garCity_id')
+					->join('locations', 'locations.id', 'garden.garLocation_id')
+					->first();
 				$pdf = \App::make('dompdf.wrapper');
-	            $namefile = 'REPORTE_DIARIO_' . Date('Y-m-d') . '.pdf';
-	            $pdf->loadView('modules.newscontrols.reportdailyPdf',compact('garden','consolidated','date'));
-	            //$pdf->setPaper("A6", "landscape");
-	            return $pdf->download($namefile);
-			}else{
-				return redirect()->route('reportDaily')->with('SecondaryReport', "NO SE PUEDE GENERAR PDF, NO HAY DATOS DE ASISTENCIAS PARA LA FECHA " . $this->returnDate($date) . " ");
-				// return response()->json('SIN DATOS');
+				$namefile = 'REPORTE_DIARIO_' . Date('Y-m-d') . '.pdf';
+				$pdf->loadView('modules.newscontrols.reportdailyPdf', compact('garden', 'consolidated', 'date'));
+				//$pdf->setPaper("A6", "landscape");
+				// return $pdf->stream();
+				return $pdf->download($namefile);
 			}
-    	}catch(Exception $ex){
-    		// Code exception ...
-    	}
-    }
+			else {
+				return redirect()->route('reportDaily')->with('SecondaryReport', "NO SE PUEDE GENERAR PDF, NO HAY DATOS DE ASISTENCIAS PARA LA FECHA " . $this->returnDate($date) . " ");
+			// return response()->json('SIN DATOS');
+			}
+		}
+		catch (Exception $ex) {
+		// Code exception ...
+		}
+	}
 
-    // FUNCION PARA 
-    function returnDate($date){
-        $mount = $date[5] . $date[6];
-        $day = $date[8] . $date[9];
-        $year = $date[0] . $date[1] . $date[2] . $date[3];
-        switch($mount){
-            case '01': return $day . ' DE ENERO DEL ' . $year; break;
-            case '02': return $day . ' DE FEBRERO DEL ' . $year; break;
-            case '03': return $day . ' DE MARZO DEL ' . $year; break;
-            case '04': return $day . ' DE ABRIL DEL ' . $year; break;
-            case '05': return $day . ' DE MAYO DEL ' . $year; break;
-            case '06': return $day . ' DE JUNIO DEL ' . $year; break;
-            case '07': return $day . ' DE JULIO DEL ' . $year; break;
-            case '08': return $day . ' DE AGOSTO DEL ' . $year; break;
-            case '09': return $day . ' DE SEPTIEMBRE DEL ' . $year; break;
-            case '10': return $day . ' DE OCTUBRE DEL ' . $year; break;
-            case '11': return $day . ' DE NOVIEMBRE DEL ' . $year; break;
-            case '12': return $day . ' DE DICIEMBRE DEL ' . $year; break;
-        }
-    }
-    /*-----------------------------------
-		 - REPORTES DIARIOS -
-    -----------------------------------*/
+	// FUNCION PARA 
+	function returnDate($date)
+	{
+		$mount = $date[5] . $date[6];
+		$day = $date[8] . $date[9];
+		$year = $date[0] . $date[1] . $date[2] . $date[3];
+		switch ($mount) {
+			case '01':
+				return $day . ' DE ENERO DEL ' . $year;
+				break;
+			case '02':
+				return $day . ' DE FEBRERO DEL ' . $year;
+				break;
+			case '03':
+				return $day . ' DE MARZO DEL ' . $year;
+				break;
+			case '04':
+				return $day . ' DE ABRIL DEL ' . $year;
+				break;
+			case '05':
+				return $day . ' DE MAYO DEL ' . $year;
+				break;
+			case '06':
+				return $day . ' DE JUNIO DEL ' . $year;
+				break;
+			case '07':
+				return $day . ' DE JULIO DEL ' . $year;
+				break;
+			case '08':
+				return $day . ' DE AGOSTO DEL ' . $year;
+				break;
+			case '09':
+				return $day . ' DE SEPTIEMBRE DEL ' . $year;
+				break;
+			case '10':
+				return $day . ' DE OCTUBRE DEL ' . $year;
+				break;
+			case '11':
+				return $day . ' DE NOVIEMBRE DEL ' . $year;
+				break;
+			case '12':
+				return $day . ' DE DICIEMBRE DEL ' . $year;
+				break;
+		}
+	}
+/*-----------------------------------
+ - REPORTES DIARIOS -
+ -----------------------------------*/
 }

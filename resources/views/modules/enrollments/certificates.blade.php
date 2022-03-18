@@ -23,9 +23,7 @@
             <select name="cerStudent" class="form-control form-control-sm" required>
               <option value="">Seleccione un estudiante...</option>
               @foreach($students as $student)
-              @if ($student->status == 'ACTIVO')
               <option value="{{ $student->studentId }}">{{ $student->nameStudent }}</option>
-              @endif
               @endforeach
             </select>
           </div>
@@ -210,9 +208,7 @@
           $('.birthdateStudentCertificate').text('');
           $('.birthdateStudentCertificate').text(getFormatDate(datesObject['birthdate']));
           $('.yearsoldStudentCertificate').text('');
-          // $('.yearsoldStudentCertificate').text(getYearsold(datesObject['yearsold']));
-          $('.yearsoldStudentCertificate').text(getYearsold(converterYearsoldFromBirtdate(datesObject['birthdate'])));
-
+          $('.yearsoldStudentCertificate').text(datesObject['yearsold']);
           $('.attendantStudentCertificate').text('');
           $('.attendantStudentCertificate').text(datesObject['nameAttendant']);
           $('.numberattendantStudentCertificate').text('');

@@ -2257,62 +2257,47 @@ Route::get('getAssistancesForedit', function (Request $request) {
 Route::get('getReportDaily', function (Request $request) {
   $date = Date('Y-m-d', strtotime($request->dateSelected));
 
-  $assistances = App\Models\Assistance::where('assDate', $date)->get();
+  $dates = Carbon::create($request->dateSelected)->locale('es')->isoFormat('LL');
+  $day = Carbon::create($request->dateSelected)->locale('es')->dayName;
+  $dateSearch = ucfirst($day) . " " . $dates;
 
+  $assistances = App\Models\Presence::with('student:id,firstname,threename,fourname','course:id,name')->where('pre_date',$dateSearch)->get();
+  
   $consolidated = array();
-  foreach ($assistances as $assistance) {
-    $course = App\Models\Course::find($assistance->assCourse_id);
 
-    // RECORRER ALUMNOS PRESENTES
-    $datesPresents = array();
-    $findP = strpos($assistance->assPresents, '%');
-    if ($findP !== false) {
-      $separatedPresent = explode('%', $assistance->assPresents);
-      $countPresent = count($separatedPresent);
-      for ($a = 0; $a < count($separatedPresent); $a++) {
-        $separatedStudent = explode('/', $separatedPresent[$a]);
-        $student = App\Models\Student::find($separatedStudent[0]);
-        array_push($datesPresents, [
-          $student->id, // id Estudiante
-          $student->firstname . ' ' . $student->threename . ' ' . $student->fourname, // Estudiante
-          $separatedStudent[1], // Hora llegada
-          $separatedStudent[2], // Hora salida
-          $separatedStudent[3], // Observacion llegada
-          $separatedStudent[4], // Observacion salida
-          $separatedStudent[5], // Temperatura llegada
-          $separatedStudent[6] // Temperatura salida
+  // SE RECORRE LA INFORMACION RECOLECTADA POR ASISTENCES
+  $datesPresents = array();
+  $courses = Course::all();
+
+  foreach ($courses as $key => $course) {
+    $countPresent = 0;
+    $countAbsent  = 0;
+    $countStatus = 0;
+    foreach ($assistances as $key => $assistance) {
+      if ($assistance->pre_status == "PRESENTE" & $assistance->pre_course == $course->id) {
+        $countPresent = $countPresent + 1;
+        $countStatus = $countStatus + ($assistance->pre_hexit != null) ? 1 : 0;
+
+        array_push($datesPresents,[
+          $assistance->student->id, //id del estudiante
+          $assistance->student->firstname." ".$assistance->student->threename." ".$assistance->student->fourname, // nombre del estudiante
+          $assistance->pre_harrival, // hora de llegada
+          $assistance->pre_hexit, //hora de salida
+          $assistance->pre_obsa, //obs llegada
+          $assistance->pre_obse, // obs salida
+          $assistance->pre_tarrival, // temperatura llegada
+          $assistance->pre_texit //temperatura salida  
         ]);
-      }
-    } else {
-      $countPresent = 1;
-      $separatedStudent = explode('/', $assistance->assPresents);
-      $student = App\Models\Student::find($separatedStudent[0]);
-      array_push($datesPresents, [
-        $student->id, // id Estudiante
-        $student->firstname . ' ' . $student->threename . ' ' . $student->fourname, // Estudiante
-        $separatedStudent[1], // Hora llegada
-        $separatedStudent[2], // Hora salida
-        $separatedStudent[3], // Observacion llegada
-        $separatedStudent[4], // Observacion salida
-        $separatedStudent[5], // Temperatura llegada
-        $separatedStudent[6] // Temperatura salida
-      ]);
-    }
-
-    $countAbsent = 0;
-    $separatedAbsent = explode('-', $assistance->assAbsents);
-    for ($i = 0; $i < count($separatedAbsent); $i++) {
-      $findA = strpos($separatedAbsent[$i], 'A');
-      if ($findA === false) {
-        $countAbsent++;
-      }
+      }elseif ($assistance->pre_status == "AUSENTE" & $assistance->pre_course == $course->id) {
+        $countAbsent = $countAbsent + 1;
+      }  
     }
     array_push($consolidated, [
       'ASISTENCIA',
       $course->name,
       $countPresent,
       $countAbsent,
-      $assistance->assStatus,
+      $countStatus,
       $datesPresents
     ]);
   }

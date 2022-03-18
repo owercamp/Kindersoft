@@ -79,31 +79,24 @@
       </thead>
       <tbody>
         @php $travel = 0; @endphp
-        @for($i = 0; $i < count($consolidated); $i++) @if($consolidated[$i][0]=='ASISTENCIA' ) @if($consolidated[$i][2] <=0) <tr>
-          <td colspan="4">
-            NO HAY REGISTROS DE ASISTENCIAS {{ $consolidated[$i][2] }}<br>
-          </td>
-          </tr>
-          @else
-          @for($pp = 0; $pp < count($consolidated[$i][3]); $pp++) <tr class="{{ $consolidated[$i][3][$pp][0] }}">
-            <td>{{ $consolidated[$i][3][$pp][1] }}</td>
-            <td>{{ $consolidated[$i][1] }}</td>
-            <td>
-              <b>Hora:</b>{{ $consolidated[$i][3][$pp][2] }}<br>
-              <b>Temperatura:</b>{{ $consolidated[$i][3][$pp][6] }}<br>
-              <b>Observación:</b>{{ $consolidated[$i][3][$pp][4] }}
-            </td>
-            <td>
-              <b>Hora:</b>{{ $consolidated[$i][3][$pp][3] }}<br>
-              <b>Temperatura:</b>{{ $consolidated[$i][3][$pp][7] }}<br>
-              <b>Observación:</b>{{ $consolidated[$i][3][$pp][5] }}
-            </td>
-            </tr>
-            @endfor
-            @php $travel++ @endphp
+        @for($i = 0; $i < count($consolidated); $i++) 
+          @if($consolidated[$i][0]=='ASISTENCIA' ) 
+            @if($consolidated[$i][2] <=0) <tr>
+              <td colspan="4">
+                NO HAY REGISTROS DE ASISTENCIAS {{ $consolidated[$i][2] }}<br>
+              </td>
+              </tr>
+            @else
+              <tr>
+                <td>{{$consolidated[$i][3]}}</td>
+                <td>{{$consolidated[$i][1]}}</td>
+                <td>{{$consolidated[$i][4]}}</td>
+                <td>{{$consolidated[$i][5]}}</td>
+              </tr>
+              @php $travel++ @endphp
             @endif
-            @endif
-            @endfor
+          @endif
+        @endfor
       </tbody>
     </table>
   </div>

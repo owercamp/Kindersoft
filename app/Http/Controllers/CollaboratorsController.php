@@ -19,6 +19,7 @@ use App\Models\Location;
 use App\Models\District;
 use App\Models\Eventdiary;
 use App\Models\Hourweek;
+use Exception;
 
 class CollaboratorsController extends Controller
 {

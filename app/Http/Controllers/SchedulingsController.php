@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\DB;
-//use Illuminate\Database\DatabaseManager;
+use Exception;
 
 use App\Models\Customer;
 use App\Models\Scheduling;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SchedulingsController extends Controller
 {

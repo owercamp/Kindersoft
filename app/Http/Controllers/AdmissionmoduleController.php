@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Exception;
 
-use App\Models\Formadmission;
-
-use App\Models\Student;
-use App\Models\Document;
-use App\Models\Bloodtype;
-use App\Models\Health;
 use App\Models\City;
-use App\Models\Location;
+
+use App\Models\Garden;
+
+use App\Models\Health;
+use App\Models\Student;
 use App\Models\District;
+use App\Models\Document;
+use App\Models\Location;
 use App\Models\Attendant;
+use App\Models\Bloodtype;
 use App\Models\Authorized;
 use App\Models\Profession;
-use App\Models\Garden;
-use Exception;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
-use function Psy\debug;
+use App\Models\Formadmission;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
+
+
 
 class AdmissionmoduleController extends Controller
 {
@@ -1248,7 +1249,7 @@ class AdmissionmoduleController extends Controller
           $dias_mes_anterior = 31;
           break;
         case 3:
-          if (bisiesto($array_actual[0])) {
+          if ($this->bisiesto($array_actual[0])) {
             $dias_mes_anterior = 29;
             break;
           } else {

@@ -102,9 +102,8 @@ class HomeController extends Controller
 
     function directionSee($direction = '/home'){
         switch ($direction) {
-            case '/home': return "INICIO"; break;
-            case '/home': return "INICIO"; break;
-            default: return "ESCRITORIO"; break;
+            case '/home': return "INICIO"; 
+            default: return "ESCRITORIO"; 
         }
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 
 use App\Models\Transport;
+use Illuminate\Http\Request;
 
 class TransportsController extends Controller
 {

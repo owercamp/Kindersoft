@@ -27,6 +27,7 @@ use App\Models\Academicperiod;
 use App\Models\Chronological;
 
 use App\Models\Baseactivity;
+use Psy\Exception\Exception;
 
 class AcademicoController extends Controller
 {

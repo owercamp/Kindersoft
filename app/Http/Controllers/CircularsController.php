@@ -113,22 +113,16 @@ class CircularsController extends Controller
         switch ($len) {
             case 1:
                 return '0000' . $number;
-                break;
             case 2:
                 return '000' . $number;
-                break;
             case 3:
                 return '00' . $number;
-                break;
             case 4:
                 return '0' . $number;
-                break;
             case 5:
                 return $number;
-                break;
             default:
                 return $number;
-                break;
         }
     }
 

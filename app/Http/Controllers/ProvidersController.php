@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Provider;
-use App\Models\Document;
-use App\Models\Bloodtype;
-use App\Models\Health;
+use Exception;
 use App\Models\City;
-use App\Models\Location;
+use App\Models\Health;
 use App\Models\District;
+use App\Models\Document;
+use App\Models\Location;
+use App\Models\Provider;
+use App\Models\Bloodtype;
+use Illuminate\Http\Request;
 
 class ProvidersController extends Controller
 {

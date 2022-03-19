@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 
-use App\Models\Course;
 use App\Models\Grade;
+use App\Models\Course;
+use Illuminate\Http\Request;
 
 class CoursesController extends Controller
 {

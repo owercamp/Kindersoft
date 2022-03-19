@@ -20,6 +20,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
+use Psy\Exception\Exception;
 
 class AssistancesController extends Controller
 {
@@ -51,7 +52,8 @@ class AssistancesController extends Controller
     if ($request->hour != null && $request->min != null) {
       $TempArrival = ($request->temp != null) ? $request->temp : "37.1";
       $status = "presente";
-    } else {
+    }
+    else {
       $TempArrival = ($request->temp != null) ? $request->temp : "37.1";
       $status = "ausente";
     }
@@ -98,6 +100,75 @@ class AssistancesController extends Controller
   {
     $grades = Grade::all();
     return view('modules.assistances.indexAttendanceRecord', compact('grades'));
+  }
+
+  public function registerAssistencesIndex(Request $request)
+  {
+    ini_set('max_execution_time', 0);
+    ini_set('memory_limit', '-1');
+
+    $dates = Carbon::now()->locale('es')->isoFormat('LL');
+    $day = Carbon::now()->locale('es')->dayName;
+    $dateSearch = ucfirst($day) . " " . $dates;
+
+    /** COLUMNAS PARA DATATABLE **/
+    $columns = array(
+      0 => 'date',
+      1 => 'student',
+      2 => 'course',
+      3 => 'harrival',
+      4 => 'hexit'
+    );
+
+    $consulta = DB::table('presences')
+      ->join('students', 'students.id', 'presences.pre_student')
+      ->join('courses', 'courses.id', 'presences.pre_course')
+      ->select('presences.pre_date AS date', 'students.firstname AS firstname', 'students.threename AS threename', 'students.fourname AS fourname', 'courses.name AS name', 'presences.pre_harrival AS harrival', 'presences.pre_hexit AS hexit');
+
+    /** VALORES PARA DATATABLE **/
+    $totalData = $consulta->count();
+    $limit = $request->input('length');
+    $start = $request->input('start');
+    $order = $columns[$request->input('order.0.column')];
+    $dir = $request->input('order.0.dir');
+
+    if (empty($request->input('search.value'))) {
+      $posts = $consulta->offset($start)->limit($limit)->orderBy($order, $dir)->get();
+      $totalFiltered = $totalData;
+    }
+    else {
+      $search = $request->input('search.value');
+      $clausulas = $consulta->where("students.firstname", "like", "%{$search}%");
+      $clausulas = $consulta->orWhere("students.threename", "like", "%{$search}%");
+      $clausulas = $consulta->orWhere("students.fourname", "like", "%{$search}%");
+      $clausulas = $consulta->orWhere("courses.name", "like", "%{$search}%");
+      $clausulas = $consulta->orWhere("pre_harrival", "like", "%{$search}%");
+      $clausulas = $consulta->orWhere("pre_hexit", "like", "%{$search}%");
+
+      $totalFiltered = $clausulas->count();
+      $posts = $clausulas->offset($start)->limit($limit)->orderBy($order, $dir)->get();
+    }
+
+    $data = array();
+    if ($posts) {
+      foreach ($posts as $presence) {
+        $nestedData['date'] = $presence->pre_date;
+        $nestedData['student'] = $presence->firstname." ".$presence->threename." ".$presence->fourname;
+        $nestedData['course'] = $presence->name;
+        $nestedData['harrival'] = $presence->pre_harrival;
+        $nestedData['hexit'] = $presence->pre_hexit;
+        $data[] = $nestedData;
+      }
+    }
+    $json_data = array(
+      "draw"            => intval($request->input('draw')),
+      "recordsTotal"    => intval($totalData),
+      "recordsFiltered" => intval($totalFiltered),
+      "data"            => $data
+    );
+
+    return json_encode($json_data);
+
   }
 
   function pdfAssistences(Request $request)
@@ -193,7 +264,8 @@ class AssistancesController extends Controller
         if ($course != null) {
           if ($assistance->assAbsents == 'N/A') {
             $countAbsent = 0;
-          } else {
+          }
+          else {
             $countAbsent = count(explode('-', $assistance->assAbsents));
           }
           $countPresent = explode('%', $assistance->assPresents);
@@ -211,8 +283,9 @@ class AssistancesController extends Controller
       }
 
       return response()->json($assistancesResult);
-    } catch (Exception $ex) {
-      // Code exception ...
+    }
+    catch (Exception $ex) {
+    // Code exception ...
     }
   }
 
@@ -228,7 +301,8 @@ class AssistancesController extends Controller
           // $request->present[$i][8] = TEMPERATURA DE LLEGADA
           if ($i == (count($request->present) - 1)) {
             $presentStudent .= $request->present[$i][0] . '/' . $request->present[$i][1] . '/=°=/' . $request->present[$i][2] . '/=°=/' . $request->present[$i][8] . '/=°=';
-          } else {
+          }
+          else {
             $presentStudent .= $request->present[$i][0] . '/' . $request->present[$i][1] . '/=°=/' . $request->present[$i][2] . '/=°=/' . $request->present[$i][8] . '/=°=%';
           }
           $legalization = Legalization::select('legId')->where('legStudent_id', $request->present[$i][0])->first();
@@ -240,19 +314,19 @@ class AssistancesController extends Controller
               'conLegalization_id' => $legalization->legId
             ]);
           }
-          // $findOut = strpos($request->present[$i][6], 'TARDE');
-          // if($findOut){
-          // $separatedMinutes = explode('..', $request->present[$i][6]);
+        // $findOut = strpos($request->present[$i][6], 'TARDE');
+        // if($findOut){
+        // $separatedMinutes = explode('..', $request->present[$i][6]);
 
-          // SEGMENTO COMENTADO PARA NO GENERAR COBROS DE LOS MINUTOS ADICIONALES EN LAS SALIDA TARDE DE LOS ALUMNOS
-          // $totalValue = $request->present[$i][7] * $separatedMinutes[1];
-          // Concept::create([
-          //     'conDate' => date('Y-m-d', strtotime($request->date . '+ 1 month')),
-          //     'conConcept' => $separatedMinutes[1] . ' MINUTO/S ADICIONAL/ES',
-          //     'conValue' => $totalValue,
-          //     'conLegalization_id' => $legalization->legId
-          // ]);
-          // }
+        // SEGMENTO COMENTADO PARA NO GENERAR COBROS DE LOS MINUTOS ADICIONALES EN LAS SALIDA TARDE DE LOS ALUMNOS
+        // $totalValue = $request->present[$i][7] * $separatedMinutes[1];
+        // Concept::create([
+        //     'conDate' => date('Y-m-d', strtotime($request->date . '+ 1 month')),
+        //     'conConcept' => $separatedMinutes[1] . ' MINUTO/S ADICIONAL/ES',
+        //     'conValue' => $totalValue,
+        //     'conLegalization_id' => $legalization->legId
+        // ]);
+        // }
         }
         $absentStudent = ''; //CAPTURAR IDs DE ESTUDIANTES AUSENTES
         if ($request->absent != null && count($request->absent) > 0) {
@@ -265,13 +339,16 @@ class AssistancesController extends Controller
             if (strlen($findDay) > 0) {
               if ($i == (count($request->absent) - 1)) {
                 $absentStudent .= $request->absent[$i];
-              } else {
+              }
+              else {
                 $absentStudent .= $request->absent[$i] . '-';
               }
-            } else {
+            }
+            else {
               if ($i == (count($request->absent) - 1)) {
                 $absentStudent .= $request->absent[$i] . 'A';
-              } else {
+              }
+              else {
                 $absentStudent .= $request->absent[$i] . 'A-';
               }
             }
@@ -284,7 +361,8 @@ class AssistancesController extends Controller
             'assPresents' => $presentStudent,
             'assAbsents' => $absentStudent
           ]);
-        } else {
+        }
+        else {
           Assistance::create([
             'assCourse_id' => $request->course,
             'assDate' => $request->date,
@@ -293,12 +371,14 @@ class AssistancesController extends Controller
           ]);
         }
         return response()->json('LISTADO DE presente PROCESADO CORRECTAMENTE');
-      } else {
+      }
+      else {
         return response()->json('YA EXISTE UN LISTADO DE presente PARA EL CURSO CON LA FECHA INDICADA, VALIDE EN REPORTE DIARIO');
       }
-      //return redirect()->route('assistances')->with('SuccessSaveAssitances', 'presente procesada correctamente');
-    } catch (Exception $ex) {
-      //return redirect()->route('assistances')->with('SecondarySaveAssitances', 'No es posible procesar la presente ahora, Comuniquese con el administrador');
+    //return redirect()->route('assistances')->with('SuccessSaveAssitances', 'presente procesada correctamente');
+    }
+    catch (Exception $ex) {
+    //return redirect()->route('assistances')->with('SecondarySaveAssitances', 'No es posible procesar la presente ahora, Comuniquese con el administrador');
     }
   }
 
@@ -306,15 +386,15 @@ class AssistancesController extends Controller
   {
     try {
       /*
-                $request->presentStudents,
-                $request->absentStudent
-                $request->dayAdditionalStudent
-                $request->assId
-                $request->date
-                $request->valuedayAdditional
-                $request->valueMinutes
-                $request->countMinutes
-            */
+       $request->presentStudents,
+       $request->absentStudent
+       $request->dayAdditionalStudent
+       $request->assId
+       $request->date
+       $request->valuedayAdditional
+       $request->valueMinutes
+       $request->countMinutes
+       */
       // 1. BUSCAR LA presente A MODIFICAR
 
       // dd($request->all());
@@ -324,7 +404,8 @@ class AssistancesController extends Controller
         $assistance->assPresents = trim($request->presentStudents);
         if (trim($request->absentStudent) != '') {
           $assistance->assAbsents = trim($request->absentStudent);
-        } else {
+        }
+        else {
           $assistance->assAbsents = 'N/A';
         }
         // VALIDAR Y GUARDAR LOS ESTUDIANTES QUE TENGAN DIA ADICIONAL
@@ -361,15 +442,17 @@ class AssistancesController extends Controller
         // }
         // }
         // }
-        $dateAssistance =  $assistance->assDate;
+        $dateAssistance = $assistance->assDate;
         $assistance->assStatus = 1;
         $assistance->save();
         return response()->json("presente CON FECHA " . $dateAssistance . ", ACTUALIZADA CORRECTAMENTE");
-      } else {
+      }
+      else {
         return response()->json('presente NO ENCONTRADA');
       }
-    } catch (Exception $ex) {
-      // Code exception ...
+    }
+    catch (Exception $ex) {
+    // Code exception ...
     }
   }
 
@@ -433,22 +516,25 @@ class AssistancesController extends Controller
                 $legalization->jouJourney,
               ]);
             }
-          } else {
+          }
+          else {
             $datesStudentAbsent = array();
           }
           $pdf = \App::make('dompdf.wrapper');
           $pdf->loadView('modules.assistances.assistancesPdf', compact('date', 'course', 'datesStudentPresent', 'datesStudentAbsent'));
           //$pdf->setPaper("A6", "landscape");
           return $pdf->download($namefile);
-        } else {
+        }
+        else {
           $course = Course::find($request->pdfCourseGroup);
           return redirect()->route('assistances')->with('SecondarySaveAssitances', 'No existen listados para la busqueda de curso ' . $course->name . ' en la fecha ' . $request->pdfDateGroup);
         }
-      } else if ($request->optionFilterPdf == 'unique') {
+      }
+      else if ($request->optionFilterPdf == 'unique') {
         /*
-                    $request->pdfCourseUnique;
-                    $request->pdfStudentUnique;
-                */
+         $request->pdfCourseUnique;
+         $request->pdfStudentUnique;
+         */
         $idStudent = 0;
         $findStudent = array();
         $assistances = Assistance::where('assCourse_id', $request->pdfCourseUnique)->get();
@@ -499,12 +585,14 @@ class AssistancesController extends Controller
           $pdf->loadView('modules.assistances.assistancesUniquePdf', compact('student', 'course', 'findStudent', 'dateInitial', 'dateFinal'));
           //$pdf->setPaper("A6", "landscape");
           return $pdf->download($namefile);
-        } else {
+        }
+        else {
           return redirect()->route('assistances')->with('SecondarySaveAssitances', 'No existen registros en el rango seleccionado');
         }
       }
-    } catch (Exception $ex) {
-      //Code...
+    }
+    catch (Exception $ex) {
+    //Code...
     }
   }
 
@@ -514,42 +602,30 @@ class AssistancesController extends Controller
     switch ($separated[1]) {
       case '01':
         return $separated[2] . ' DE ENERO DEL ' . $separated[0];
-        break;
       case '02':
         return $separated[2] . ' DE FEBRERO DEL ' . $separated[0];
-        break;
       case '03':
         return $separated[2] . ' DE MARZO DEL ' . $separated[0];
-        break;
       case '04':
         return $separated[2] . ' DE ABRIL DEL ' . $separated[0];
-        break;
       case '05':
         return $separated[2] . ' DE MAYO DEL ' . $separated[0];
-        break;
       case '06':
         return $separated[2] . ' DE JUNIO DEL ' . $separated[0];
-        break;
       case '07':
         return $separated[2] . ' DE JULIO DEL ' . $separated[0];
-        break;
       case '08':
         return $separated[2] . ' DE AGOSTO DEL ' . $separated[0];
-        break;
       case '09':
         return $separated[2] . ' DE SEPTIEMBRE DEL ' . $separated[0];
-        break;
       case '10':
         return $separated[2] . ' DE OCTUBRE DEL ' . $separated[0];
-        break;
       case '11':
         return $separated[2] . ' DE NOVIEMBRE DEL ' . $separated[0];
-        break;
       case '12':
         return $separated[2] . ' DE DICIEMBRE DEL ' . $separated[0];
-        break;
     }
-    //Filtrar por alumno en un rango de fechas
+  //Filtrar por alumno en un rango de fechas
   }
 
   function getDayWeek($date)

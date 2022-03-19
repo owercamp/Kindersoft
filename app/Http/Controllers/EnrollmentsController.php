@@ -783,7 +783,7 @@ class EnrollmentsController extends Controller
     } else {
       $year = date('Y');
     }
-    return response()->json(lastDay($year . '-01'));
+    return response()->json($this->lastDay($year . '-01'));
     // $enrollments = ConsolidatedEnroll::whereBetween('legDateCreate', [$year . '-01-01' , $year . '-' . $this->getMount($i) . '-' . $this->numberDays($this->getMount($i),$year)]);
   }
 

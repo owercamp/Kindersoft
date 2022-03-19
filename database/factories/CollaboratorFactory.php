@@ -36,12 +36,9 @@ function genderToCollaborator($number = 0){
 	switch ($number) {
 		case 1:
 			return 'MASCULINO';
-			break;
 		case 2:
 			return 'FEMENINO';
-			break;
 		case 3:
 			return 'INDEFINIDO';
-			break;
 	}
 }

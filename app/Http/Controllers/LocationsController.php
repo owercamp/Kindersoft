@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 
 use App\Models\City;
-use App\Models\Location;
 use App\Models\District;
+use App\Models\Location;
+use Illuminate\Http\Request;
 
 /*
         try{

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\NewUserRequest;
+use Exception;
 use App\Models\User;
 use App\Models\Collaborator;
+use Illuminate\Http\Request;
 
 use Spatie\Permission\Models\Role;
+use App\Http\Requests\NewUserRequest;
 use Spatie\Permission\Models\Permission;
 
 class UsersController extends Controller

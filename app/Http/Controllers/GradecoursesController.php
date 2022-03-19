@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
+use Exception;
 use App\Models\Grade;
-use App\Models\Course;
-use App\Models\Collaborator;
-use App\Models\CourseConsolidated;
-use App\Models\Listcourse;
-use App\Models\Student;
-use App\Models\ActivityClass;
-use App\Models\ActivitySpace;
-use App\Models\Hourweek;
-use App\Models\Observation;
 
-use App\Models\Weeklytracking;
-use App\Models\Trackingachievement;
+use App\Models\Course;
+use App\Models\Student;
+use App\Models\Bulletin;
+use App\Models\Hourweek;
+use App\Models\Obserbull;
+use App\Models\Listcourse;
 use App\Models\Achievement;
+use App\Models\Observation;
+use App\Models\Collaborator;
 use App\Models\Intelligence;
 
-use App\Models\Bulletin;
-use App\Models\Obserbull;
-use App\Models\Academicperiod;
+use Illuminate\Http\Request;
+use App\Models\ActivityClass;
+use App\Models\ActivitySpace;
 use App\Models\Chronological;
+
+use App\Models\Academicperiod;
+use App\Models\Weeklytracking;
+use App\Models\CourseConsolidated;
+use Illuminate\Support\Facades\DB;
+use App\Models\Trackingachievement;
 
 class GradecoursesController extends Controller
 {

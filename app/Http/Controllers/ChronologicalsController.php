@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-use App\Models\Chronological;
+use Exception;
 use App\Models\Course;
-use App\Models\Intelligence;
+
 use App\Models\Collaborator;
+use App\Models\Intelligence;
+use Illuminate\Http\Request;
+use App\Models\Chronological;
 use App\Models\Academicperiod;
 use App\Models\CourseConsolidated;
+use Illuminate\Support\Facades\DB;
 
 class ChronologicalsController extends Controller
 {

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 
+use Illuminate\Http\Request;
 use App\Models\Extracurricular;
 
 class ExtracurricularsController extends Controller

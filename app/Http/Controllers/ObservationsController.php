@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
+use Exception;
 use App\Models\Observation;
+
 use App\Models\Intelligence;
+use Illuminate\Http\Request;
+
 
 class ObservationsController extends Controller
 {

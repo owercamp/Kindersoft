@@ -71,6 +71,29 @@
 
 @section('scripts')
 <script>
+  // $(document).ready(function() {
+  //   $('#AssisTable').DataTable({
+  //     "processing" : true,
+  //     "serverSide": true,
+  //     "order":[[0,'asc']],
+  //     "ajax":{
+  //       "url": "{{ route('getAsistences') }}",
+  //       "dataType": "JSON",
+  //       "type":"GET",
+  //       "data":{"_token":"{{ csrf_token() }}"}
+  //     },
+  //     columns:[
+  //       {data:'date'},
+  //       {data:'student'},
+  //       {data:'course'},
+  //       {data:'harrival'},
+  //       {data:'exit'}
+  //     ],
+  //     responsive:true,
+  //     pagingType: "full_numbers"
+  //   })
+  // })
+
   $('select[name=student]').change(() => {
     const student = $('select[name=student]').val();
     $.ajax({

@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ReportcloseExcel;
-use App\Exports\FacturationTramitedExcel;
-
-use App\Models\ConsolidatedEnroll;
-use App\Models\Legalization;
+use Exception;
+use Carbon\Carbon;
+use App\Models\Entry;
+use App\Models\Concept;
+use App\Models\General;
 use App\Models\Student;
 use App\Models\Attendant;
-use App\Models\Concept;
-use App\Models\Pay;
 use App\Models\Numeration;
 use App\Models\Facturation;
-use App\Models\General;
-use App\Models\Course;
+use App\Models\Legalization;
+use Illuminate\Http\Request;
 use App\Models\Coststructure;
 use App\Models\Costdescription;
-use App\Models\Entry;
-use Carbon\Carbon;
+use App\Exports\ReportcloseExcel;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FacturationTramitedExcel;
+
 
 class AccountsController extends Controller
 {
@@ -325,40 +323,28 @@ class AccountsController extends Controller
     switch ($mount) {
       case '01':
         return 'ENERO';
-        break;
       case '02':
         return 'FEBRERO';
-        break;
       case '03':
         return 'MARZO';
-        break;
       case '04':
         return 'ABRIL';
-        break;
       case '05':
         return 'MAYO';
-        break;
       case '06':
         return 'JUNIO';
-        break;
       case '07':
         return 'JULIO';
-        break;
       case '08':
         return 'AGOSTO';
-        break;
       case '09':
         return 'SEPTIEMBRE';
-        break;
       case '10':
         return 'OCTUBRE';
-        break;
       case '11':
         return 'NOVIEMBRE';
-        break;
       case '12':
         return 'DICIEMBRE';
-        break;
     }
   }
 

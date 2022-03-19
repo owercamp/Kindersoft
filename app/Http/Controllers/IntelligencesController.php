@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 
-use App\Models\Intelligence;
 use App\Models\Achievement;
+use App\Models\Intelligence;
+use Illuminate\Http\Request;
 
 class IntelligencesController extends Controller
 {

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\Achievement;
+use App\Models\Intelligence;
+
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\AchievementsFromExcel;
 
-use App\Models\Achievement;
-use App\Models\Intelligence;
 
 class AchievementsController extends Controller
 {

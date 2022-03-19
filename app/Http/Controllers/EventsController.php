@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-use App\Models\DocumentEnroll;
-use App\Models\Eventcreation;
+use Exception;
 use App\Models\Eventdiary;
-use App\Models\Collaborator;
+
 use App\Models\Listcourse;
+use App\Models\Collaborator;
+use Illuminate\Http\Request;
+use App\Models\Eventcreation;
+use App\Models\DocumentEnroll;
+use Illuminate\Support\Facades\DB;
 
 class EventsController extends Controller
 {

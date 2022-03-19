@@ -408,30 +408,30 @@ class ReportsController extends Controller
     function getStringDate($d){
         $separated = explode('-', $d);
         switch ($separated[1]) {
-            case '01': return $separated[2] . ' de enero'; break;
-            case '02': return $separated[2] . ' de febrero'; break;
-            case '03': return $separated[2] . ' de marzo'; break;
-            case '04': return $separated[2] . ' de abril'; break;
-            case '05': return $separated[2] . ' de mayo'; break;
-            case '06': return $separated[2] . ' de junio'; break;
-            case '07': return $separated[2] . ' de julio'; break;
-            case '08': return $separated[2] . ' de agosto'; break;
-            case '09': return $separated[2] . ' de septiembre'; break;
-            case '10': return $separated[2] . ' de octubre'; break;
-            case '11': return $separated[2] . ' de noviembre'; break;
-            case '12': return $separated[2] . ' de diciembre'; break;
+            case '01': return $separated[2] . ' de enero'; 
+            case '02': return $separated[2] . ' de febrero'; 
+            case '03': return $separated[2] . ' de marzo'; 
+            case '04': return $separated[2] . ' de abril'; 
+            case '05': return $separated[2] . ' de mayo'; 
+            case '06': return $separated[2] . ' de junio'; 
+            case '07': return $separated[2] . ' de julio'; 
+            case '08': return $separated[2] . ' de agosto'; 
+            case '09': return $separated[2] . ' de septiembre'; 
+            case '10': return $separated[2] . ' de octubre'; 
+            case '11': return $separated[2] . ' de noviembre'; 
+            case '12': return $separated[2] . ' de diciembre'; 
         }
     }
 
     function getStringDay($day){
         switch ($day) {
-            case '0': return 'DOMINGO'; break;
-            case '1': return 'LUNES'; break;
-            case '2': return 'MARTES'; break;
-            case '3': return 'MIERCOLES'; break;
-            case '4': return 'JUEVES'; break;
-            case '5': return 'VIERNES'; break;
-            case '6': return 'SABADO'; break;
+            case '0': return 'DOMINGO'; 
+            case '1': return 'LUNES'; 
+            case '2': return 'MARTES'; 
+            case '3': return 'MIERCOLES'; 
+            case '4': return 'JUEVES'; 
+            case '5': return 'VIERNES'; 
+            case '6': return 'SABADO'; 
         }
     }
 

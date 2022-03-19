@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\General;
+
+use App\Models\Numeration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
-use App\Models\General;
-use App\Models\Numeration;
 
 class GeneralController extends Controller
 {

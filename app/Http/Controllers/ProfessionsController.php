@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 
 use App\Models\Profession;
+use Illuminate\Http\Request;
 
 class ProfessionsController extends Controller
 {

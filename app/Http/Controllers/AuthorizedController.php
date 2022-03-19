@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Exception;
+use App\Models\Document;
 
 use App\Models\Authorized;
-use App\Models\Document;
 use App\Models\Legalization;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AuthorizedController extends Controller
 {

@@ -54,6 +54,7 @@ Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINIS
   Route::get('/logistic/assist-control/check-out', 'AssistancesController@checkoutAssistences')->name('assistences.check-out');
   Route::post('/logistic/assist-control/check-out/save', 'AssistancesController@savecheckoutAssistences')->name('check-out.save');
   Route::get('/logistic/assist-control/register', 'AssistancesController@registerAssistences')->name('assistences.register');
+  Route::get('/logistic/assist-control/registerAssistencesIndex','AssistancesController@registerAssistencesIndex')->name('getAsistences');
   Route::post('/logistic/assist-control/pdf-assist', 'AssistancesController@pdfAssistences')->name('pdf.Assistences');
   Route::get('/logistic/assist-control/absence', 'AssistancesController@absenceAssistences')->name('assistences.absence');
   Route::post('/logistic/assist-control/pdf-absences', 'AssistancesController@pdfAbsences')->name('pdf.Absences');

@@ -125,25 +125,18 @@ function getDay($value)
   switch (date('w', $value)) {
     case 0:
       return 'Domingo';
-      break;
     case 1:
       return "Lunes";
-      break;
     case 2:
       return "Martes";
-      break;
     case 3:
       return "Miercoles";
-      break;
     case 4:
       return "Jueves";
-      break;
     case 5:
       return "Viernes";
-      break;
     case 6:
       return "Sabado";
-      break;
   }
 }
 
@@ -823,7 +816,6 @@ Route::get('getFilterHourWeek', function (Request $request) {
         ->where('hwActivitySpace_id', trim($request->filter))
         ->get();
       return response()->json($hourweeks);
-      break;
     case 'ACTIVITY':
       $hourweeks = App\Models\Hourweek::select(
         'hoursweek.hwId AS id',
@@ -841,7 +833,6 @@ Route::get('getFilterHourWeek', function (Request $request) {
         ->where('hwActivityClass_id', trim($request->filter))
         ->get();
       return response()->json($hourweeks);
-      break;
     case 'COURSE':
       $hourweeks = App\Models\Hourweek::select(
         'hoursweek.hwId AS id',
@@ -859,7 +850,6 @@ Route::get('getFilterHourWeek', function (Request $request) {
         ->where('hwCourse_id', trim($request->filter))
         ->get();
       return response()->json($hourweeks);
-      break;
     case 'COLLABORATOR':
       $hourweeks = App\Models\Hourweek::select(
         'hoursweek.hwId AS id',
@@ -877,7 +867,6 @@ Route::get('getFilterHourWeek', function (Request $request) {
         ->where('hwCollaborator_id', trim($request->filter))
         ->get();
       return response()->json($hourweeks);
-      break;
     case 'HOUR':
       $hourweeks = App\Models\Hourweek::select(
         'hoursweek.hwId AS id',
@@ -895,7 +884,6 @@ Route::get('getFilterHourWeek', function (Request $request) {
         ->where('hwHourInitial', trim($request->filter))
         ->get();
       return response()->json($hourweeks);
-      break;
     case 'DAY':
       $hourweeks = App\Models\Hourweek::select(
         'hoursweek.hwId AS id',
@@ -913,7 +901,6 @@ Route::get('getFilterHourWeek', function (Request $request) {
         ->where('hwDate', trim($request->filter))
         ->get();
       return response()->json($hourweeks);
-      break;
   }
 })->name('getFilterHourWeek');
 
@@ -1553,25 +1540,18 @@ function getStringDay($value)
   switch ($value) {
     case '0':
       return 'DOMINGO';
-      break;
     case '1':
       return 'LUNES';
-      break;
     case '2':
       return 'MARTES';
-      break;
     case '3':
       return 'MIERCOLES';
-      break;
     case '4':
       return 'JUEVES';
-      break;
     case '5':
       return 'VIERNES';
-      break;
     case '6':
       return 'SABADO';
-      break;
   }
 }
 
@@ -2592,40 +2572,28 @@ function getStringMount($mount)
   switch ($mount) {
     case '01':
       return 'ENERO';
-      break;
     case '02':
       return 'FEBRERO';
-      break;
     case '03':
       return 'MARZO';
-      break;
     case '04':
       return 'ABRIL';
-      break;
     case '05':
       return 'MAYO';
-      break;
     case '06':
       return 'JUNIO';
-      break;
     case '07':
       return 'JULIO';
-      break;
     case '08':
       return 'AGOSTO';
-      break;
     case '09':
       return 'SEPTIEMBRE';
-      break;
     case '10':
       return 'OCTUBRE';
-      break;
     case '11':
       return 'NOVIEMBRE';
-      break;
     case '12':
       return 'DICIEMBRE';
-      break;
   }
 }
 

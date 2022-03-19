@@ -2,26 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 
-use App\Models\Proposal;
-
-use App\Models\Customer;
-use App\Models\Scheduling;
-use App\Models\Grade;
-use App\Models\Admission;
-use App\Models\Journey;
-use App\Models\Feeding;
-use App\Models\Uniform;
-use App\Models\Supplie;
-use App\Models\Transport;
-use App\Models\Extratime;
-use App\Models\Extracurricular;
-use App\Models\Garden;
-use App\Models\Binnacle;
 use App\Models\User;
-use App\Models\Collaborator;
+
+use App\Models\Grade;
+use App\Models\Garden;
+use App\Models\Feeding;
 use App\Models\General;
+use App\Models\Journey;
+use App\Models\Supplie;
+use App\Models\Uniform;
+use App\Models\Binnacle;
+use App\Models\Customer;
+use App\Models\Proposal;
+use App\Models\Admission;
+use App\Models\Extratime;
+use App\Models\Transport;
+use App\Models\Scheduling;
+use App\Models\Collaborator;
+use Illuminate\Http\Request;
+use App\Models\Extracurricular;
 
 class ProposalsController extends Controller
 {

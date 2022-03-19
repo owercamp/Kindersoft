@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\Course;
+use App\Models\Student;
+use App\Models\Intelligence;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
+use App\Models\Academicperiod;
 use App\Models\Weeklytracking;
 use App\Models\CourseConsolidated;
-use App\Models\Intelligence;
-use App\Models\Student;
-use App\Models\Course;
-use App\Models\Listcourse;
 use App\Models\Trackingachievement;
-use App\Models\Academicperiod;
-use App\Models\Observation;
 
 class WeeklytrackingsController extends Controller
 {

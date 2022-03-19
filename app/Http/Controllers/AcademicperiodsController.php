@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
 use App\Models\Course;
+
+use Illuminate\Http\Request;
+use Psy\Exception\Exception;
 use App\Models\Academicperiod;
 use App\Models\CourseConsolidated;
 

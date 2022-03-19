@@ -105,18 +105,18 @@ class ReportcloseExcel implements FromView
 
     function getMountNumber($mount){
     	switch ($mount) {
-    		case 'ENERO': return '01'; break;
-    		case 'FEBRERO': return '02'; break;
-    		case 'MARZO': return '03'; break;
-    		case 'ABRIL': return '04'; break;
-    		case 'MAYO': return '05'; break;
-    		case 'JUNIO': return '06'; break;
-    		case 'JULIO': return '07'; break;
-    		case 'AGOSTO': return '08'; break;
-    		case 'SEPTIEMBRE': return '09'; break;
-    		case 'OCTUBRE': return '10'; break;
-    		case 'NOVIEMBRE': return '11'; break;
-    		case 'DICIEMBRE': return '12'; break;
+    		case 'ENERO': return '01'; 
+    		case 'FEBRERO': return '02'; 
+    		case 'MARZO': return '03'; 
+    		case 'ABRIL': return '04'; 
+    		case 'MAYO': return '05'; 
+    		case 'JUNIO': return '06'; 
+    		case 'JULIO': return '07'; 
+    		case 'AGOSTO': return '08'; 
+    		case 'SEPTIEMBRE': return '09'; 
+    		case 'OCTUBRE': return '10'; 
+    		case 'NOVIEMBRE': return '11'; 
+    		case 'DICIEMBRE': return '12'; 
     	}
     }
 

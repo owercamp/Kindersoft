@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 
 use App\Models\Health;
+use Illuminate\Http\Request;
 
 class HealthsController extends Controller
 {

@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Assistance;
-use App\Models\Autorization;
-use App\Models\Course;
-use App\Models\Eventcreation;
-use App\Models\Eventdiary;
-use App\Models\Extracurricular;
-use App\Models\Extratime;
-use App\Models\Feeding;
-use App\Models\FeedingControl;
-use App\Models\Garden;
+use Exception;
+use Carbon\Carbon;
 use App\Models\Grade;
-use App\Models\HealthControl;
+use App\Models\Course;
+use App\Models\Garden;
+use App\Models\Feeding;
 use App\Models\Journey;
-use App\Models\Legalization;
-use App\Models\Presence;
-use App\Models\Sphincters;
 use App\Models\Student;
 use App\Models\Supplie;
-use App\Models\Transport;
 use App\Models\Uniform;
-use Carbon\Carbon;
+use App\Models\Presence;
+use App\Models\Extratime;
+use App\Models\Transport;
+use App\Models\Assistance;
+use App\Models\Eventdiary;
+use App\Models\Sphincters;
+use App\Models\Autorization;
+use App\Models\Legalization;
 use Illuminate\Http\Request;
+use App\Models\Eventcreation;
+use App\Models\HealthControl;
+use App\Models\FeedingControl;
+use App\Models\Extracurricular;
 use Illuminate\Support\Facades\DB;
 
 class NewscontrolsCOntroller extends Controller
@@ -633,40 +634,28 @@ class NewscontrolsCOntroller extends Controller
 		switch ($mount) {
 			case '01':
 				return $day . ' DE ENERO DEL ' . $year;
-				break;
 			case '02':
 				return $day . ' DE FEBRERO DEL ' . $year;
-				break;
 			case '03':
 				return $day . ' DE MARZO DEL ' . $year;
-				break;
 			case '04':
 				return $day . ' DE ABRIL DEL ' . $year;
-				break;
 			case '05':
 				return $day . ' DE MAYO DEL ' . $year;
-				break;
 			case '06':
 				return $day . ' DE JUNIO DEL ' . $year;
-				break;
 			case '07':
 				return $day . ' DE JULIO DEL ' . $year;
-				break;
 			case '08':
 				return $day . ' DE AGOSTO DEL ' . $year;
-				break;
 			case '09':
 				return $day . ' DE SEPTIEMBRE DEL ' . $year;
-				break;
 			case '10':
 				return $day . ' DE OCTUBRE DEL ' . $year;
-				break;
 			case '11':
 				return $day . ' DE NOVIEMBRE DEL ' . $year;
-				break;
 			case '12':
 				return $day . ' DE DICIEMBRE DEL ' . $year;
-				break;
 		}
 	}
 /*-----------------------------------

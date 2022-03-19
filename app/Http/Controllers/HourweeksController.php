@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+
+use App\Models\Course;
+
+use App\Models\Hourweek;
+use App\Models\Collaborator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-use Dompdf\Dompdf;
-use Dompdf\Options;
-
 use App\Models\ActivityClass;
 use App\Models\ActivitySpace;
 use App\Models\CourseConsolidated;
-use App\Models\Course;
-use App\Models\Collaborator;
-use App\Models\Hourweek;
+use Illuminate\Support\Facades\DB;
 
 class HourweeksController extends Controller
 {

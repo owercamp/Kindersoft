@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-
+use Exception;
 use App\Models\Garden;
+
 use App\Models\Customer;
-use App\Models\Scheduling;
 use App\Models\Proposal;
+use App\Models\Scheduling;
+use Illuminate\Http\Request;
 use App\Mail\MessageRemember;
+use Illuminate\Support\Facades\Mail;
 
 class customersController extends Controller
 {

@@ -2,22 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-
-use App\Models\City;
-use App\Models\Location;
-use App\Models\District;
-use App\Models\Document;
-use App\Models\Bloodtype;
-use App\Models\Profession;
-use App\Models\Health;
+use Exception;
 use App\Models\Grade;
-use App\Models\Course;
-use App\Models\Achievement;
 use App\Models\Intelligence;
-use App\Models\User;
-use App\Models\Period;
+use Illuminate\Http\Request;
 use App\Models\ConsolideAchievement;
 
 class AdministrativoController extends Controller

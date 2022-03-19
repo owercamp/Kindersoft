@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 
 use App\Models\Supplie;
+use Illuminate\Http\Request;
 
 class SuppliesController extends Controller
 {

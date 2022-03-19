@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Exception;
+use App\Models\Student;
 
-use Dompdf\Dompdf;
-use Dompdf\Options;
 
-use App\Models\ProfessionHealth;
-use App\Models\ObservationHealth;
+
+use App\Models\Listcourse;
 use App\Models\Vaccination;
 use App\Models\Ratingperiod;
+use Illuminate\Http\Request;
 
-use App\Models\Student;
-use App\Models\Listcourse;
 use App\Models\Academicperiod;
+use App\Models\ProfessionHealth;
+use App\Models\ObservationHealth;
+use Illuminate\Support\Facades\DB;
 
 class IncreaseController extends Controller
 {

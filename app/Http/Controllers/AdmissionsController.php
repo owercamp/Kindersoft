@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 
 use App\Models\Admission;
+use Illuminate\Http\Request;
 
 class AdmissionsController extends Controller
 {

@@ -76,19 +76,14 @@ class UserSeeder extends Seeder
         switch ($number) {
             case 1:
                 return "ADMIN-SYSTEM";
-                break;
             case 2:
                 return "ADMIN-ORG";
-                break;
             case 3:
                 return "ADMIN-COM";
-                break;
             case 4:
                 return "ADMIN-ACA";
-                break;
             case 5:
                 return "ADMIN-LOG";
-                break;
         }
     }
 }

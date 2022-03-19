@@ -18,6 +18,7 @@ use App\Models\Obserbull;
 use App\Models\Garden;
 use App\Models\CourseConsolidated;
 use App\Models\Observation;
+use Psy\Exception\Exception;
 
 class BulletinsController extends Controller
 {
@@ -162,7 +163,7 @@ class BulletinsController extends Controller
                             );
                 return $pdf->download($namefile);
             }
-            return response()->json($infoIntelligence);
+            return response()->json($intelligence);
         }catch(Exception $ex){
 
         }

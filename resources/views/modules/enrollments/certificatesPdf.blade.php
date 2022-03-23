@@ -117,10 +117,9 @@
               return $yearsold;
               }
               }
-
               @endphp
               <p class="text-justify">
-                <b>{{ $student->firstname . ' ' . $student->threename . ' ' . $student->fourname }}</b> identificado/a con el documento Nº <b>{{ $student->numberdocument }}</b> con fecha de nacimiento el día <b>{{ getFormatDate($student->birthdate) }}</b> y con una edad actual de <b>{{ $student->yearsold }}</b> se encuentra matriculado/a en el programa de compromiso de atención a la primera infancia con el respectivo acudiente <b>{{ $attendant->firstname . ' ' . $attendant->threename }}</b> identificado/a con documento No. <b>{{ $attendant->numberdocument }}</b> mediante contrato de cooperación educativa No. <b>{{ $legalization->legId }}</b> con vigencia de <b>{{ getFormatDate($legalization->legDateInitial) }}</b> a <b>{{ getFormatDate($legalization->legDateFinal) }}</b>.<br>
+                <b>{{ $student->firstname . ' ' . $student->threename . ' ' . $student->fourname }}</b> identificado/a con el documento Nº <b>{{ $student->numberdocument }}</b> con fecha de nacimiento el día <b>{{ $birthdate }}</b> y con una edad actual de <b>{{ $student->yearsold }}</b> se encuentra matriculado/a en el programa de compromiso de atención a la primera infancia con el respectivo acudiente <b>{{ $attendant->firstname . ' ' . $attendant->threename }}</b> identificado/a con documento No. <b>{{ $attendant->numberdocument }}</b> mediante contrato de cooperación educativa No. <b>{{ $legalization->legId }}</b> con vigencia de <b>{{ getFormatDate($legalization->legDateInitial) }}</b> a <b>{{ getFormatDate($legalization->legDateFinal) }}</b>.<br>
               </p>
               <br>
               @php $datenow = date('Y-m-d'); @endphp

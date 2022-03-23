@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\DocumentEnroll;
-use App\Models\ConsolidatedEnroll;
-use App\Models\Legalization;
-use App\Models\Listcourse;
+use Exception;
+use Carbon\Carbon;
+use App\Models\Pay;
+use App\Models\Grade;
+use App\Models\Course;
+use App\Models\Garden;
+use App\Models\Wallet;
+use App\Models\Concept;
+use App\Models\Journey;
 use App\Models\Student;
 use App\Models\Attendant;
 use App\Models\Authorized;
-use App\Models\Grade;
-use App\Models\Course;
-use App\Models\Wallet;
-use App\Models\Garden;
-use App\Models\Pay;
-use App\Models\Journey;
-use App\Models\Concept;
-use Exception;
+use App\Models\Listcourse;
+use App\Models\Legalization;
+use Illuminate\Http\Request;
+use App\Models\DocumentEnroll;
+use App\Models\ConsolidatedEnroll;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 
 class EnrollmentsController extends Controller
@@ -657,6 +658,7 @@ class EnrollmentsController extends Controller
         $legalization = Legalization::where([['legStudent_id', $request->codeCertificatedPdf],['legStatus',"ACTIVO"]])->first();
         $student = Student::find($legalization->legStudent_id);
         $attendant = Attendant::find($legalization->legAttendantfather_id);
+        $birthdate = Carbon::parse($student->birthdate)->locale("es")->isoFormat("LL"); 
         $garden = Garden::select(
           'garden.*',
           'citys.name AS garNameCity',
@@ -670,7 +672,7 @@ class EnrollmentsController extends Controller
         if ($legalization !== null && $attendant != null && $student !== null && $garden != null) {
           $namefile = $student->firstname . $student->threename . $student->fourname . '_CertificadoEscolar.pdf';
           $pdf = App::make('dompdf.wrapper');
-          $pdf->loadView('modules.enrollments.certificatesPdf', compact('legalization', 'student', 'attendant', 'garden'));
+          $pdf->loadView('modules.enrollments.certificatesPdf', compact('legalization', 'student', 'attendant', 'garden','birthdate'));
           // return $pdf->stream();
           return $pdf->download($namefile);
         }

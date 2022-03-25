@@ -35,18 +35,20 @@ class AccountsController extends Controller
 
   public function getAccount(Request $request)
   {
+    /** SE CONSULTAN LAS LEGALIZACIONES ACTIVAS **/
     $accounts = Legalization::with('student:id,firstname,threename,fourname', 'father:id,firstname,threename', 'mother:id,firstname,threename','grade:id,name','journey')
     ->join('concepts', 'concepts.conLegalization_id', 'legalizations.legId')
     ->where('legStatus', 'ACTIVO')
     ->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])
-    ->distinct('conLegalization_id')
     ->get();
 
-    $dates = [];
-    foreach ($accounts as $account) {
-      $totalConceptPending = Concept::where('conLegalization_id', $account->legId)->where('conStatus', 'PENDIENTE')->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])->count();
-      if ($totalConceptPending > 0) {
-        array_push($dates, [
+    $datas = array();
+    
+    $temporal = "";
+    /** SE RECORE TODAS LAS LEGALIZACIONES Y SE FILTRA POR MEDIO DEL ID EN LA VARIABLE TEMPORAL PARA ELIMINAR DUPLICADOS **/
+    foreach ($accounts as $key => $account) {
+      if ($account->legStudent_id != $temporal) {
+        array_push($datas,[
           $account->legId,
           $account->student->id,
           $account->student->firstname." ".$account->student->threename." ".$account->student->fourname,
@@ -54,10 +56,11 @@ class AccountsController extends Controller
           // $account->nameCourse,
           $account->father->firstname." ".$account->father->threename."</br>".$account->mother->firstname." ".$account->mother->threename
         ]);
-      }
+        $temporal = $account->legStudent_id;
+      }  
     }
-
-    return response()->json($dates);
+    
+    return response()->json($datas);
   }
 
   function getItemsConcepts(Request $request)

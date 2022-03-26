@@ -1,9 +1,11 @@
 <?php
 
 use App\Models\Attendant;
+use App\Models\Bloodtype;
 use App\Models\Course;
 use App\Models\Entry;
 use App\Models\Formadmission;
+use App\Models\Health;
 use App\Models\InfoDaily;
 use App\Models\Listcourse;
 use App\Models\Presence;
@@ -2781,7 +2783,7 @@ Route::get('getLegalizationMigration', function (Request $request) {
     // 'legalizations.*',
     'students.*',
     DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-    // 'documents.type',
+    'documents.type as type',
     'bloodtypes.group as groupBlood',
     'bloodtypes.type as typeBlood',
     'healths.entity as entityHealth',
@@ -2792,7 +2794,7 @@ Route::get('getLegalizationMigration', function (Request $request) {
   )
     // ->join('students','students.id','legalizations.legStudent_id')
 
-    // ->join('documents','documents.id','students.typedocument_id')
+    ->join('documents','documents.id','students.typedocument_id')
     ->join('bloodtypes', 'bloodtypes.id', 'students.bloodtype_id')
     ->join('healths', 'healths.id', 'students.health_id')
 
@@ -2818,18 +2820,22 @@ Route::get('getLegalizationMigration', function (Request $request) {
       $documentStudent = $admission->tipodocumento;
       $documentStudentMigration = null;
     }
+    $typeArrival = Bloodtype::where('id',$admission->tiposangre)->value('type');
+    $EPSArrival = Health::where('id',$admission->health)->value('entity');
+    $typeExists = Bloodtype::where('id',$student->bloodtype_id)->value('type');
+    $EPSExists = Health::where('id',$student->health_id)->value('entity');
     array_push(
       $migration,
       [
         ["id_student", $admission->fmId, $student->id],
         ["Foto", $admission->foto, $student->photo],
-        ["Tipo de documento", $documentStudent, $student->typedocument_id, $documentStudent],
+        ["Tipo de documento", $documentStudent, $student->type, $documentStudent],
         ["Número de documento", $admission->numerodocumento, $student->numberdocument],
-        ["Fecha de nacimiento", $admission->fechanacimiento, $student->birthdate],
+        ["Fecha de nacimiento", $admission->fechanacimiento, date_format($student->birthdate,'Y-m-d')],
         ["Nombres y apellidos", $admission->nombres . " " . $admission->apellidos, $student->nameStudent, $admission->nombres . "|" . $apellidosNew],
-        ["Tipo de sangre", $admission->tiposangre, $student->bloodtype_id],
+        ["Tipo de sangre", $typeArrival, $typeExists],
         ["Género", $admission->genero, $student->gender],
-        ["Salud", $admission->health, $student->health_id],
+        ["Salud", $EPSArrival, $EPSExists],
         ["Salud adicional", 'SI', $student->additionalHealt],
         [
           "Descripción de salud adicional / Informacion adicional",
@@ -2877,6 +2883,7 @@ Route::get('getLegalizationMigration', function (Request $request) {
       $documentStudentMigration = null;
     }
     // array_push($migration,null);
+    $typeArrival = Bloodtype::where('id',$admission->tiposangre)->value('type');
     array_push(
       $migration,
       [
@@ -2886,7 +2893,7 @@ Route::get('getLegalizationMigration', function (Request $request) {
         ["Número de documento", $admission->numerodocumento, 'No existe'],
         ["Fecha de nacimiento", $admission->fechanacimiento, 'No existe'],
         ["Nombres y apellidos", $admission->nombres . " " . $admission->apellidos, 'No existe', $admission->nombres . "|" . $apellidosNew],
-        ["Tipo de sangre", $admission->tiposangre, 'No existe'],
+        ["Tipo de sangre", $typeArrival, 'No existe'],
         ["Género", $admission->genero, 'No existe'],
         ["Salud", $admission->health, 'No existe'],
         ["Salud adicional", 'SI', 'No existe'],

@@ -46,7 +46,6 @@ class AssistancesController extends Controller
 
   function savecheckinAssistences(Request $request)
   {
-    // dd($request->all());
     $student = Student::find($request->student);
 
     if ($request->hour != null && $request->min != null) {
@@ -133,12 +132,14 @@ class AssistancesController extends Controller
     $dir = $request->input('order.0.dir');
 
     if (empty($request->input('search.value'))) {
-      $posts = $consulta->offset($start)->limit($limit)->orderBy($order, $dir)->get();
-      $totalFiltered = $totalData;
+      $clausulas = $consulta->where("pre_date",$dateSearch);
+      $totalFiltered = $clausulas->count();
+      $posts = $clausulas->offset($start)->limit($limit)->orderBy($order, $dir)->get();
     }
     else {
       $search = $request->input('search.value');
-      $clausulas = $consulta->where("students.firstname", "like", "%{$search}%");
+      $clausulas = $consulta->where("pre_date", "like", "%{$search}%");
+      $clausulas = $consulta->orwhere("students.firstname", "like", "%{$search}%");
       $clausulas = $consulta->orWhere("students.threename", "like", "%{$search}%");
       $clausulas = $consulta->orWhere("students.fourname", "like", "%{$search}%");
       $clausulas = $consulta->orWhere("courses.name", "like", "%{$search}%");
@@ -152,11 +153,11 @@ class AssistancesController extends Controller
     $data = array();
     if ($posts) {
       foreach ($posts as $presence) {
-        $nestedData['date'] = $presence->pre_date;
+        $nestedData['date'] = $presence->date;
         $nestedData['student'] = $presence->firstname." ".$presence->threename." ".$presence->fourname;
         $nestedData['course'] = $presence->name;
-        $nestedData['harrival'] = $presence->pre_harrival;
-        $nestedData['hexit'] = $presence->pre_hexit;
+        $nestedData['harrival'] = $presence->harrival;
+        $nestedData['hexit'] = $presence->hexit;
         $data[] = $nestedData;
       }
     }
@@ -173,22 +174,39 @@ class AssistancesController extends Controller
 
   function pdfAssistences(Request $request)
   {
+    /*** SE VALIDA QUE EL CURSO Y EL GRADO VENGAN SELECCIONADOS ***/
+    if (($request->Grades != null || $request->Grades = "") && ($request->course == null || $request->course == "")) {
+      $grade = Grade::find($request->Grades);
+      return back()->with('Error',"No se ha selecionado un curso del Grado: ".$grade->name);
+    }
+
     $date = Carbon::today('America/Bogota')->locale('es')->isoFormat('LL');
     $day = Carbon::today('America/Bogota')->locale('es')->dayName;
     $dateNow = $day . " " . $date;
     $registers = Presence::select('presences.*', 'students.*', 'courses.*')
-      ->join('students', 'students.id', 'presences.pre_student')
-      ->join('courses', 'courses.id', 'presences.pre_course')
-      ->where('pre_status', 'PRESENTE');
-
+    ->join('students', 'students.id', 'presences.pre_student')
+    ->join('courses', 'courses.id', 'presences.pre_course')
+    ->where('pre_status', 'PRESENTE');
+    
     /*** SE FILTRAN LOS REGISTROS ENCONTRADOS SI HAY UN A FECHA SELECCIONADA ***/
-    if ($request->datepdf != null || $request->datepdf != '') {
-      $infoDate = explode('-', $request->datepdf);
+    if ($request->searchDate != null || $request->searchDate != '') {
+      $infoDate = explode('-', $request->searchDate);
       $date = Carbon::createFromDate($infoDate[0], $infoDate[1], $infoDate[2], 'America/Bogota')->locale('es')->isoFormat('LL');
       $day = Carbon::createFromDate($infoDate[0], $infoDate[1], $infoDate[2], 'America/Bogota')->locale('es')->dayName;
       $dateNow = $day . " " . $date;
       $registers = $registers->where('pre_date', $dateNow);
     }
+
+    /*** SE FILTRA LOS REGITROS ENCONTRADOS POR EL CURSO SELECCIONADO ***/
+    if ($request->course != null || $request->course != "") {
+      $registers = $registers->where('pre_course',$request->course);
+    }
+
+    /*** SE FILTRA LOS REGISTROS ENCONTRADOS POR EL ESTUDIANTE QUE FUE SELECIONADO ***/
+    if ($request->student != null || $request->student != "") {
+      $registers = $registers->where('pre_student',$request->student);
+    }
+    
     $registers = $registers->get();
 
     $pdf = App::make('dompdf.wrapper');

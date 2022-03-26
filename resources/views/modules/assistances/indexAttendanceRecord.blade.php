@@ -5,176 +5,126 @@
   <h5>{{strtoupper('registro de asistencia')}}</h5>
   @include('layouts.partial.alerts')
   <div class="container">
-    <div class="w-100 d-flex justify-content-lg-center">
+    <div>
       <form action="{{route('pdf.Assistences')}}" method="post">
         @csrf
-        <button class="btn btn-outline-danger"><i class="fas fa-file-pdf"></i> {{strtoupper('pdf')}}</button>
-        <input type="hidden" name="datepdf">
+        <div class="col-md-12 row my-3">
+          <div class="col-md-2 border-right border-secondary">
+            <div class="form-group">
+              <small class="text-muted">{{ucfirst('fecha')}}</small>
+              <input type="date" name="searchDate" class="form-control form-control-sm">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <small class="text-muted">{{ucfirst('grado')}}</small>
+              <select name="Grades" class="form-control form-control-sm select2">
+                <option value=""></option>
+                @foreach ($grades as $grade)
+                <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <small class="text-muted">{{ucfirst('curso')}}</small>
+              <select name="course" class="form-control form-control-sm select2">
+                <option value=""></option>
+                <!-- dinamic -->
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <small>{{ucfirst('alumno')}}</small>
+              <select type="text" name="student" class="form-control form-control-sm select2">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="w-100 d-flex justify-content-center mb-3">
+          <button class="btn btn-outline-danger"><i class="fas fa-file-pdf"></i> {{strtoupper('pdf')}}</button>
+        </div>
       </form>
     </div>
-    <div class="container position-fixed d-flex justify-content-center" style="padding-top: 10em;">
-      <i class="fas fa-spinner fa-pulse text-primary" style="width: 3em; height: 3em;" id="Spinner"></i>
+    <div class="table-responsive">
+      <table class="table text-center table-striped w-100" id="AssisTable">
+        <thead>
+          <tr>
+            <th>{{ucfirst('fecha')}}</th>
+            <th>{{ucfirst('alumno')}}</th>
+            <th>{{ucfirst('curso')}}</th>
+            <th>{{ucwords('hora llegada')}}</th>
+            <th>{{ucfirst('hora salida')}}</th>
+          </tr>
+        </thead>
+      </table>
     </div>
-    <div class="col-md-12 row my-3">
-      <div class="col-md-2 border-right border-secondary">
-        <div class="form-group">
-          <small class="text-muted">{{ucfirst('fecha')}}</small>
-          <input type="date" name="searchDate" class="form-control form-control-sm">
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="form-group">
-          <small class="text-muted">{{ucfirst('grado')}}</small>
-          <select name="Grades" class="form-control form-control-sm">
-            <option value="">{{ucfirst('seleccione...')}}</option>
-            @foreach($grades as $grade)
-            <option value="{{$grade->id}}">{{$grade->name}}</option>
-            @endforeach
-          </select>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="form-group">
-          <small class="text-muted">{{ucfirst('curso')}}</small>
-          <select name="course" class="form-control form-control-sm">
-            <option value="">{{ucfirst('seleccione...')}}</option>
-            <!-- dinamic -->
-          </select>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <small>{{ucfirst('alumno')}}</small>
-          <select type="text" name="student" class="form-control form-control-sm" require>
-            <option value="">{{ucfirst('seleccione...')}}</option>
-          </select>
-        </div>
-      </div>
-    </div class="table-responsive">
-    <table class="table text-center table-striped w-100" id="AssistTable">
-      <thead>
-        <tr>
-          <th>{{ucfirst('fecha')}}</th>
-          <th>{{ucfirst('alumno')}}</th>
-          <th>{{ucfirst('curso')}}</th>
-          <th>{{ucwords('hora llegada')}}</th>
-          <th>{{ucfirst('hora salida')}}</th>
-        </tr>
-      </thead>
-      <tbody id="MyData" class="hidden">
-        <!-- dinamic -->
-      </tbody>
-    </table>
   </div>
 </div>
 @endsection
 
 @section('scripts')
 <script>
-  // $(document).ready(function() {
-  //   $('#AssisTable').DataTable({
-  //     "processing" : true,
-  //     "serverSide": true,
-  //     "order":[[0,'asc']],
-  //     "ajax":{
-  //       "url": "{{ route('getAsistences') }}",
-  //       "dataType": "JSON",
-  //       "type":"GET",
-  //       "data":{"_token":"{{ csrf_token() }}"}
-  //     },
-  //     columns:[
-  //       {data:'date'},
-  //       {data:'student'},
-  //       {data:'course'},
-  //       {data:'harrival'},
-  //       {data:'exit'}
-  //     ],
-  //     responsive:true,
-  //     pagingType: "full_numbers"
-  //   })
-  // })
-
-  $('select[name=student]').change(() => {
-    const student = $('select[name=student]').val();
-    $.ajax({
-      "_method": "{{csrf_token()}}",
-      url: "{{route('getDataStudent')}}",
-      type: "POST",
-      dataType: "JSON",
-      data: {
-        student: student
+  $(document).ready(function() {
+    $('#AssisTable').DataTable({
+      "processing": true,
+      "serverSide": true,
+      "order": [
+        [0, 'asc']
+      ],
+      "ajax": {
+        "url": "{{ route('getAsistences') }}",
+        "dataType": "JSON",
+        "type": "GET",
+        "data": {
+          "_token": "{{ csrf_token() }}"
+        }
       },
-      beforeSend() {
-        $("#MyData").fadeOut(1);
-        $("#Spinner").fadeIn(1);
-      },
-      success(response) {
-        $('#MyData').empty();
-        response.forEach(element => {
-          let hexit, harrival;
-          if (element.pre_harrival != ":") {
-            harrival = element.pre_harrival;
-            if (element.pre_hexit == null) {
-              hexit = "";
-            } else {
-              hexit = element.pre_hexit;
-            }
-          } else {
-            hexit = `<b class="text-danger"><i>AUSENCIA</i></b>`;
-            harrival = `<b class="text-danger"><i>AUSENCIA</i></b>`;
-          }
-          $('#MyData').append(`<tr>
-          <td>${element.pre_date}</td>
-          <td>${element.firstname} ${element.threename} ${element.fourname}</td>
-          <td>${element.name}</td>
-          <td class="arrival">${harrival}</td>
-          <td class="exit">${hexit}</td>
-          </tr>`)
-        });
-      },
-      complete() {
-        $("#Spinner").fadeOut(2500);
-        $("#MyData").fadeIn(2500);
+      "columns": [{
+          "data": 'date'
+        },
+        {
+          "data": 'student'
+        },
+        {
+          "data": 'course'
+        },
+        {
+          "data": 'harrival'
+        },
+        {
+          "data": 'hexit'
+        }
+      ],
+      "responsive": true,
+      // pagingType: "full_numbers",
+      "language": {
+        "processing": "Procesamiento en curso...",
+        "search": "Buscar:",
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros. ",
+        "infoEmpty": "Mostrando dato 0 a 0 de 0 registros",
+        "emptyTable": "No hay registros disponibles",
+        "infoFiltered": "Filtrado de _MAX_ elementos totales",
+        "infoPostFix": "",
+        "loadingRecords": "Cargando...",
+        "zeroRecords": "No hay registros para mostrar",
+        "infoFiltered": "Filtrado de _MAX_ registros",
+        "paginate": {
+          "first": "|<",
+          "previous": "<",
+          "next": ">",
+          "last": ">|"
+        }
       }
     })
   });
 
- 
   $('input[name=searchDate]').change(() => {
-    const dt = $('input[name=searchDate]').val();
-    console.log(dt);
-    $('input[name=datepdf]').val(dt);
-    $.ajax({
-      "_token": "{{csrf_token()}}",
-      url: "{{route('getAssistDate')}}",
-      type: "POST",
-      dataType: "JSON",
-      data: {
-        dt: dt
-      },
-      beforeSend() {
-        $("#MyData").fadeOut(1);
-        $("#Spinner").fadeIn(1);
-      },
-      success(response) {
-        $('#MyData').empty();
-        console.log(response);
-        response.forEach(element => {
-          const hexit = (element.pre_hexit != null) ? element.pre_hexit : "";
-          $('#MyData').append(`<tr>
-          <td>${element.pre_date}</td>
-          <td>${element.student.firstname} ${element.student.threename} ${element.student.fourname}</td>
-          <td>${element.course.name}</td>
-          <td>${element.pre_harrival}</td>
-          <td>${hexit}</td>
-          </tr>`)
-        });
-      },
-      complete() {
-        $("#Spinner").fadeOut(2500);
-        $("#MyData").fadeIn(2500);
-      }
-    })
+    $('input[name=datepdf]').val($('input[name=searchDate]').val());
   });
 
   $('select[name=course]').change(() => {
@@ -247,44 +197,5 @@
       }
     });
   });
-
-  const nowData = () => {
-    $.ajax({
-      "_token": "csrf_token()",
-      type: "POST",
-      url: "{{ route('getAssistences')}}",
-      dataType: "JSON",
-      beforeSend() {
-        Swal.fire({
-          icon: "info",
-          title: `<h3 class="text-info">Consultando Registros</h3>`,
-          showConfirmButton: false,
-          timer: 1500
-        })
-      },
-      beforeSend() {
-        $("#MyData").fadeOut(1);
-        $("#Spinner").fadeIn(1);
-      },
-      success(response) {
-        $('#MyData').empty();
-        response.forEach(element => {
-          const hexit = (element.pre_hexit != null) ? element.pre_hexit : "";
-          $('#MyData').append(`<tr>
-          <td>${element.pre_date}</td>
-          <td>${element.firstname} ${element.threename} ${element.fourname}</td>
-          <td>${element.name}</td>
-          <td>${element.pre_harrival}</td>
-          <td>${hexit}</td>
-          </tr>`)
-        });
-      },
-      complete() {
-        $("#Spinner").fadeOut(2500);
-        $("#MyData").fadeIn(2500);
-      }
-    })
-  }
-  nowData();
 </script>
 @endsection

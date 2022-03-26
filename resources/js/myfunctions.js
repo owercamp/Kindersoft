@@ -66,441 +66,441 @@ const sinComa = event => {
 }
 
 function seeDirection($direction = '/home') {
-  const initial = "colchildren";
-  // const initial = "dreamhome";
-  // const initial = ".";
-  const administrativeHumans = `${initial}/administrative/humans`,
-    administrativeServices = `${initial}/administrative/services`,
-    comercialCustomers = `${initial}/comercial/customers`,
-    comercialProposals = `${initial}/comercial/proposals`,
-    comercialEnrollments = `${initial}/comercial/enrollments`,
-    academicStructure = `${initial}/academic/structure`,
-    academicProgramming = `${initial}/academic/programming`,
-    academicEvaluations = `${initial}/academic/evaluation`,
-    logisticAssist = `${initial}/logistic/assist-control`,
-    logisticNewletters = `${initial}/logistic/newsletters`,
-    logisticEvents = `${initial}/logistic/events`,
-    logisticIncreases = `${initial}/logistic/increase`,
-    logisticCirculars = `${initial}/logistic/circulars`,
-    logisticSchoolSchedule = `${initial}/logistic/school-schedule`,
-    reportEnrollments = `${initial}/reports/enrollments`,
-    reportStatistic = `${initial}/reports/statistic`,
-    reportlicenses = `${initial}/reports/license`,
-    financialAccounttants = `${initial}/financial/accounttants`,
-    financialAnalysis = `${initial}/financial/analysis`;
+  // let initial = "/colchildren/";
+  // let initial = "/dreamhome/";
+  let initial = "/";
+  let administrativeHumans = `${initial}administrative/humans`,
+    administrativeServices = `${initial}administrative/services`,
+    comercialCustomers = `${initial}comercial/customers`,
+    comercialProposals = `${initial}comercial/proposals`,
+    comercialEnrollments = `${initial}comercial/enrollments`,
+    academicStructure = `${initial}academic/structure`,
+    academicProgramming = `${initial}academic/programming`,
+    academicEvaluations = `${initial}academic/evaluation`,
+    logisticAssist = `${initial}logistic/assist-control`,
+    logisticNewletters = `${initial}logistic/newsletters`,
+    logisticEvents = `${initial}logistic/events`,
+    logisticIncreases = `${initial}logistic/increase`,
+    logisticCirculars = `${initial}logistic/circulars`,
+    logisticSchoolSchedule = `${initial}logistic/school-schedule`,
+    reportEnrollments = `${initial}reports/enrollments`,
+    reportStatistic = `${initial}reports/statistic`,
+    reportlicenses = `${initial}reports/license`,
+    financialAccounttants = `${initial}financial/accounttants`,
+    financialAnalysis = `${initial}financial/analysis`;
 
   switch ($direction) {
-    case `/${initial}/home`:
+    case `${initial}home`:
       return 'INICIO';
       break;
-    case `/${initial}/profile`:
+    case `${initial}profile`:
       return 'MI PERFIL >> GESTION DE ACCESO';
       break;
-    case `/${initial}/registerAdmission`:
+    case `${initial}registerAdmission`:
       return 'ADMISIONES > REGISTRO FORMULARIO';
       break;
-    case `/${initial}/aprovedAdmission`:
+    case `${initial}aprovedAdmission`:
       return 'ADMISIONES > APROBACION FORMULARIOS';
       break;
-    case `/${initial}/Admission`:
+    case `${initial}Admission`:
       return 'ADMISIONES > MIGRACION FORMULARIOS';
       break;
-    case `/${initial}/filesAdmission`:
+    case `${initial}filesAdmission`:
       return 'ADMISIONES > ARCHIVO FORMULARIOS';
       break;
-    case `/${initial}/city`:
+    case `${initial}city`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION BASE DE DATOS > CIUDADES';
       break;
-    case `/${initial}/city/edit/`:
+    case `${initial}city/edit/`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION BASE DE DATOS > CIUDADES';
       break;
-    case `/${initial}/location`:
+    case `${initial}location`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION BASE DE DATOS > LOCALIDADES';
       break;
-    case `/${initial}/district`:
+    case `${initial}district`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION BASE DE DATOS > BARRIOS';
       break;
-    case `/${initial}/document`:
+    case `${initial}document`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION BASE DE DATOS > DOCUMENTOS';
       break;
-    case `/${initial}/bloodtype`:
+    case `${initial}bloodtype`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION BASE DE DATOS > GRUPOS SANGUINEOS';
       break;
-    case `/${initial}/profession`:
+    case `${initial}profession`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION BASE DE DATOS > PROFESIONES';
       break;
-    case `/${initial}/health`:
+    case `${initial}health`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION BASE DE DATOS > CENTROS DE SALUD';
       break;
-    case `/${initial}/user`:
+    case `${initial}user`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION BASE DE DATOS > USUARIOS';
       break;
-    case `/${initial}/permission`:
+    case `${initial}permission`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION BASE DE DATOS > PERMISOS';
       break;
-    case `/${initial}/administrative/academic`:
+    case `${initial}administrative/academic`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PROGRAMAS ACADEMICOS';
       break;
-    case `/${initial}/academic/period`:
+    case `${initial}academic/period`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PROGRAMAS ACADEMICOS > PERIODOS';
       break;
-    case `/${initial}/achievementAcademics`:
+    case `${initial}achievementAcademics`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PROGRAMAS ACADEMICOS > PROGRAMAS';
       break;
-    case `/${initial}/academic/achievement/view`:
+    case `${initial}academic/achievement/view`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PROGRAMAS ACADEMICOS > PROGRAMAS CONSOLIDADOS';
       break;
-    case `/${initial}/intelligence`:
+    case `${initial}intelligence`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PROGRAMAS ACADEMICOS > INTELIGENCIAS';
       break;
-    case `/${initial}/achievement`:
+    case `${initial}achievement`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PROGRAMAS ACADEMICOS > LOGROS';
       break;
-    case `/${initial}/grade`:
+    case `${initial}grade`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PROGRAMAS ACADEMICOS > GRADOS';
       break;
-    case `/${initial}/course`:
+    case `${initial}course`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PROGRAMAS ACADEMICOS > CURSOS';
       break;
-    case `/${initial}/observations`:
+    case `${initial}observations`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PROGRAMAS ACADEMICOS > OBSERVACIONES';
       break;
-    case `/${initial}/role`:
+    case `${initial}role`:
       return 'GESTION DE MODIFICACIONES DE ACCESO... ROLES Y PERMISOS';
       break;
-    case `/${administrativeHumans}`:
+    case `${administrativeHumans}`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS';
       break;
-    case `/${administrativeHumans}/collaborator`:
+    case `${administrativeHumans}/collaborator`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS > COLABORADORES';
       break;
-    case `/${administrativeHumans}/collaborator/new`:
+    case `${administrativeHumans}/collaborator/new`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS > NUEVO COLABORADOR';
       break;
 
-    case `/${administrativeHumans}/attendant`:
+    case `${administrativeHumans}/attendant`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS > ACUDIENTES';
       break;
-    case `/${administrativeHumans}/attendant/new`:
+    case `${administrativeHumans}/attendant/new`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS > NUEVO ACUDIENTE';
       break;
 
-    case `/${administrativeHumans}/student`:
+    case `${administrativeHumans}/student`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS > ALUMNO';
       break;
-    case `/${administrativeHumans}/student/new`:
+    case `${administrativeHumans}/student/new`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS > NUEVO ALUMNO';
       break;
 
-    case `/${administrativeHumans}/provider`:
+    case `${administrativeHumans}/provider`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS > PROVEEDORES';
       break;
-    case `/${administrativeHumans}/provider/new`:
+    case `${administrativeHumans}/provider/new`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS > NUEVO PROVEEDOR';
       break;
-    case `/${administrativeHumans}/authorized`:
+    case `${administrativeHumans}/authorized`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS > AUTORIZADOS';
       break;
-    case `/${administrativeHumans}/authorized/new`:
+    case `${administrativeHumans}/authorized/new`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION RECURSOS HUMANOS > NUEVO AUTORIZADO';
       break;
-    case `/${administrativeServices}`:
+    case `${administrativeServices}`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PRODUCTOS Y SERVICIOS';
       break;
-    case `/${administrativeServices}/admissions`:
+    case `${administrativeServices}/admissions`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PRODUCTOS Y SERVICIOS > ADMISIONES';
       break;
-    case `/${administrativeServices}/journeys`:
+    case `${administrativeServices}/journeys`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PRODUCTOS Y SERVICIOS > JORNADAS';
       break;
-    case `/${administrativeServices}/feedings`:
+    case `${administrativeServices}/feedings`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PRODUCTOS Y SERVICIOS > ALIMENTACIONES';
       break;
-    case `/${administrativeServices}/uniforms`:
+    case `${administrativeServices}/uniforms`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PRODUCTOS Y SERVICIOS > UNIFORMES';
       break;
-    case `/${administrativeServices}/supplies`:
+    case `${administrativeServices}/supplies`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PRODUCTOS Y SERVICIOS > MATERIALES ESCOLARES';
       break;
-    case `/${administrativeServices}/extratimes`:
+    case `${administrativeServices}/extratimes`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PRODUCTOS Y SERVICIOS > MATERIALES ESCOLARES';
       break;
-    case `/${administrativeServices}/extracurriculars`:
+    case `${administrativeServices}/extracurriculars`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PRODUCTOS Y SERVICIOS > EXTRACURRICULARES';
       break;
-    case `/${administrativeServices}/transports`:
+    case `${administrativeServices}/transports`:
       return 'GESTION ADMINISTRATIVA > CONFIGURACION PRODUCTOS Y SERVICIOS > TRANSPORTES';
       break;
 
     /* GESTION COMERCIAL */
 
-    case `/${comercialCustomers}`:
+    case `${comercialCustomers}`:
       return 'GESTION COMERCIAL > CLIENTE POTENCIAL > REGISTRO ==> CLIENTES SIN CITACION';///////
       break;
-    case `/${initial}/comercial/agenda`:
+    case `${initial}comercial/agenda`:
       return 'GESTION COMERCIAL > CLIENTE POTENCIAL > AGENDAMIENTO ==> CLIENTES CON CITACION';///////
       break;
-    case `/${comercialCustomers}/new`:
+    case `${comercialCustomers}/new`:
       return 'GESTION COMERCIAL > CLIENTE POTENCIAL > AGENDAMIENTO > NUEVO CLIENTE';
       break;
-    case `/${comercialCustomers}/programming`:
+    case `${comercialCustomers}/programming`:
       return 'GESTION COMERCIAL > CLIENTE POTENCIAL > PROGRAMACION';
       break;
-    case `/${comercialCustomers}/statistic`:
+    case `${comercialCustomers}/statistic`:
       return 'GESTION COMERCIAL > CLIENTE POTENCIAL > ESTADISTICAS';
       break;
-    case `/${comercialCustomers}/statistic`:
+    case `${comercialCustomers}/statistic`:
       return 'GESTION COMERCIAL > CLIENTE POTENCIAL > ESTADISTICAS DE AGENDAMIENTOS';
       break;
-    case `/${comercialProposals}/customerproposal`:
+    case `${comercialProposals}/customerproposal`:
       return 'GESTION COMERCIAL > PROPUESTA COMERCIAL > CLIENTES ASISTIDOS';///////
       break;
-    case `/${comercialProposals}/quotation`:
+    case `${comercialProposals}/quotation`:
       return 'GESTION COMERCIAL > PROPUESTA COMERCIAL > COTIZACIONES';
       break;
-    case `/${comercialProposals}/tracing`:
+    case `${comercialProposals}/tracing`:
       return 'GESTION COMERCIAL > PROPUESTA COMERCIAL > SEGUIMIENTOS';
       break;
-    case `/${comercialProposals}/files`:
+    case `${comercialProposals}/files`:
       return 'GESTION COMERCIAL > PROPUESTA COMERCIAL > ARCHIVO';////////
       break;
-    case `/${comercialProposals}/statistic`:
+    case `${comercialProposals}/statistic`:
       return 'GESTION COMERCIAL > PROPUESTA COMERCIAL > ESTADISTICAS DE PROPUESTAS';
       break;
-    case `/${comercialEnrollments}/documents`:
+    case `${comercialEnrollments}/documents`:
       return 'GESTION COMERCIAL > MATRICULAS Y ADMISIONES > LISTA DE REQUISITOS';
       break;
-    case `/${comercialEnrollments}/consolidated`:
+    case `${comercialEnrollments}/consolidated`:
       return 'GESTION COMERCIAL > MATRICULAS Y ADMISIONES > ORDEN DE MATRICULAS';
       break;
-    case `/${comercialEnrollments}/consolidated/new`:
+    case `${comercialEnrollments}/consolidated/new`:
       return 'GESTION COMERCIAL > MATRICULAS Y ADMISIONES > ORDEN DE MATRICULAS > NUEVA MATRICULA';
       break;
-    case `/${comercialEnrollments}/legalization`:
+    case `${comercialEnrollments}/legalization`:
       return 'GESTION COMERCIAL > MATRICULAS Y ADMISIONES > LEGALIZACION DE MATRICULAS';
       break;
-    case `/${comercialEnrollments}/contract`:
+    case `${comercialEnrollments}/contract`:
       return 'GESTION COMERCIAL > MATRICULAS Y ADMISIONES > GENERACION DE CONTRATOS';
       break;
-    case `/${comercialEnrollments}/certificates`:
+    case `${comercialEnrollments}/certificates`:
       return 'GESTION COMERCIAL > MATRICULAS Y ADMISIONES > GENERACION DE CERTIFICADOS';
       break;
-    case `/${comercialEnrollments}/legalizationsfinished`:
+    case `${comercialEnrollments}/legalizationsfinished`:
       return 'GESTION COMERCIAL > MATRICULAS Y ADMISIONES > ARCHIVO DE CONTRATOS';
       break;
 
     /* GESTION ACADEMICA */
-    case `/${academicStructure}/gradeCourse`:
+    case `${academicStructure}/gradeCourse`:
       return 'GESTION ACADEMICA > ESTRUCTURA ESCOLAR > GRADOS Y CURSOS';
       break;
-    case `/${academicStructure}/gradeCourse/list`:
+    case `${academicStructure}/gradeCourse/list`:
       return 'GESTION ACADEMICA > ESTRUCTURA ESCOLAR > GRADOS Y CURSOS >> LISTADOS';
       break;
-    case `/${academicStructure}/gradeCourse/edit`:
+    case `${academicStructure}/gradeCourse/edit`:
       return 'GESTION ACADEMICA > ESTRUCTURA ESCOLAR > GRADOS Y CURSOS >> EDITAR FECHAS DEL CURSO';
       break;
-    case `/${academicStructure}/activityspace`:
+    case `${academicStructure}/activityspace`:
       return 'GESTION ACADEMICA > ESTRUCTURA ESCOLAR > ESPACIOS DE ACTIVIDADES';
       break;
-    case `/${academicStructure}/activityclass`:
+    case `${academicStructure}/activityclass`:
       return 'GESTION ACADEMICA > ESTRUCTURA ESCOLAR > CLASES Y ACTIVIDADES';
       break;
-    case `/${academicProgramming}/hoursweek`:
+    case `${academicProgramming}/hoursweek`:
       return 'GESTION ACADEMICA > PROGRAMACION ESCOLAR > HORARIO SEMANAL';
       break;
-    case `/${academicProgramming}/academicperiod`:
+    case `${academicProgramming}/academicperiod`:
       return 'GESTION ACADEMICA > PROGRAMACION ESCOLAR > PERIODOS ACADEMICOS';
       break;
-    case `/${academicProgramming}/academicperiod/new`:
+    case `${academicProgramming}/academicperiod/new`:
       return 'GESTION ACADEMICA > PROGRAMACION ESCOLAR > PERIODOS ACADEMICOS >> REGISTRO DE PERIODOS';
       break;
-    case `/${academicProgramming}/baseactivitys`:
+    case `${academicProgramming}/baseactivitys`:
       return 'GESTION ACADEMICA > PROGRAMACION ESCOLAR > BASE DE ACTIVIDADES';
       break;
-    case `/${academicProgramming}/planning`:
+    case `${academicProgramming}/planning`:
       return 'GESTION ACADEMICA > PROGRAMACION ESCOLAR > PLANEACION CRONOLOGICA';
       break;
 
-    case `/${academicEvaluations}/weeklyTracking`:
+    case `${academicEvaluations}/weeklyTracking`:
       return 'GESTION ACADEMICA > EVALUACION ESCOLAR > SEGUIMIENTO SEMANAL';
       break;
-    case `/${academicEvaluations}/periodClosing`:
+    case `${academicEvaluations}/periodClosing`:
       return 'GESTION ACADEMICA > EVALUACION ESCOLAR > CIERRE DE PERIODO ACADEMICO';
       break;
-    case `/${academicEvaluations}/newsletters`:
+    case `${academicEvaluations}/newsletters`:
       return 'GESTION ACADEMICA > EVALUACION ESCOLAR > INFORME DE PERIODO';
       break;
-    case `/${academicEvaluations}/bulletins`:
+    case `${academicEvaluations}/bulletins`:
       return 'GESTION ACADEMICA > EVALUACION ESCOLAR > BOLETINES ESCOLARES';
       break;
 
 
     /* GESTION LOGISTICA */
 
-    case `/${logisticAssist}/check-in`:
+    case `${logisticAssist}/check-in`:
       return 'GESTION LOGISTICA > CONTROL DE ASISTENCIA > REGISTRO INGRESO';
       break;
-    case `/${logisticAssist}/check-out`:
+    case `${logisticAssist}/check-out`:
       return 'GESTION LOGISTICA > CONTROL DE ASISTENCIA > REGISTRO SALIDA';
       break;
-    case `/${logisticAssist}/register`:
+    case `${logisticAssist}/register`:
       return 'GESTION LOGISTICA > CONTROL DE ASISTENCIA > REGISTRO ASISTENCIA';
       break;
-    case `/${logisticAssist}/absence`:
+    case `${logisticAssist}/absence`:
       return 'GESTION LOGISTICA > CONTROL DE ASISTENCIA > REGISTRO AUSENCIA';
       break;
-    case `/${logisticAssist}/graphics`:
+    case `${logisticAssist}/graphics`:
       return 'GESTION LOGISTICA > CONTROL DE ASISTENCIA > GRAFICA ASISTENCIA';
       break;
-    case `/${logisticNewletters}/assistances`:
+    case `${logisticNewletters}/assistances`:
       return 'GESTION LOGISTICA > NOVEDADES DIARIAS > CONTROL DE ASISTENCIAS';
       break;
-    case `/${logisticNewletters}/additionals`:
+    case `${logisticNewletters}/additionals`:
       return 'GESTION LOGISTICA > NOVEDADES DIARIAS > CONTROL DE ADICIONALES';
       break;
-    case `/${logisticNewletters}/feedingscontrol`:
+    case `${logisticNewletters}/feedingscontrol`:
       return 'GESTION LOGISTICA > NOVEDADES DIARIAS > CONTROL DE ALIMENTACION';
       break;
-    case `/${logisticNewletters}/sphinctersControl`:
+    case `${logisticNewletters}/sphinctersControl`:
       return 'GESTION LOGISTICA > NOVEDADES DIARIAS > CONTROL DE ESFINTERES';
       break;
-    case `/${logisticNewletters}/healthsControl`:
+    case `${logisticNewletters}/healthsControl`:
       return 'GESTION LOGISTICA > NOVEDADES DIARIAS > CONTROL DE ENFERMERIA';
       break;
-    case `/${logisticNewletters}/reportDaily`:
+    case `${logisticNewletters}/reportDaily`:
       return 'GESTION LOGISTICA > NOVEDADES DIARIAS > INFORME DIARIO';
       break;
 
-    case `/${logisticEvents}/creation`:
+    case `${logisticEvents}/creation`:
       return 'GESTION LOGISTICA > PROGRAMACION DE EVENTOS > CREACION';
       break;
-    case `/${logisticEvents}/diary`:
+    case `${logisticEvents}/diary`:
       return 'GESTION LOGISTICA > PROGRAMACION DE EVENTOS > AGENDAMIENTO';
       break;
-    case `/${logisticEvents}/follow`:
+    case `${logisticEvents}/follow`:
       return 'GESTION LOGISTICA > PROGRAMACION DE EVENTOS > SEGUIMIENTO';
       break;
-    case `/${logisticEvents}/grafic`:
+    case `${logisticEvents}/grafic`:
       return 'GESTION LOGISTICA > PROGRAMACION DE EVENTOS > ESTADISTICA';
       break;
 
     // CRECIMIENTO Y DESARROLLO
-    case `/${logisticIncreases}/professionalsHealth`:
+    case `${logisticIncreases}/professionalsHealth`:
       return 'GESTION LOGISTICA > CRECIMIENTO Y DESARROLLO > PROFESIONALES DE LA SALUD';
       break;
-    case `/${logisticIncreases}/observationsHealth`:
+    case `${logisticIncreases}/observationsHealth`:
       return 'GESTION LOGISTICA > CRECIMIENTO Y DESARROLLO > OBSERVACIONES DE LA SALUD';
       break;
-    case `/${logisticIncreases}/vaccination`:
+    case `${logisticIncreases}/vaccination`:
       return 'GESTION LOGISTICA > CRECIMIENTO Y DESARROLLO > ESQUEMAS DE VACUNACION';
       break;
-    case `/${logisticIncreases}/rating`:
+    case `${logisticIncreases}/rating`:
       return 'GESTION LOGISTICA > CRECIMIENTO Y DESARROLLO > VALORACIONES PERIODICAS';
       break;
-    case `/${logisticIncreases}/increaseStatistic`:
+    case `${logisticIncreases}/increaseStatistic`:
       return 'GESTION LOGISTICA > CRECIMIENTO Y DESARROLLO > ESTADISTICA';
       break;
 
     // CIRCULARES
-    case `/${logisticCirculars}/bodycircular`:
+    case `${logisticCirculars}/bodycircular`:
       return 'GESTION LOGISTICA > CIRCULARES INFORMATIVAS > CREACION DE CUERPOS';
       break;
-    case `/${logisticCirculars}/academic`:
+    case `${logisticCirculars}/academic`:
       return 'GESTION LOGISTICA > CIRCULARES INFORMATIVAS > CIRCULAR ACADEMICA';
       break;
-    case `/${logisticCirculars}/administrative`:
+    case `${logisticCirculars}/administrative`:
       return 'GESTION LOGISTICA > CIRCULARES INFORMATIVAS > CIRCULAR ADMINISTRATIVA';
       break;
-    case `/${logisticCirculars}/memo`:
+    case `${logisticCirculars}/memo`:
       return 'GESTION LOGISTICA > CIRCULARES INFORMATIVAS > MEMORANDO INTERNO';
       break;
-    case `/${logisticCirculars}/academic/list`:
+    case `${logisticCirculars}/academic/list`:
       return 'GESTION LOGISTICA > CIRCULARES INFORMATIVAS > ARCHIVO CIRCULAR ACADEMICA';
       break;
-    case `/${logisticCirculars}/administrative/list`:
+    case `${logisticCirculars}/administrative/list`:
       return 'GESTION LOGISTICA > CIRCULARES INFORMATIVAS > ARCHIVO CIRCULAR ADMINISTRATIVA';
       break;
-    case `/${logisticCirculars}/memo/list`:
+    case `${logisticCirculars}/memo/list`:
       return 'GESTION LOGISTICA > CIRCULARES INFORMATIVAS > ARCHIVO COMUNICADO INTERNO';
       break;
-    case `/${reportEnrollments}/list`:
+    case `${reportEnrollments}/list`:
       return 'GESTION LOGISTICA > INFORMES ESPECIALES > LISTADO DE MATRICULADOS';
       break;
-    case `/${reportEnrollments}/setting`:
+    case `${reportEnrollments}/setting`:
       return 'GESTION LOGISTICA > INFORMES ESPECIALES > CONFIGURACION DE INFORMES';
       break;
-    case `/${reportEnrollments}/setting/attendant`:
+    case `${reportEnrollments}/setting/attendant`:
       return 'GESTION LOGISTICA > INFORMES ESPECIALES > INFORME DE ACUDIENTES';
       break;
-    case `/${reportStatistic}/assistances`:
+    case `${reportStatistic}/assistances`:
       return 'GESTION LOGISTICA > INFORMES ESPECIALES > ESTADISTICA DE ASISTENCIA';
       break;
-    case `/${reportStatistic}/increase`:
+    case `${reportStatistic}/increase`:
       return 'GESTION LOGISTICA > INFORMES ESPECIALES > ESTADISTICA DE CRECIMIENTO Y DESARROLLO';
       break;
-    case `/${reportlicenses}/collaborators`:
+    case `${reportlicenses}/collaborators`:
       return 'GESTION LOGISTICA > INFORMES ESPECIALES > CARNETIZACION COLABORADOR';
       break;
-    case `/${reportlicenses}/students`:
+    case `${reportlicenses}/students`:
       return 'GESTION LOGISTICA > INFORMES ESPECIALES > CARNETIZACION ALUMNO';
       break;
 
     // AGENDA ESCOLAR
-    case `/${logisticSchoolSchedule}/greeting`:
+    case `${logisticSchoolSchedule}/greeting`:
       return 'GESTION lOGISTICA > AGENDA ESCOLAR > PLANTILLAS DE SALUDO';
       break
-    case `/${logisticSchoolSchedule}/context`:
+    case `${logisticSchoolSchedule}/context`:
       return 'GESTION LOGISTICA > AGENDA ESCOLAR > PLANTILLA DE CONTEXTO';
       break
-    case `/${logisticSchoolSchedule}/daily`:
+    case `${logisticSchoolSchedule}/daily`:
       return 'GESTION LOGISTICA > AGENDA ESCOLAR > INFORMACION DIARIA';
       break
-    case `/${logisticSchoolSchedule}/file`:
+    case `${logisticSchoolSchedule}/file`:
       return 'GESTION LOGISTICA > AGENDA ESCOLAR > ARCHIVO DE AGENDA';
       break
 
-    case `/${financialAccounttants}/accounts`:
+    case `${financialAccounttants}/accounts`:
       return 'GESTION FINANCIERA > ESTADOS DE CUENTA';
       break;
-    case `/${financialAccounttants}/facturations/general`:
+    case `${financialAccounttants}/facturations/general`:
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > INFORMACION GENERAL';
       break;
-    case `/${financialAccounttants}/facturations`:
+    case `${financialAccounttants}/facturations`:
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > FACTURACION';
       break;
-    case `/${financialAccounttants}/facturations/all`:
+    case `${financialAccounttants}/facturations/all`:
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > GESTION DE CARTERA';
       break;
-    case `/${financialAccounttants}/entryvouchers`:
+    case `${financialAccounttants}/entryvouchers`:
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > COMPROBANTE DE INGRESO';
       break;
-    case `/${financialAccounttants}/agressvouchers`:
+    case `${financialAccounttants}/agressvouchers`:
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > COMPROBANTE DE EGRESO';
       break;
-    case `/${financialAccounttants}/canceled`:
+    case `${financialAccounttants}/canceled`:
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > FACTURAS ANULADAS';
       break;
-    case `/${financialAccounttants}/balances`:
+    case `${financialAccounttants}/balances`:
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > CONCILIACION DE SALDOS';
       break;
-    case `/${financialAccounttants}/statistic/financial`:
+    case `${financialAccounttants}/statistic/financial`:
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > ESTADISTICA DE VENTAS';
       break;
 
     // ANALISIS DE PRESUPUESTO
-    case `/${financialAnalysis}/coststructure`:
+    case `${financialAnalysis}/coststructure`:
       return 'GESTION FINANCIERA > ANALISIS DE PRESUPUESTO > ESTRUCTURA DE COSTOS';
       break;
-    case `/${financialAnalysis}/costdescription`:
+    case `${financialAnalysis}/costdescription`:
       return 'GESTION FINANCIERA > ANALISIS DE PRESUPUESTO > DESCRIPCION DE COSTOS';
       break;
-    case `/${financialAnalysis}/budget`:
+    case `${financialAnalysis}/budget`:
       return 'GESTION FINANCIERA > ANALISIS DE PRESUPUESTO > PRESUPUESTO ANUAL';
       break;
-    case `/${financialAnalysis}/follow`:
+    case `${financialAnalysis}/follow`:
       return 'GESTION FINANCIERA > ANALISIS DE PRESUPUESTO > SEGUIMIENTO MENSUAL';
       break;
-    case `/${financialAnalysis}/report`:
+    case `${financialAnalysis}/report`:
       return 'GESTION FINANCIERA > ANALISIS DE PRESUPUESTO > INFORME DE CIERRE';
       break;
     default:

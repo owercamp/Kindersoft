@@ -80,6 +80,7 @@
           <th>TERCERO</th>
           <th>VALOR PAGADO</th>
           <th>PDF</th>
+          <th>ACCIONES</th>
         </tr>
       </thead>
       <tbody>

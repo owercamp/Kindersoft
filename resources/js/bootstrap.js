@@ -12,6 +12,7 @@ try {
   window.mask = require('jquery-mask-plugin');
   window.datatable = require('datatables.net-dt');
   window.Swal = require('sweetalert2');
+  window.Select2 = require('select2');
 
   require('../fontawesome/js/v4-shims');
   require('../fontawesome/js/solid');

@@ -22,20 +22,23 @@ class ReportsController extends Controller
         $this->middleware('auth');
     }
 
-    public function listEnrollmentTo(){
+    public function listEnrollmentTo()
+    {
         $courses = Course::all();
-        return view('modules.reports.listEnrollments',compact('courses'));
+        return view('modules.reports.listEnrollments', compact('courses'));
     }
 
-    public function listExcel(Request $request){
-            $idStudent = substr(trim($request->idsExcel),0,-1); // QUITAR EL ULTIMO CARACTER QUE SOBRA
-            $separatedIds = explode(':', $idStudent);
-            $datenow = Date('Y-m-d h:m:s');
-            return Excel::download(new StudentsExcel($separatedIds), 'Listado_' . $datenow . '.xlsx');
-            // return (new StudentsExcel($separatedIds))->download('invoices.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    public function listExcel(Request $request)
+    {
+        $idStudent = substr(trim($request->idsExcel), 0, -1); // QUITAR EL ULTIMO CARACTER QUE SOBRA
+        $separatedIds = explode(':', $idStudent);
+        $datenow = Date('Y-m-d h:m:s');
+        return Excel::download(new StudentsExcel($separatedIds), 'Listado_' . $datenow . '.xlsx');
+        // return (new StudentsExcel($separatedIds))->download('invoices.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
-    public function settingReportTo(){
+    public function settingReportTo()
+    {
         $courses = Course::all();
         $tables = DB::select('SHOW TABLES');
         $legalizations = Legalization::select(
@@ -57,38 +60,39 @@ class ReportsController extends Controller
             'grades.name AS nameGrade',
             DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendantone")
         )
-        ->join('students','students.id','legalizations.legStudent_id')
-        ->join('attendants','attendants.id','legalizations.legAttendantfather_id')
-        ->join('grades','grades.id','legalizations.legGrade_id')
-        ->join('documents','documents.id','students.typedocument_id')
-        ->join('citys','citys.id','students.cityhome_id')
-        ->join('locations','locations.id','students.locationhome_id')
-        ->join('districts','districts.id','students.dictricthome_id')
-        ->join('bloodtypes','bloodtypes.id','students.bloodtype_id')
-        ->join('healths','healths.id','students.health_id')
-        ->where('legStatus',"ACTIVO")
-        ->get();
-        return view('modules.reports.settingReport',compact('tables','legalizations'));
+            ->join('students', 'students.id', 'legalizations.legStudent_id')
+            ->join('attendants', 'attendants.id', 'legalizations.legAttendantfather_id')
+            ->join('grades', 'grades.id', 'legalizations.legGrade_id')
+            ->join('documents', 'documents.id', 'students.typedocument_id')
+            ->join('citys', 'citys.id', 'students.cityhome_id')
+            ->join('locations', 'locations.id', 'students.locationhome_id')
+            ->join('districts', 'districts.id', 'students.dictricthome_id')
+            ->join('bloodtypes', 'bloodtypes.id', 'students.bloodtype_id')
+            ->join('healths', 'healths.id', 'students.health_id')
+            ->where('legStatus', "ACTIVO")
+            ->get();
+        return view('modules.reports.settingReport', compact('tables', 'legalizations'));
     }
 
-    public function reportAttendantTo(){
+    public function reportAttendantTo()
+    {
         $legalizations = Legalization::select(
             'legalizations.legId',
             'legalizations.legAttendantfather_id',
             'legalizations.legAttendantmother_id',
             DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent")
         )
-        ->join('students','students.id','legalizations.legStudent_id')
-        ->where('legStatus','ACTIVO')
-        ->orderBy('nameStudent','asc')
-        ->get();
+            ->join('students', 'students.id', 'legalizations.legStudent_id')
+            ->where('legStatus', 'ACTIVO')
+            ->orderBy('nameStudent', 'asc')
+            ->get();
         $dates = array();
         foreach ($legalizations as $legalization) {
-            if($legalization->legAttendantfather_id != null && $legalization->legAttendantmother_id != null){
+            if ($legalization->legAttendantfather_id != null && $legalization->legAttendantmother_id != null) {
                 $father = Attendant::find($legalization->legAttendantfather_id);
                 $mother = Attendant::find($legalization->legAttendantmother_id);
-                if($father != null && $mother != null){
-                    array_push($dates,[
+                if ($father != null && $mother != null) {
+                    array_push($dates, [
                         $legalization->legId,
                         $legalization->nameStudent,
                         $father->firstname . ' ' . $father->threename,
@@ -104,8 +108,8 @@ class ReportsController extends Controller
                         $mother->emailone,
                         $mother->emailtwo
                     ]);
-                }else if($father != null && $mother == null){
-                    array_push($dates,[
+                } else if ($father != null && $mother == null) {
+                    array_push($dates, [
                         $legalization->legId,
                         $legalization->nameStudent,
                         $father->firstname . ' ' . $father->threename,
@@ -121,8 +125,8 @@ class ReportsController extends Controller
                         'SIN REGISTRAR',
                         'SIN REGISTRAR'
                     ]);
-                }else if($father == null && $mother != null){
-                    array_push($dates,[
+                } else if ($father == null && $mother != null) {
+                    array_push($dates, [
                         $legalization->legId,
                         $legalization->nameStudent,
                         'SIN REGISTRAR',
@@ -138,45 +142,8 @@ class ReportsController extends Controller
                         $mother->emailone,
                         $mother->emailtwo
                     ]);
-                }else if($father == null && $mother == null){
-                    array_push($dates,[
-                        $legalization->legId,
-                        $legalization->nameStudent,
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR'
-                    ]);
-                }                
-            }else if($legalization->legAttendantfather_id == null && $legalization->legAttendantmother_id != null){
-                $mother = Attendant::find($legalization->legAttendantmother_id);
-                if($mother != null){
-                    array_push($dates,[
-                        $legalization->legId,
-                        $legalization->nameStudent,
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        'SIN REGISTRAR',
-                        $mother->firstname . ' ' . $mother->threename,
-                        $mother->phoneone,
-                        $mother->phonetwo,
-                        $mother->whatsapp,
-                        $mother->emailone,
-                        $mother->emailtwo
-                    ]);
-                }else{
-                    array_push($dates,[
+                } else if ($father == null && $mother == null) {
+                    array_push($dates, [
                         $legalization->legId,
                         $legalization->nameStudent,
                         'SIN REGISTRAR',
@@ -193,27 +160,27 @@ class ReportsController extends Controller
                         'SIN REGISTRAR'
                     ]);
                 }
-            }else if($legalization->legAttendantfather_id != null && $legalization->legAttendantmother_id == null){
-                $father = Attendant::find($legalization->legAttendantfather_id);
-                if($father != null){
-                    array_push($dates,[
+            } else if ($legalization->legAttendantfather_id == null && $legalization->legAttendantmother_id != null) {
+                $mother = Attendant::find($legalization->legAttendantmother_id);
+                if ($mother != null) {
+                    array_push($dates, [
                         $legalization->legId,
                         $legalization->nameStudent,
-                        $father->firstname . ' ' . $father->threename,
-                        $father->phoneone,
-                        $father->phonetwo,
-                        $father->whatsapp,
-                        $father->emailone,
-                        $father->emailtwo,
                         'SIN REGISTRAR',
                         'SIN REGISTRAR',
                         'SIN REGISTRAR',
                         'SIN REGISTRAR',
                         'SIN REGISTRAR',
-                        'SIN REGISTRAR'
+                        'SIN REGISTRAR',
+                        $mother->firstname . ' ' . $mother->threename,
+                        $mother->phoneone,
+                        $mother->phonetwo,
+                        $mother->whatsapp,
+                        $mother->emailone,
+                        $mother->emailtwo
                     ]);
-                }else{
-                    array_push($dates,[
+                } else {
+                    array_push($dates, [
                         $legalization->legId,
                         $legalization->nameStudent,
                         'SIN REGISTRAR',
@@ -230,8 +197,45 @@ class ReportsController extends Controller
                         'SIN REGISTRAR'
                     ]);
                 }
-            }else{
-                array_push($dates,[
+            } else if ($legalization->legAttendantfather_id != null && $legalization->legAttendantmother_id == null) {
+                $father = Attendant::find($legalization->legAttendantfather_id);
+                if ($father != null) {
+                    array_push($dates, [
+                        $legalization->legId,
+                        $legalization->nameStudent,
+                        $father->firstname . ' ' . $father->threename,
+                        $father->phoneone,
+                        $father->phonetwo,
+                        $father->whatsapp,
+                        $father->emailone,
+                        $father->emailtwo,
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR'
+                    ]);
+                } else {
+                    array_push($dates, [
+                        $legalization->legId,
+                        $legalization->nameStudent,
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR',
+                        'SIN REGISTRAR'
+                    ]);
+                }
+            } else {
+                array_push($dates, [
                     $legalization->legId,
                     $legalization->nameStudent,
                     'SIN REGISTRAR',
@@ -249,33 +253,39 @@ class ReportsController extends Controller
                 ]);
             }
         }
-        return view('modules.reports.attendantsfilter',compact('dates'));
+        return view('modules.reports.attendantsfilter', compact('dates'));
     }
 
-    public function legalizationExcel(){
+    public function legalizationExcel()
+    {
         return Excel::download(new LegalizationsExcel(), 'Contratos.xlsx');
     }
 
-    public function statisticAssistancesTo(){
+    public function statisticAssistancesTo()
+    {
         $courses = Course::all();
-        return view('modules.reports.statisticAssistances', compact('courses'));        
+        return view('modules.reports.statisticAssistances', compact('courses'));
     }
 
-    public function statisticIncreaseTo(){
+    public function statisticIncreaseTo()
+    {
         return view('modules.reports.statisticIncrease');
     }
 
-    public function createLicenseCollaborator(){
+    public function createLicenseCollaborator()
+    {
         return view('modules.reports.collaboratorLicense');
     }
 
-    public function createLicenseStudent(){
+    public function createLicenseStudent()
+    {
         return view('modules.reports.studentLicense');
     }
 
-    public function createStatistic(Request $request){
+    public function createStatistic(Request $request)
+    {
         // dd($request->all());
-        $separatedDates = explode(':',$request->period);
+        $separatedDates = explode(':', $request->period);
         $start = strtotime($separatedDates[0]);
         $end = strtotime($separatedDates[1]);
         $totalPresentfull = 0;
@@ -287,48 +297,48 @@ class ReportsController extends Controller
         $additionalDay = 0;
         $next = 86400;
         $result = array();
-        $days = Legalization::select('jouDays')->join('journeys','journeys.id','legalizations.legJourney_id')
-                            // ->where('legCourse_id',$request->course)
-                            ->where('legStudent_id',$request->student)->first();
-        for ($i=$start; $i <= $end; $i+=$next) {
+        $days = Legalization::select('jouDays')->join('journeys', 'journeys.id', 'legalizations.legJourney_id')
+            // ->where('legCourse_id',$request->course)
+            ->where('legStudent_id', $request->student)->first();
+        for ($i = $start; $i <= $end; $i += $next) {
             $presentfull = 0;
             $presentfall = 0;
             $absentout = 0;
             $message = '';
             // $assistance = null;
-            $day = date('Y-m-d',$i);
-            $daynow = getStringDay(date('w',$i));
+            $day = date('Y-m-d', $i);
+            $daynow = getStringDay(date('w', $i));
 
-            if($daynow == 'LUNES' || $daynow == 'MARTES' || $daynow == 'MIERCOLES' || $daynow == 'JUEVES' || $daynow == 'VIERNES'){
+            if ($daynow == 'LUNES' || $daynow == 'MARTES' || $daynow == 'MIERCOLES' || $daynow == 'JUEVES' || $daynow == 'VIERNES') {
                 $businnesDay++;
             }
-            $assistance = Assistance::where('assCourse_id',$request->course)->where('assDate',$day)->first();
-            if($assistance != null){
+            $assistance = Assistance::where('assCourse_id', $request->course)->where('assDate', $day)->first();
+            if ($assistance != null) {
                 $findDay = strpos($days, $daynow);
-                if(!$findDay){
+                if (!$findDay) {
                     $additionalDay++;
                 }
                 $studentAbsent = strpos($assistance->assAbsent, $request->student);
-                if($studentAbsent){
+                if ($studentAbsent) {
                     $absentout++;
                     $totalAbsentout++;
-                }else{
-                    $allStudentPresent = explode('%',$assistance->assPresents);
+                } else {
+                    $allStudentPresent = explode('%', $assistance->assPresents);
                     $validate = false;
-                    for ($s=0; $s < count($allStudentPresent); $s++) { 
-                        $student = substr($allStudentPresent[$s],0,strlen($request->student));
-                        if($student == $request->student){
+                    for ($s = 0; $s < count($allStudentPresent); $s++) {
+                        $student = substr($allStudentPresent[$s], 0, strlen($request->student));
+                        if ($student == $request->student) {
                             // $absentout = 0;
                             $message = '';
                             $validate = true;
                             $separatedInfo = explode('/', $allStudentPresent[$s]);
-                            $message = $separatedInfo[count($separatedInfo)-1]; // TOMA EL ULTIMO ELEMENTO DEL ARRAY
+                            $message = $separatedInfo[count($separatedInfo) - 1]; // TOMA EL ULTIMO ELEMENTO DEL ARRAY
                             $time = strpos($message, 'LLEGADA A TIEMPO');
-                            if($time >= 0){
+                            if ($time >= 0) {
                                 // $presentfull++;
                                 $totalPresentfull++;
                                 // $presentfall = 0;
-                            }else{
+                            } else {
                                 // $presentfall++;
                                 $totalPresentfall++;
                                 // $presentfull = 0;
@@ -336,8 +346,8 @@ class ReportsController extends Controller
                             // if($this->getStringDate($day) == '27 de febrero'){
                             //     dd('MENSAJE: ' . $message . ', COMPLETO: ' . $presentfull . ', INCOMPLETO: ' . $presentfall);
                             // }
-                        }else{
-                            if(!$validate){ // SI NO SE CUMPLE ES PORQUE YA SE ENCONTRO AL ALUMNO EN UNA ITERACION ANTERIOR
+                        } else {
+                            if (!$validate) { // SI NO SE CUMPLE ES PORQUE YA SE ENCONTRO AL ALUMNO EN UNA ITERACION ANTERIOR
                                 // $absentout++;
                                 $totalAbsentout++;
                             }
@@ -366,7 +376,7 @@ class ReportsController extends Controller
                 //         'LLEGADA TARDE'
                 //     ]); 
                 // }
-            }else{
+            } else {
                 $totalNotresult++;
                 // array_push($result, [
                 //     $this->getStringDate($day),
@@ -389,54 +399,76 @@ class ReportsController extends Controller
         //     round($totalNotresult)
         // ]);
 
-        $porcentageLate = round((($totalPresentfall + $totalAbsentout) *100)/$businnesDay,2);
+        $porcentageLate = round((($totalPresentfall + $totalAbsentout) * 100) / $businnesDay, 2);
         // dd('(' . $totalPresentfall . ' * 100)/' . $businnesDay);
 
-        array_push($result,$separatedDates[0]);
-        array_push($result,$separatedDates[1]);
-        array_push($result,$businnesDay);
-        array_push($result,$additionalDay);
-        array_push($result,$totalPresentfull);
-        array_push($result,$totalPresentfall);
-        array_push($result,$totalAbsentout);
-        array_push($result,$porcentageLate);
-        
+        array_push($result, $separatedDates[0]);
+        array_push($result, $separatedDates[1]);
+        array_push($result, $businnesDay);
+        array_push($result, $additionalDay);
+        array_push($result, $totalPresentfull);
+        array_push($result, $totalPresentfall);
+        array_push($result, $totalAbsentout);
+        array_push($result, $porcentageLate);
+
         // dd($result);
         return response()->json($result);
     }
 
-    function getStringDate($d){
+    function getStringDate($d)
+    {
         $separated = explode('-', $d);
         switch ($separated[1]) {
-            case '01': return $separated[2] . ' de enero'; 
-            case '02': return $separated[2] . ' de febrero'; 
-            case '03': return $separated[2] . ' de marzo'; 
-            case '04': return $separated[2] . ' de abril'; 
-            case '05': return $separated[2] . ' de mayo'; 
-            case '06': return $separated[2] . ' de junio'; 
-            case '07': return $separated[2] . ' de julio'; 
-            case '08': return $separated[2] . ' de agosto'; 
-            case '09': return $separated[2] . ' de septiembre'; 
-            case '10': return $separated[2] . ' de octubre'; 
-            case '11': return $separated[2] . ' de noviembre'; 
-            case '12': return $separated[2] . ' de diciembre'; 
+            case '01':
+                return $separated[2] . ' de enero';
+            case '02':
+                return $separated[2] . ' de febrero';
+            case '03':
+                return $separated[2] . ' de marzo';
+            case '04':
+                return $separated[2] . ' de abril';
+            case '05':
+                return $separated[2] . ' de mayo';
+            case '06':
+                return $separated[2] . ' de junio';
+            case '07':
+                return $separated[2] . ' de julio';
+            case '08':
+                return $separated[2] . ' de agosto';
+            case '09':
+                return $separated[2] . ' de septiembre';
+            case '10':
+                return $separated[2] . ' de octubre';
+            case '11':
+                return $separated[2] . ' de noviembre';
+            case '12':
+                return $separated[2] . ' de diciembre';
         }
     }
 
-    function getStringDay($day){
+    function getStringDay($day)
+    {
         switch ($day) {
-            case '0': return 'DOMINGO'; 
-            case '1': return 'LUNES'; 
-            case '2': return 'MARTES'; 
-            case '3': return 'MIERCOLES'; 
-            case '4': return 'JUEVES'; 
-            case '5': return 'VIERNES'; 
-            case '6': return 'SABADO'; 
+            case '0':
+                return 'DOMINGO';
+            case '1':
+                return 'LUNES';
+            case '2':
+                return 'MARTES';
+            case '3':
+                return 'MIERCOLES';
+            case '4':
+                return 'JUEVES';
+            case '5':
+                return 'VIERNES';
+            case '6':
+                return 'SABADO';
         }
     }
 
     // FUNCIONES DE CONCILIACION DE SALDOS
-    public function balancesTo(){
+    public function balancesTo()
+    {
         return view('modules.balances.index');
     }
 }

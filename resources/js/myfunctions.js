@@ -29,6 +29,10 @@ $(document).ready(function () {
     e.stopPropagation();
   });
 
+  $(".select2").select2({
+    placeholder: 'Seleccione...'
+  });
+
   var direccionActual = $('.directionUri').html();
   $('.directionUri').html(seeDirection(direccionActual));
 

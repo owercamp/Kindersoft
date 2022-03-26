@@ -1,13 +1,13 @@
 <table style="text-align: center;">
     <thead>
 	    <tr>
-	        <th style="width: 30px; background: #ccc; font-weight: bold;">NOMBRE</th>
-	        <th style="width: 30px; background: #ccc; font-weight: bold;">DOCUMENTO</th>
-	        <th style="width: 30px; background: #ccc; font-weight: bold;">FECHA DE NACIMIENTO</th>
-	        <th style="width: 30px; background: #ccc; font-weight: bold;">EDAD ACTUAL</th>
-	        <th style="width: 30px; background: #ccc; font-weight: bold;">GRADO</th>
-            <th style="width: 30px; background: #ccc; font-weight: bold;">CORREO ACUDIENTE 1</th>
-            <th style="width: 30px; background: #ccc; font-weight: bold;">CORREO ACUDIENTE 2</th>
+	        <th style="width: 50px; color: #FFFFFF; background: #6CB2EB; text-align: center; font-weight: bold;">NOMBRE</th>
+	        <th style="width: 25px; color: #FFFFFF; background: #6CB2EB; text-align: center; font-weight: bold;">DOCUMENTO</th>
+	        <th style="width: 25px; color: #FFFFFF; background: #6CB2EB; text-align: center; font-weight: bold;">FECHA DE NACIMIENTO</th>
+	        <th style="width: 25px; color: #FFFFFF; background: #6CB2EB; text-align: center; font-weight: bold;">EDAD ACTUAL</th>
+	        <th style="width: 25px; color: #FFFFFF; background: #6CB2EB; text-align: center; font-weight: bold;">GRADO</th>
+            <th style="width: 33px; color: #FFFFFF; background: #6CB2EB; text-align: center; font-weight: bold;">CORREO ACUDIENTE 1</th>
+            <th style="width: 33px; color: #FFFFFF; background: #6CB2EB; text-align: center; font-weight: bold;">CORREO ACUDIENTE 2</th>
 	    </tr>
     </thead>
     <tbody>
@@ -50,10 +50,10 @@
     @for($i = 0; $i < count($students); $i++)
         <tr>
             <td>{{ $students[$i][0] }}</td>
-            <td>{{ $students[$i][1] }}</td>
-            <td>{{ $students[$i][2] }}</td>
-            <td>{{ getYearsold(converterYearsoldFromBirtdate($students[$i][2])) }}</td>
-            <td>{{ $students[$i][3] }}</td>
+            <td style="text-align: center;">{{ $students[$i][1] }}</td>
+            <td style="text-align: center;">{{ $students[$i][2] }}</td>
+            <td style="text-align: center;">{{ getYearsold(converterYearsoldFromBirtdate($students[$i][2])) }}</td>
+            <td style="text-align: center;">{{ $students[$i][3] }}</td>
             <td>{{ $students[$i][4] }}</td>
             <td>{{ $students[$i][5] }}</td>
         </tr>

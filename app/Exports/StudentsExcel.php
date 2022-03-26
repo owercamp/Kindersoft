@@ -41,6 +41,7 @@ class StudentsExcel implements FromView
             ->join('grades','grades.id','legalizations.legGrade_id')
             ->whereIn('legStudent_id',$this->ids)
             ->orderBy('students.firstname','asc')
+            ->where('legStatus',"ACTIVO")
             ->get();
         $contract = array();
         foreach ($legalizations as $legalization) {

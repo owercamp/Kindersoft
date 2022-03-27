@@ -22,7 +22,7 @@
             <div class="row">
               <div class="col-md-6">
                 <small class="text-muted">TIPO DE DOCUMENTO: *</small>
-                <select class="form-control form-control-sm" name="autDocument_id" required>
+                <select class="form-control form-control-sm select2" name="autDocument_id" required>
                   <option value="">Seleccione identificación...</option>
                   @php $namedocument = '' @endphp
                   @foreach($documents as $document)

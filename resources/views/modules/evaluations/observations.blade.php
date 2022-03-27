@@ -102,7 +102,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">INTELIGENCIA:</small>
-                <select name="obsIntelligence_id" class="form-control form-control-sm" required>
+                <select name="obsIntelligence_id" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione una inteligencia...</option>
                   @foreach($intelligences as $intelligence)
                   <option value="{{ $intelligence->id }}">{{ $intelligence->type }}</option>
@@ -147,7 +147,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">INTELIGENCIA:</small>
-                <select name="obsIntelligence_idEdit" class="form-control form-control-sm" required>
+                <select name="obsIntelligence_idEdit" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione una inteligencia...</option>
                   @foreach($intelligences as $intelligence)
                   <option value="{{ $intelligence->id }}">{{ $intelligence->type }}</option>

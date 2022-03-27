@@ -25,7 +25,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <small class="text-muted">SELECCIONE EL AÑO DEL INFORME:</small>
-            <select name="rYear" class="form-control form-control-sm" required>
+            <select name="rYear" class="form-control form-control-sm select2" required>
               <option value="">Seleccione...</option>
               <option value="{{ $yearbeforeThree }}">{{ $yearbeforeThree }}</option>
               <option value="{{ $yearbeforeTwo }}">{{ $yearbeforeTwo }}</option>

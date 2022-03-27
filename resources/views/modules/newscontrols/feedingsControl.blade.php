@@ -169,7 +169,7 @@
               </div>
               <div class="col-md-4">
                 <small class="text-muted">GRADO:</small>
-                <select name="newControl_Grade" class="form-control form-control-sm" required>
+                <select name="newControl_Grade" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un grado...</option>
                   @foreach($grades as $grade)
                   <option value="{{ $grade->id }}">{{ $grade->name }}</option>
@@ -178,7 +178,7 @@
               </div>
               <div class="col-md-4">
                 <small class="text-muted">CURSO:</small>
-                <select name="newControl_Course" class="form-control form-control-sm" required>
+                <select name="newControl_Course" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un curso...</option>
                   <!-- Campos dinamicos -->
                 </select>
@@ -187,14 +187,14 @@
             <div class="row p-3">
               <div class="col-md-6">
                 <small class="text-muted">ALUMNO:</small>
-                <select name="newControl_Student" class="form-control form-control-sm" required>
+                <select name="newControl_Student" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un alumno...</option>
                   <!-- Campos dinamicos -->
                 </select>
               </div>
               <div class="col-md-6">
                 <small class="text-muted">TIPO DE NOVEDAD:</small>
-                <select name="newControl_type" class="form-control form-control-sm" required>
+                <select name="newControl_type" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione el tipo de novedad...</option>
                   <option value="Refrigerio AM">Refrigerio AM</option>
                   <option value="Almuerzo">Almuerzo</option>

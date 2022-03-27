@@ -100,7 +100,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <small class="text-muted">CURSO:</small>
-              <select name="assCourse" class="form-control form-control-sm" required>
+              <select name="assCourse" class="form-control form-control-sm select2" required>
                 <option value="">Seleccione un curso...</option>
                 @foreach($courses as $course)
                 <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -111,7 +111,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <small class="text-muted">ALUMNO:</small>
-              <select name="assStudent" class="form-control form-control-sm" required>
+              <select name="assStudent" class="form-control form-control-sm select2" required>
                 <option value="">Seleccione un alumno...</option>
                 <!-- Option dinamico de seleccion del curso -->
               </select>

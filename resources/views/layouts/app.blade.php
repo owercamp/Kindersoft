@@ -38,7 +38,7 @@
             <a href="{{ url('/home') }}">
               <img src="{{ asset('img/shortlogo.gif') }}" class="img-kindersoft" alt="{{ config('app.lastname', 'KINDERSOFT') }}">
             </a><br>
-            <small class="javapri">{{ __('V 19.07.01') }}</small><br>
+            <small class="javapri">{{ __('V') }}{{config('app.version')}}</small><br>
             <small class="javapri">{{ __('Copyright©Javapri') }}</small>
           </div>
           <div>

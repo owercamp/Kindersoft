@@ -30,7 +30,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <small class="text-muted">CURSO:</small>
-          <select name="hwCourse" class="form-control form-control-sm" required>
+          <select name="hwCourse" class="form-control form-control-sm select2" required>
             <option value="">Seleccione un curso...</option>
             @foreach($courses as $course)
             <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -138,7 +138,7 @@
         </div>
         <div class="form-group">
           <small class="text-muted">ACTIVIDAD/CLASE:</small>
-          <select name="hwActivityClass-modal" class="form-control form-control-sm" required>
+          <select name="hwActivityClass-modal" class="form-control form-control-sm select2" required>
             <option value="">Seleccione una clase/actividad...</option>
             @foreach($activityclass as $ac)
             <option value="{{ $ac->acId }}">{{ $ac->acNumber . '-' . $ac->acClass }}</option>
@@ -147,7 +147,7 @@
         </div>
         <div class="form-group">
           <small class="text-muted">ESPACIO:</small>
-          <select name="hwActivitySpace-modal" class="form-control form-control-sm" required>
+          <select name="hwActivitySpace-modal" class="form-control form-control-sm select2" required>
             <option value="">Seleccione un espacio...</option>
             @foreach($activityspace as $as)
             <option value="{{ $as->asId }}">{{ $as->asNumber . '-' . $as->asSpace }}</option>
@@ -156,7 +156,7 @@
         </div>
         <div class="form-group">
           <small class="text-muted">DOCENTE:</small>
-          <select name="hwCollaborator-modal" class="form-control form-control-sm" required>
+          <select name="hwCollaborator-modal" class="form-control form-control-sm select2" required>
             <option value="">Seleccione docente...</option>
             @foreach($collaborators as $collaborator)
             <option value="{{ $collaborator->id }}">{{ $collaborator->nameCollaborator }}</option>
@@ -263,7 +263,7 @@
                   <small class="text-muted">ESPACIO:</small>
                   <div class="row">
                     <div class="col-md-8">
-                      <select name="hwFilterActivitySpace" class="form-control form-control-sm" required>
+                      <select name="hwFilterActivitySpace" class="form-control form-control-sm select2" required>
                         <option value="">Seleccione un espacio...</option>
                         @foreach($activityspace as $as)
                         <option value="{{ $as->asId }}">{{ $as->asNumber . '-' . $as->asSpace }}</option>
@@ -279,7 +279,7 @@
                   <small class="text-muted">ACTIVIDAD:</small>
                   <div class="row">
                     <div class="col-md-8">
-                      <select name="hwFilterActivityOnly" class="form-control form-control-sm" disabled>
+                      <select name="hwFilterActivityOnly" class="form-control form-control-sm select2" disabled>
                         <option value="">Seleccione una actividad...</option>
                         @foreach($activityclass as $ac)
                         <option value="{{ $ac->acId }}">{{ $ac->acNumber . '-' . $ac->acClass }}</option>
@@ -295,7 +295,7 @@
                   <small class="text-muted">CURSO:</small>
                   <div class="row">
                     <div class="col-md-8">
-                      <select name="hwFilterCourse" class="form-control form-control-sm" disabled>
+                      <select name="hwFilterCourse" class="form-control form-control-sm select2" disabled>
                         <option value="">Seleccione un curso...</option>
                         @foreach($courses as $course)
                         <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -311,7 +311,7 @@
                   <small class="text-muted">DOCENTE:</small>
                   <div class="row">
                     <div class="col-md-8">
-                      <select name="hwFilterCollaborator" class="form-control form-control-sm" disabled>
+                      <select name="hwFilterCollaborator" class="form-control form-control-sm select2" disabled>
                         <option value="">Seleccione un docente...</option>
                         @foreach($collaborators as $collaborator)
                         <option value="{{ $collaborator->id }}">{{ $collaborator->nameCollaborator }}</option>
@@ -327,7 +327,7 @@
                   <small class="text-muted">HORA DE INICIO:</small>
                   <div class="row">
                     <div class="col-md-8">
-                      <select name="hwFilterHour" class="form-control form-control-sm" disabled>
+                      <select name="hwFilterHour" class="form-control form-control-sm select2" disabled>
                         <option value="">Seleccione una hora...</option>
                         <option value="06:00:00">06:00:00</option>
                         <option value="06:30:00">06:30:00</option>

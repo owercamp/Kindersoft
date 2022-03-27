@@ -25,7 +25,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <small class="text-muted">ALUMNO:</small>
-        <select name="pcStudent" class="form-control form-control-sm" required>
+        <select name="pcStudent" class="form-control form-control-sm select2" required>
           <option value="">Seleccione un alumno...</option>
           @foreach($students as $student)
           @if ($student->status == 'ACTIVO')
@@ -36,7 +36,7 @@
       </div>
       <div class="form-group">
         <small class="text-muted">PERIODO:</small>
-        <select name="pcPeriod" class="form-control form-control-sm" required>
+        <select name="pcPeriod" class="form-control form-control-sm select2" required>
           <option value="">Seleccione un periodo...</option>
           <!-- Option dinamicos de seleccion del estudiante -->
         </select>
@@ -93,14 +93,14 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <small class="text-muted">INTELIGENCIA:</small>
-                  <select name="taIntelligence_id" class="form-control form-control-sm">
+                  <select name="taIntelligence_id" class="form-control form-control-sm select2">
                     <option value="">Seleccione una inteligencia...</option>
                     <!-- options dinamics -->
                   </select>
                 </div>
                 <div class="form-group">
                   <small class="text-muted">OBSERVACION:</small>
-                  <select name="taObservation_id" class="form-control form-control-sm">
+                  <select name="taObservation_id" class="form-control form-control-sm select2">
                     <option value="">Seleccione una observación...</option>
                     <!-- options dinamics -->
                   </select>

@@ -8,7 +8,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <small class="text-muted">{{ucfirst('grado')}}</small>
-          <select name="Grades" class="form-control form-control-sm">
+          <select name="Grades" class="form-control form-control-sm select2">
             <option value="">{{ucfirst('seleccione...')}}</option>
             @foreach($grades as $grade)
             <option value="{{$grade->id}}">{{$grade->name}}</option>
@@ -19,7 +19,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <small class="text-muted">{{ucfirst('curso')}}</small>
-          <select name="course" class="form-control form-control-sm">
+          <select name="course" class="form-control form-control-sm select2">
             <option value="">{{ucfirst('seleccione...')}}</option>
             <!-- dinamic -->
           </select>
@@ -28,7 +28,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <small>{{ucfirst('alumno')}}</small>
-          <select type="text" name="student" class="form-control form-control-sm" require>
+          <select type="text" name="student" class="form-control form-control-sm select2" require>
             <option value="">{{ucfirst('seleccione...')}}</option>
           </select>
         </div>

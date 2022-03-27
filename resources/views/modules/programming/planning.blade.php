@@ -63,7 +63,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <small class="text-muted">CURSO:</small>
-          <select name="chCourse" class="form-control form-control-sm" required>
+          <select name="chCourse" class="form-control form-control-sm select2" required>
             <option value="">Seleccione un curso...</option>
             @foreach($courses as $course)
             <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -73,7 +73,7 @@
         </div>
         <div class="form-group">
           <small class="text-muted">PERIODO:</small>
-          <select name="chPeriod" class="form-control form-control-sm" required>
+          <select name="chPeriod" class="form-control form-control-sm select2" required>
             <option value="">Seleccione un periodo...</option>
             <!-- Select dinámico -->
           </select>
@@ -135,7 +135,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <small class="text-muted">COLABORADOR DOCENTE: </small>
-              <select name="chCollaborator_id" class="form-control form-control-sm" required>
+              <select name="chCollaborator_id" class="form-control form-control-sm select2" required>
                 <option value="">Seleccione un docente...</option>
                 @foreach($collaborators as $collaborator)
                 <option value="{{ $collaborator->id }}">{{ $collaborator->nameCollaborator }}</option>
@@ -148,7 +148,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <small class="text-muted">ASIGNATURA: </small>
-              <select name="chIntelligence_id" class="form-control form-control-sm" required>
+              <select name="chIntelligence_id" class="form-control form-control-sm select2" required>
                 <option value="">Seleccione una inteligencia...</option>
                 @foreach($intelligences as $intelligence)
                 <option value="{{ $intelligence->id }}">{{ $intelligence->type }}</option>
@@ -187,7 +187,7 @@
             <div class="row">
               <div class="col-md-12 allItemsBase d-flex flex-column">
                 <div class="form-group itemBase">
-                  <select name="chBases_id" class="form-control form-control-sm chBase" required>
+                  <select name="chBases_id" class="form-control form-control-sm chBase select2" required>
                     <option value="">Seleccione una base de actividad...</option>
                     <!-- Dinamics option with selected the intelligence -->
                   </select>
@@ -241,7 +241,7 @@
               <div class="col-md-12">
                 <div class="form-group dinamicIntelligence">
                   <small class="text-muted">INTELIGENCIA:</small>
-                  <select name="chFilterIntelligence" class="form-control form-control-sm" required>
+                  <select name="chFilterIntelligence" class="form-control form-control-sm select2" required>
                     <option value="">Seleccione una inteligencia...</option>
                     @foreach($intelligences as $intelligence)
                     <option value="{{ $intelligence->id }}">{{ $intelligence->type }}</option>
@@ -254,7 +254,7 @@
                 </div>
                 <div class="form-group dinamicCourse" style="display: none;">
                   <small class="text-muted">CURSO:</small>
-                  <select name="chFilterCourse" class="form-control form-control-sm" disabled>
+                  <select name="chFilterCourse" class="form-control form-control-sm select2" disabled>
                     <option value="">Seleccione un curso...</option>
                     @foreach($courses as $course)
                     <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -267,7 +267,7 @@
                 </div>
                 <div class="form-group dinamicCollaborator" style="display: none;">
                   <small class="text-muted">DOCENTE:</small>
-                  <select name="chFilterCollaborator" class="form-control form-control-sm" disabled>
+                  <select name="chFilterCollaborator" class="form-control form-control-sm select2" disabled>
                     <option value="">Seleccione un docente...</option>
                     @foreach($collaborators as $collaborator)
                     <option value="{{ $collaborator->id }}">{{ $collaborator->nameCollaborator }}</option>

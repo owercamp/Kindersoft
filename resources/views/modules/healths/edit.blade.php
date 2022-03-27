@@ -18,7 +18,7 @@
     <div class="form-group">
       <label for="type">TIPO DE AFILIACION:</label>
       <input type="hidden" id="type_hidden" value="{{ $health->type }}">
-      <select class="form-control form-control-sm" id="type" name="type" required="required">
+      <select class="form-control form-control-sm select2" id="type" name="type" required="required">
         <option value="">SELECCIONE TIPO DE AFILIACION...</option>
         <option value="EPS">EPS</option>
         <option value="PREPAGADA">PREPAGADA</option>

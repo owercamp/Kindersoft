@@ -30,7 +30,8 @@ $(document).ready(function () {
   });
 
   $(".select2").select2({
-    placeholder: 'Seleccione...'
+    placeholder: 'Seleccione...',
+    width: '100%' 
   });
 
   var direccionActual = $('.directionUri').html();

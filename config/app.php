@@ -134,6 +134,8 @@ return [
     |
     */
 
+    'version' => env('APP_VERSION','00.00.00'),
+
   'providers' => [
 
     /*

@@ -13,7 +13,7 @@
 					<div class="card-header">
 						<div class="form-group">
 							<small class="text-muted">ALUMNO:</small>
-							<select name="legId" class="form-control form-control-sm">
+							<select name="legId" class="form-control form-control-sm select2">
 								<option value="">Seleccione ...</option>
 								@for($i = 0; $i < count($dates); $i++)
 									<option value="{{ $dates[$i][0] }}"

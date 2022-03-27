@@ -284,7 +284,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <small class="text-muted">TIPO DE PAGO:</small>
-                    <select name="venTypepaid" class="form-control form-control-sm" required>
+                    <select name="venTypepaid" class="form-control form-control-sm select2" required>
                       <option value="">Seleccione...</option>
                       <option value="TOTAL" selected>PAGO TOTAL</option>
                       <option value="PARCIAL">ABONO PARCIAL</option>

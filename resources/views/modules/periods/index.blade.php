@@ -9,7 +9,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-md-6">
-              <select class="form-control form-control-sm" name="grade_id" required>
+              <select class="form-control form-control-sm select2" name="grade_id" required>
                 <option value="">Seleccione un grado...</option>
                 <!-- Options dinamics -->
                 @foreach($grades as $grade)
@@ -18,7 +18,7 @@
               </select>
             </div>
             <div class="col-md-6">
-              <select class="form-control form-control-sm" name="name" required>
+              <select class="form-control form-control-sm select2" name="name" required>
                 <option value="">Seleccione un periodo...</option>
                 <option value="PRIMER PERIODO">PRIMER PERIODO</option>
                 <option value="SEGUNDO PERIODO">SEGUNDO PERIODO</option>

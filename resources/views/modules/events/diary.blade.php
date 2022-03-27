@@ -136,7 +136,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">RESPONSABLE:</small>
-                <select name="edCollaborator_id" class="form-control form-control-sm" required>
+                <select name="edCollaborator_id" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un colaborador...</option>
                   @foreach($collaborators as $collaborator)
                   <option value="{{ $collaborator->id }}">{{ $collaborator->nameCollaborator }}</option>
@@ -147,7 +147,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">TIPO DE EVENTO:</small>
-                <select name="edCreation_id" class="form-control form-control-sm" required>
+                <select name="edCreation_id" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un tipo de evento...</option>
                   @foreach($creations as $creation)
                   <option value="{{ $creation->crId }}">{{ $creation->crName }}</option>
@@ -181,7 +181,7 @@
             <div class="col-md-6">
               <div class="form-group selectStudent" style="display: none;">
                 <small class="text-muted">SELECCIONE ALUMNO:</small>
-                <select name="edStudents" class="form-control form-control-sm">
+                <select name="edStudents" class="form-control form-control-sm select2">
                   <option value="">Seleccione un alumno...</option>
                   @foreach($students as $student)
                   <option value="{{ $student->id }}">{{ $student->nameStudent }}</option>
@@ -244,7 +244,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">RESPONSABLE:</small>
-                <select name="edCollaborator_id_edit" class="form-control form-control-sm" required>
+                <select name="edCollaborator_id_edit" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un colaborador...</option>
                   @foreach($collaborators as $collaborator)
                   <option value="{{ $collaborator->id }}">{{ $collaborator->nameCollaborator }}</option>
@@ -255,7 +255,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">TIPO DE EVENTO:</small>
-                <select name="edCreation_id_edit" class="form-control form-control-sm" required>
+                <select name="edCreation_id_edit" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un tipo de evento...</option>
                   @foreach($creations as $creation)
                   <option value="{{ $creation->crId }}">{{ $creation->crName }}</option>
@@ -289,7 +289,7 @@
             <div class="col-md-6">
               <div class="form-group selectStudent_edit" style="display: none;">
                 <small class="text-muted">SELECCIONE ALUMNO:</small>
-                <select name="edStudents_edit" class="form-control form-control-sm">
+                <select name="edStudents_edit" class="form-control form-control-sm select2">
                   <option value="">Seleccione un alumno...</option>
                   @foreach($students as $student)
                   <option value="{{ $student->id }}">{{ $student->nameStudent }}</option>

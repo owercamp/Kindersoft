@@ -11,7 +11,7 @@
       <small class="form-text text-muted">Identificador en base de datos</small>
     </div>
     <div class="form-group">
-      <select class="form-control form-control-sm" name="city_id" id="city_id" required="required">
+      <select class="form-control form-control-sm select2" name="city_id" id="city_id" required="required">
         <option value="">SELECCIONE UNA CIUDAD...</option>
         @php $namecity = '' @endphp
         @foreach($citys as $city)

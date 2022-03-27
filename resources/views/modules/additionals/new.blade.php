@@ -48,7 +48,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <small class="text-muted">CURSO:</small>
-          <select name="addCourse" class="form-control form-control-sm" required>
+          <select name="addCourse" class="form-control form-control-sm select2" required>
             <option value="">Seleccione un curso...</option>
             @foreach($courses as $course)
             <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -57,7 +57,7 @@
         </div>
         <div class="form-group">
           <small class="text-muted">ALUMNO:</small>
-          <select name="addStudent" class="form-control form-control-sm" required>
+          <select name="addStudent" class="form-control form-control-sm select2" required>
             <option value="">Seleccione un alumno...</option>
             <!-- Option dinamico de seleccion del curso -->
           </select>
@@ -112,7 +112,7 @@
               </div>
               <div class="row p-2 fields-items-admissions">
                 <div class="col-md-6">
-                  <select name="addAdmission" class="form-control form-control-sm" disabled>
+                  <select name="addAdmission" class="form-control form-control-sm select2" disabled>
                     <option value="">Seleccione una admisión...</option>
                     @foreach($admissions as $admission)
                     <option value="{{ $admission->id }}">{{ $admission->admConcept }}</option>
@@ -155,7 +155,7 @@
               </div>
               <div class="row p-2 fields-items-journeys">
                 <div class="col-md-6">
-                  <select name="addJourney" class="form-control form-control-sm" disabled>
+                  <select name="addJourney" class="form-control form-control-sm select2" disabled>
                     <option value="">Seleccione una jornada...</option>
                     @foreach($journeys as $journey)
                     <option value="{{ $journey->id }}">{{ $journey->jouJourney }}</option>
@@ -198,7 +198,7 @@
               </div>
               <div class="row p-2 fields-items-feedings">
                 <div class="col-md-6">
-                  <select name="addFeeding" class="form-control form-control-sm" disabled>
+                  <select name="addFeeding" class="form-control form-control-sm select2" disabled>
                     <option value="">Seleccione una alimentación...</option>
                     @foreach($feedings as $feeding)
                     <option value="{{ $feeding->id }}">{{ $feeding->feeConcept }}</option>
@@ -241,7 +241,7 @@
               </div>
               <div class="row p-2 fields-items-uniforms">
                 <div class="col-md-6">
-                  <select name="addUniform" class="form-control form-control-sm" disabled>
+                  <select name="addUniform" class="form-control form-control-sm select2" disabled>
                     <option value="">Seleccione un uniforme...</option>
                     @foreach($uniforms as $uniform)
                     <option value="{{ $uniform->id }}">{{ $uniform->uniConcept }}</option>
@@ -284,7 +284,7 @@
               </div>
               <div class="row p-2 fields-items-supplies">
                 <div class="col-md-6">
-                  <select name="addSupplie" class="form-control form-control-sm" disabled>
+                  <select name="addSupplie" class="form-control form-control-sm select2" disabled>
                     <option value="">Seleccione un uniforme...</option>
                     @foreach($supplies as $supplie)
                     <option value="{{ $supplie->id }}">{{ $supplie->supConcept }}</option>
@@ -327,7 +327,7 @@
               </div>
               <div class="row p-2 fields-items-extratime">
                 <div class="col-md-6">
-                  <select name="addExtratime" class="form-control form-control-sm" disabled>
+                  <select name="addExtratime" class="form-control form-control-sm select2" disabled>
                     <option value="">Seleccione un tiempo...</option>
                     @foreach($extratimes as $extratime)
                     <option value="{{ $extratime->id }}">{{ $extratime->extTConcept }}</option>
@@ -370,7 +370,7 @@
               </div>
               <div class="row p-2 fields-items-extracurriculars">
                 <div class="col-md-6">
-                  <select name="addExtracurricular" class="form-control form-control-sm" disabled>
+                  <select name="addExtracurricular" class="form-control form-control-sm select2" disabled>
                     <option value="">Seleccione un extracurricular...</option>
                     @foreach($extracurriculars as $extracurricular)
                     <option value="{{ $extracurricular->id }}">{{ $extracurricular->extConcept }}</option>
@@ -413,7 +413,7 @@
               </div>
               <div class="row p-2 fields-items-transports">
                 <div class="col-md-6">
-                  <select name="addTransport" class="form-control form-control-sm" disabled>
+                  <select name="addTransport" class="form-control form-control-sm select2" disabled>
                     <option value="">Seleccione un transporte...</option>
                     @foreach($transports as $transport)
                     <option value="{{ $transport->id }}">{{ $transport->traConcept }}</option>

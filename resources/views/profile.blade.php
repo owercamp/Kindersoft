@@ -236,8 +236,8 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <small class="text-muted">CIUDAD:</small>
-                    <select name="garCity" class="form-control form-control-sm" required>
-                      <option value="">Seleccione una ciudad...</option>
+                    <select name="garCity" class="form-control form-control-sm select2 w-100" required>
+                      <option value=""></option>
                       @foreach($citys as $city)
                       <option value="{{ $city->id }}">{{ $city->name }}</option>
                       @endforeach
@@ -245,15 +245,15 @@
                   </div>
                   <div class="form-group">
                     <small class="text-muted">LOCALIDAD:</small>
-                    <select name="garLocation" class="form-control form-control-sm" required>
-                      <option value="">Seleccione una localidad...</option>
+                    <select name="garLocation" class="form-control form-control-sm select2 w-100" required>
+                      <option value=""></option>
                       <!-- Localidades dinamicas -->
                     </select>
                   </div>
                   <div class="form-group">
                     <small class="text-muted">BARRIO:</small>
-                    <select name="garDistrict" class="form-control form-control-sm" required>
-                      <option value="">Seleccione un barrio...</option>
+                    <select name="garDistrict" class="form-control form-control-sm select2 w-100" required>
+                      <option value=""></option>
                       <!-- Barrios dinamicos -->
                     </select>
                   </div>
@@ -427,8 +427,8 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <small class="text-muted">CIUDAD:</small>
-                    <select name="garCity_update" class="form-control form-control-sm" required>
-                      <option value="">Seleccione una ciudad...</option>
+                    <select name="garCity_update" class="form-control form-control-sm select2 w-100" required>
+                      <option value=""></option>
                       @foreach($citys as $city)
                       @if($city->id == $garden->garCity_id)
                       <option value="{{ $city->id }}" selected>{{ $city->name }}</option>
@@ -440,15 +440,15 @@
                   </div>
                   <div class="form-group">
                     <small class="text-muted">LOCALIDAD:</small>
-                    <select name="garLocation_update" class="form-control form-control-sm" required>
-                      <option value="">Seleccione una localidad...</option>
+                    <select name="garLocation_update" class="form-control form-control-sm select2 w-100" required>
+                      <option value=""></option>
                       <!-- Localidades dinamicas -->
                     </select>
                   </div>
                   <div class="form-group">
                     <small class="text-muted">BARRIO:</small>
-                    <select name="garDistrict_update" class="form-control form-control-sm" required>
-                      <option value="">Seleccione un barrio...</option>
+                    <select name="garDistrict_update" class="form-control form-control-sm select2 w-100" required>
+                      <option value=""></option>
                       <!-- Barrios dinamicos -->
                     </select>
                   </div>

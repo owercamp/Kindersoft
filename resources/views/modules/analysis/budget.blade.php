@@ -125,7 +125,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <small class="text-muted">AÑO:</small>
-                <select name="aYear_new" class="form-control form-control-sm" required>
+                <select name="aYear_new" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un año...</option>
                   <option value="{{ $yearbeforeThree }}">{{ $yearbeforeThree }}</option>
                   <option value="{{ $yearbeforeTwo }}">{{ $yearbeforeTwo }}</option>
@@ -144,7 +144,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">ESTRUCTURA DE COSTO:</small>
-                <select name="aCoststructure_new" class="form-control form-control-sm" required>
+                <select name="aCoststructure_new" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione una estructura de costo...</option>
                   @foreach($structures as $structure)
                   <option value="{{ $structure->csId }}">{{ $structure->csDescription }}</option>
@@ -155,7 +155,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">DESCRIPCION DE COSTO:</small>
-                <select name="aCostdescription_new" class="form-control form-control-sm" required>
+                <select name="aCostdescription_new" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione una descripción de costo...</option>
                   <!-- rows dinamics -->
                 </select>
@@ -373,7 +373,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <small class="text-muted">AÑO:</small>
-                <select name="aYear_edit" class="form-control form-control-sm" required>
+                <select name="aYear_edit" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un año...</option>
                   <option value="{{ $yearbeforeThree }}">{{ $yearbeforeThree }}</option>
                   <option value="{{ $yearbeforeTwo }}">{{ $yearbeforeTwo }}</option>
@@ -392,7 +392,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">ESTRUCTURA DE COSTO:</small>
-                <select name="aCoststructure_edit" class="form-control form-control-sm" required>
+                <select name="aCoststructure_edit" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione una estructura de costo...</option>
                   @foreach($structures as $structure)
                   <option value="{{ $structure->csId }}">{{ $structure->csDescription }}</option>
@@ -403,7 +403,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">DESCRIPCION DE COSTO:</small>
-                <select name="aCostdescription_edit" class="form-control form-control-sm" required>
+                <select name="aCostdescription_edit" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione una descripción de costo...</option>
                   <!-- rows dinamics -->
                 </select>

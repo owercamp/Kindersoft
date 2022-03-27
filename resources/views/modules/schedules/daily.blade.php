@@ -48,7 +48,7 @@
         <div class="w-50 border-right border-info">
           <span class="border-bottom border-primary text-monospace font-weight-bolder text-primary">SALUDO</span>
           <div class="container pt-2">
-            <select name="myHi" class="form-control form-control-sm">
+            <select name="myHi" class="form-control form-control-sm select2">
               <option value="">seleccione...</option>
               @foreach($Hellos as $hello)
               <option value="{{ $hello->sch_id }}">{{ $hello->sch_body }}</option>
@@ -59,7 +59,7 @@
         <div class="w-50">
           <span type="button" id="selContext" class="border-bottom border-primary text-monospace font-weight-bolder text-primary pr-1">SELECCIONAR CONTEXTO</span>
           <div class="container pt-2">
-            <select id="contextSel" class="form-control form-control-sm">
+            <select id="contextSel" class="form-control form-control-sm select2">
               <option value="">seleccione...</option>
               @foreach($Context as $context)
               <option value="{{ $context->sch_id }}">{{ $context->sch_body }}</option>
@@ -74,7 +74,7 @@
         <div class="w-50 border-right border-dark">
           <span class="border-bottom border-primary text-monospace font-weight-bolder text-primary">CIRCULAR ADMINISTRATIVA</span>
           <div class="container pt-2">
-            <select name="cirAdministrative" class="form-control form-control-sm">
+            <select name="cirAdministrative" class="form-control form-control-sm select2">
               <option value="">seleccione...</option>
               @foreach($cirAdministrative as $administrative)
               <option value="{{ $administrative->acf_id }}">{{ $administrative->bcName }}</option>
@@ -85,7 +85,7 @@
         <div class="w-50">
           <span class="border-bottom border-primary text-monospace font-weight-bolder text-primary">CIRCULAR ACADEMICA</span>
           <div class="container pt-2">
-            <select name="cirAcademic" class="form-control form-control-sm">
+            <select name="cirAcademic" class="form-control form-control-sm select2">
               <option value="">seleccione...</option>
               @foreach($cirAcademic as $academic)
               <option value="{{ $academic->acf_id }}">{{$academic->bcName}}</option>

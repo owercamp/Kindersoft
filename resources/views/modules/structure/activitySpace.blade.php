@@ -50,6 +50,7 @@
         <th>NUMERO DE ESPACIO</th>
         <th>ESPACIO</th>
         <th>DESCRIPCION</th>
+        <th>ACCIONES</th>
       </tr>
     </thead>
     <tbody>

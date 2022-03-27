@@ -38,7 +38,7 @@
             <div class="row">
               <div class="col-md-6">
                 <small for="typedocument_id" class="text-muted">TIPO DE DOCUMENTO: *</small>
-                <select class="form-control form-control-sm" name="typedocument_id" required>
+                <select class="form-control form-control-sm select2" name="typedocument_id" required>
                   <option value="">Seleccione tipo...</option>
                   @foreach($documents as $document)
                   <option value="{{ $document->id }}">{{ $document->type }}</option>
@@ -85,7 +85,7 @@
             <div class="row">
               <div class="col-md-6">
                 <small for="bloodtype_id" class="text-muted">TIPO DE SANGRE: *</small>
-                <select class="form-control form-control-sm" name="bloodtype_id" required>
+                <select class="form-control form-control-sm select2" name="bloodtype_id" required>
                   <option value="">Seleccione grupo...</option>
                   @foreach($bloodtypes as $bloodtype)
                   <option value="{{ $bloodtype->id }}">{{ $bloodtype->group }} {{ $bloodtype->type }}</option>
@@ -94,7 +94,7 @@
               </div>
               <div class="col-md-6">
                 <small for="gender" class="text-muted">GENERO: *</small>
-                <select class="form-control form-control-sm" name="gender" required>
+                <select class="form-control form-control-sm select2" name="gender" required>
                   <option value="">Seleccione genero...</option>
                   <option value="MASCULINO">MASCULINO</option>
                   <option value="FEMENINO">FEMENINO</option>
@@ -105,7 +105,7 @@
           </div>
           <div class="form-group">
             <small for="profession_id" class="text-muted">PROFESION: *</small>
-            <select class="form-control form-control-sm" name="profession_id" required>
+            <select class="form-control form-control-sm select2" name="profession_id" required>
               <option value="">Seleccione profesión...</option>
               @foreach($professions as $profession)
               <option value="{{ $profession->id }}">{{ $profession->title }}</option>
@@ -126,7 +126,7 @@
         <div class="col-md-6 border-left">
           <div class="form-group">
             <small for="cityhome_id" class="text-muted">CIUDAD: *</small>
-            <select class="form-control form-control-sm" id="cityhome_id" name="cityhome_id" required>
+            <select class="form-control form-control-sm select2" id="cityhome_id" name="cityhome_id" required>
               <option value="">Seleccione ciudad...</option>
               @foreach($citys as $city)
               <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -137,14 +137,14 @@
             <div class="row">
               <div class="col-md-6">
                 <small for="locationhome_id" class="text-muted">LOCALIDAD: *</small>
-                <select class="form-control form-control-sm" id="locationhome_id" name="locationhome_id" required>
+                <select class="form-control form-control-sm select2" id="locationhome_id" name="locationhome_id" required>
                   <option value="">Seleccione localidad...</option>
                   <!-- Options dinamics -->
                 </select>
               </div>
               <div class="col-md-6">
                 <small for="districthome_id" class="text-muted">BARRIO: *</small>
-                <select class="form-control form-control-sm" id="dictricthome_id" name="dictricthome_id" required>
+                <select class="form-control form-control-sm select2" id="dictricthome_id" name="dictricthome_id" required>
                   <option value="">Seleccione barrio...</option>
                   <!-- Options dinamics -->
                 </select>

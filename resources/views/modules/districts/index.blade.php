@@ -9,7 +9,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <small class="text-muted">CIUDAD:</small>
-              <select class="form-control form-control-sm" name="city_id" id="city" required>
+              <select class="form-control form-control-sm select2" name="city_id" id="city" required>
                 <option value="">Seleccione ciudad...</option>
                 @foreach($citys as $city)
                 <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -18,7 +18,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">LOCALIDAD:</small>
-              <select class="form-control form-control-sm" name="location_id" id="location" required>
+              <select class="form-control form-control-sm select2" name="location_id" id="location" required>
                 <!-- options dinamics -->
                 <option value="">Seleccione localidad...</option>
               </select>

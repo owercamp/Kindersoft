@@ -33,7 +33,7 @@
       <div class="col-md-4 border-right border-bottom">
         <div class="form-group">
           <small class="text-muted"><b>ALUMNO</b></small>
-          <select id="conenStudent" name="conenStudent" class="form-control form-control-sm" required>
+          <select id="conenStudent" name="conenStudent" class="form-control form-control-sm select2" required>
             <option value="">SELECCIONE UN ALUMNO...</option>
             @foreach($students as $student)
             @if ($student->status == 'ACTIVO')

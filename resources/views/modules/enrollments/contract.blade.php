@@ -117,7 +117,7 @@
                 DESCARGUE LA VERSION COMPLETA EN PDF ...
               </p>
               <footer class="blockquote-footer">
-                Versión: <cite title="Kindersoft 19.07.01">Kindersoft 19.07.01</cite>
+                Versión: <cite title="Kindersoft {{config('app.version')}}">Kindersoft {{config('app.version')}}</cite>
               </footer>
             </div>
           </div>

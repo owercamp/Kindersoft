@@ -10,7 +10,7 @@
             <input type="text" class="form-control my-2 form-control-sm" name="entity" placeholder="Nueva entidad" required>
           </div>
           <div class="col-md-6">
-            <select class="form-control my-2 form-control-sm" name="type" required>
+            <select class="form-control my-2 form-control-sm select2" name="type" required>
               <option value="">Selecciones tipo...</option>
               <option value="EPS">EPS</option>
               <option value="PREPAGADA">PREPAGADA</option>

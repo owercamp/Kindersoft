@@ -130,7 +130,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <small class="text-muted">PROVEDOR:</small>
-                  <select name="vegProvider" class="form-control form-control-sm" required>
+                  <select name="vegProvider" class="form-control form-control-sm select2" required>
                     <option value="">Seleccione un provedor...</option>
                     @foreach($providers as $provider)
                     <option value="{{ $provider->id }}">{{ $provider->namecompany }}</option>
@@ -324,7 +324,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <small class="text-muted">ESTRUCTURA DE COSTO:</small>
-                      <select name="vegCoststructure" class="form-control form-control-sm" required>
+                      <select name="vegCoststructure" class="form-control form-control-sm select2" required>
                         <option value="">Seleccione una estructura de costo...</option>
                         @foreach($structures as $structure)
                         <option value="{{ $structure->csId }}">{{ $structure->csDescription }}</option>
@@ -337,7 +337,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <small class="text-muted">DESCRIPCION DE COSTO:</small>
-                      <select name="vegCostdescription" class="form-control form-control-sm" required>
+                      <select name="vegCostdescription" class="form-control form-control-sm select2" required>
                         <option value="">Seleccione una descripción de costo...</option>
                         <!-- rows dinamics -->
                       </select>

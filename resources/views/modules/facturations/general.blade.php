@@ -60,7 +60,7 @@
       </div>
       <div class="form-group form-inline">
         <small class="text-muted mr-3">REGIMEN IVA:</small>
-        <select name="fgRegime" class="form-control form-control-sm" required>
+        <select name="fgRegime" class="form-control form-control-sm select2" required>
           <option value="">Seleccione un regimen...</option>
           <option value="COMUN">COMUN</option>
           <option value="SIMPLIFICADO">SIMPLIFICADO</option>
@@ -174,7 +174,7 @@
       </div>
       <div class="form-group form-inline">
         <small class="text-muted mr-3">TIPO DE CUENTA:</small>
-        <select name="fgAccounttype" class="form-control form-control-sm" required>
+        <select name="fgAccounttype" class="form-control form-control-sm select2" required>
           <option value="">Seleccione una cuenta...</option>
           <option value="AHORROS">AHORROS</option>
           <option value="CORRIENTE">CORRIENTE</option>

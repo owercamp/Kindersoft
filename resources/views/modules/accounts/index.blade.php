@@ -41,8 +41,8 @@
       @endphp
       <div class="form-inline border p-1 m-0" style="background: #ccc;">
         <small class="text-muted" style="color: #000;">AÑO DE CONSULTA:</small>
-        <select name="yearSelected" class="form-control form-control-sm ml-3">
-          <option value="">Seleccione un año...</option>
+        <select name="yearSelected" class="form-control form-control-sm ml-3 select2">
+          <option value=""></option>
           <option value="{{ $yearbeforeThree }}">{{ $yearbeforeThree }}</option>
           <option value="{{ $yearbeforeTwo }}">{{ $yearbeforeTwo }}</option>
           <option value="{{ $yearbeforeOne }}">{{ $yearbeforeOne }}</option>

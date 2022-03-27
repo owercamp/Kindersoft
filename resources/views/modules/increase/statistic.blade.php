@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-      <select name="rpStudent_id" class="form-control form-control-sm">
+      <select name="rpStudent_id" class="form-control form-control-sm select2">
         <option value="">Seleccione un alumno...</option>
         @foreach($students as $student)
         @if ($student->status == 'ACTIVO')

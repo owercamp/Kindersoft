@@ -38,7 +38,7 @@
             <div class="row">
               <div class="col-md-6">
                 <small class="text-muted">TIPO DE DOCUMENTO: *</small>
-                <select class="form-control form-control-sm" name="typedocument_id" required value="{{ old('typedocument_id') }}">
+                <select class="form-control form-control-sm select2" name="typedocument_id" required value="{{ old('typedocument_id') }}">
                   <option value="">Seleccione tipo...</option>
                   @foreach($documents as $document)
                   <option value="{{ $document->id }}">{{ $document->type }}</option>
@@ -71,7 +71,7 @@
             <div class="row">
               <div class="col-md-6">
                 <small class="text-muted">TIPO DE SANGRE:</small>
-                <select class="form-control form-control-sm" name="bloodtype_id" required value="{{ old('bloodtype_id') }}">
+                <select class="form-control form-control-sm select2" name="bloodtype_id" required value="{{ old('bloodtype_id') }}">
                   <option value="">Seleccione grupo...</option>
                   @foreach($bloodtypes as $bloodtype)
                   <option value="{{ $bloodtype->id }}">{{ $bloodtype->group }} {{ $bloodtype->type }}</option>
@@ -80,7 +80,7 @@
               </div>
               <div class="col-md-6">
                 <small class="text-muted">GENERO:</small>
-                <select class="form-control form-control-sm" name="gender" required value="{{ old('gender') }}">
+                <select class="form-control form-control-sm select2" name="gender" required value="{{ old('gender') }}">
                   <option value="">Seleccione genero...</option>
                   <option value="MASCULINO">MASCULINO</option>
                   <option value="FEMENINO">FEMENINO</option>
@@ -95,7 +95,7 @@
         <div class="col-md-6 border-left">
           <div class="form-group">
             <small class="text-muted">CIUDAD:</small>
-            <select id="cityhome_id" class="form-control form-control-sm" name="cityhome_id" required value="{{ old('cityhome_id') }}">
+            <select id="cityhome_id" class="form-control form-control-sm select2" name="cityhome_id" required value="{{ old('cityhome_id') }}">
               <option value="">Seleccione ciudad...</option>
               @foreach($citys as $city)
               <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -106,14 +106,14 @@
             <div class="row">
               <div class="col-md-6">
                 <small class="text-muted">LOCALIDAD:</small>
-                <select id="locationhome_id" class="form-control form-control-sm" name="locationhome_id" required value="{{ old('locationhome_id') }}">
+                <select id="locationhome_id" class="form-control form-control-sm select2" name="locationhome_id" required value="{{ old('locationhome_id') }}">
                   <option value="">Seleccione localidad...</option>
                   <!-- Options dinamics -->
                 </select>
               </div>
               <div class="col-md-6">
                 <small class="text-muted">BARRIO:</small>
-                <select id="dictricthome_id" class="form-control form-control-sm" name="dictricthome_id" required value="{{ old('dictricthome_id') }}">
+                <select id="dictricthome_id" class="form-control form-control-sm select2" name="dictricthome_id" required value="{{ old('dictricthome_id') }}">
                   <option value="">Seleccione barrio...</option>
                   <!-- Options dinamics -->
                 </select>
@@ -163,7 +163,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <small class="text-muted">PROFESION: *</small>
-            <select class="form-control form-control-sm" name="profession_id" required value="{{ old('profession_id') }}">
+            <select class="form-control form-control-sm select2" name="profession_id" required value="{{ old('profession_id') }}">
               <option value="">Seleccione profesión...</option>
               @foreach($professions as $profession)
               <option value="{{ $profession->id }}">{{ $profession->title }}</option>
@@ -198,7 +198,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <small class="text-muted">CIUDAD DE EMPRESA: *</small>
-            <select id="citycompany_id" class="form-control form-control-sm" name="citycompany_id" required value="{{ old('citycompany_id') }}">
+            <select id="citycompany_id" class="form-control form-control-sm select2" name="citycompany_id" required value="{{ old('citycompany_id') }}">
               <option value="">Seleccione ciudad...</option>
               @foreach($citys as $city)
               <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -209,14 +209,14 @@
             <div class="row">
               <div class="col-md-6">
                 <small class="text-muted">LOCALIDAD DE EMPRESA:</small>
-                <select id="locationcompany_id" class="form-control form-control-sm" name="locationcompany_id" value="{{ old('locationcompany_id') }}">
+                <select id="locationcompany_id" class="form-control form-control-sm select2" name="locationcompany_id" value="{{ old('locationcompany_id') }}">
                   <option value="">Seleccione localidad...</option>
                   <!-- Options dinamics -->
                 </select>
               </div>
               <div class="col-md-6">
                 <small class="text-muted">BARRIO DE EMPRESA:</small>
-                <select id="dictrictcompany_id" class="form-control form-control-sm" name="dictrictcompany_id" value="{{ old('dictrictcompany_id') }}">
+                <select id="dictrictcompany_id" class="form-control form-control-sm select2" name="dictrictcompany_id" value="{{ old('dictrictcompany_id') }}">
                   <option value="">Seleccione barrio...</option>
                   <!-- Options dinamics -->
                 </select>

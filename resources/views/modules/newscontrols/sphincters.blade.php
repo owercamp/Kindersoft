@@ -168,7 +168,7 @@
               </div>
               <div class="col-md-3">
                 <small class="text-muted">GRADO:</small>
-                <select name="newControl_Grade" class="form-control form-control-sm" required>
+                <select name="newControl_Grade" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un grado...</option>
                   @foreach($grades as $grade)
                   <option value="{{ $grade->id }}">{{ $grade->name }}</option>
@@ -177,14 +177,14 @@
               </div>
               <div class="col-md-3">
                 <small class="text-muted">CURSO:</small>
-                <select name="newControl_Course" class="form-control form-control-sm" required>
+                <select name="newControl_Course" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un curso...</option>
                   <!-- Campos dinamicos -->
                 </select>
               </div>
               <div class="col-md-3">
                 <small class="text-muted">ALUMNO:</small>
-                <select name="newControl_Student" class="form-control form-control-sm" required>
+                <select name="newControl_Student" class="form-control form-control-sm select2" required>
                   <option value="">Seleccione un alumno...</option>
                   <!-- Campos dinamicos -->
                 </select>

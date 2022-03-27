@@ -63,7 +63,7 @@
       <span hidden class="dateInitialFacture-hidden">{{ $all['dateFacture'] }}</span><br>
       <small class="text-muted">FECHA DE VENCIMIENTO:</small><br>
       <div class="form-group">
-        <select name="dateFinalFacture" class="form-control form-control-sm">
+        <select name="dateFinalFacture" class="form-control form-control-sm select2">
           <option value="" selected>INMEDIATA</option>
           <option value="1">UN (1) DIA</option>
           <option value="2">DOS (2) DIAS</option>

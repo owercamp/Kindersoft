@@ -48,7 +48,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <small class="text-muted">Nombre de cliente:</small>
-                      <select id="proCustomer_id" name="proCustomer_id" class="form-control form-control-sm" required>
+                      <select id="proCustomer_id" name="proCustomer_id" class="form-control form-control-sm select2" required>
                         <option value="">Seleccione un cliente...</option>
                         @foreach($customers as $customer)
                         <option value="{{ $customer->cusId }}">{{ $customer->cusFirstname }} {{ $customer->cusLastname }}</option>
@@ -190,7 +190,7 @@
                     <div class="form-group border-bottom my-3">
                       <input type="hidden" name="proScheduling_id" class="form-control form-control-sm" readonly>
                       <small class="text-muted">Grado:</small>
-                      <select name="proGrade_id" class="form-control form-control-sm" required>
+                      <select name="proGrade_id" class="form-control form-control-sm select2" required>
                         <option value="">Seleccione un grado...</option>
                         @foreach($grades as $grade)
                         <option value="{{ $grade->id }}">{{ $grade->name }}</option>
@@ -203,7 +203,7 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <small class="text-muted mx-3">Admisión:</small>
-                      <select name="proAdmission_id" class="form-control form-control-sm">
+                      <select name="proAdmission_id" class="form-control form-control-sm select2">
                         <option value="">Seleccione tipo de admisión...</option>
                         @foreach($admissions as $admission)
                         <option value="{{ $admission->id }}">{{ $admission->admConcept }}</option>
@@ -219,7 +219,7 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <small class="text-muted mx-3">Jornada:</small>
-                      <select name="proJourney_id" class="form-control form-control-sm">
+                      <select name="proJourney_id" class="form-control form-control-sm select2">
                         <option value="">Seleccione una jornada...</option>
                         @foreach($journeys as $journey)
                         <option value="{{ $journey->id }}">{{ $journey->jouJourney }}</option>
@@ -235,7 +235,7 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <small class="text-muted mx-3">Tipo de alimentación:</small>
-                      <select name="proFeeding_id" class="form-control form-control-sm">
+                      <select name="proFeeding_id" class="form-control form-control-sm select2">
                         <option value="">Seleccione una alimentacion...</option>
                         @foreach($feedings as $feeding)
                         <option value="{{ $feeding->id }}">{{ $feeding->feeConcept }}</option>
@@ -251,7 +251,7 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <small class="text-muted mx-3">Uniforme:</small>
-                      <select name="proUniform_id" class="form-control form-control-sm">
+                      <select name="proUniform_id" class="form-control form-control-sm select2">
                         <option value="">Seleccione un uniforme...</option>
                         @foreach($uniforms as $uniform)
                         <option value="{{ $uniform->id }}">{{ $uniform->uniConcept }}</option>
@@ -267,7 +267,7 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <small class="text-muted mx-3">Material escolar:</small>
-                      <select name="proSupplie_id" class="form-control form-control-sm">
+                      <select name="proSupplie_id" class="form-control form-control-sm select2">
                         <option value="">Seleccione el material escolar...</option>
                         @foreach($supplies as $supplie)
                         <option value="{{ $supplie->id }}">{{ $supplie->supConcept }}</option>
@@ -283,7 +283,7 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <small class="text-muted mx-3">Transporte:</small>
-                      <select name="proTransport_id" class="form-control form-control-sm">
+                      <select name="proTransport_id" class="form-control form-control-sm select2">
                         <option value="">Seleccione tipo de transporte...</option>
                         @foreach($transports as $transport)
                         <option value="{{ $transport->id }}">{{ $transport->traConcept }}</option>
@@ -299,7 +299,7 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <small class="text-muted mx-3">Tiempo extra:</small>
-                      <select name="proExtratime_id" class="form-control form-control-sm">
+                      <select name="proExtratime_id" class="form-control form-control-sm select2">
                         <option value="">Seleccione el tiempo...</option>
                         @foreach($extratimes as $extratime)
                         <option value="{{ $extratime->id }}">{{ $extratime->extTConcept }}</option>
@@ -315,7 +315,7 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <small class="text-muted mx-3">Extracurricular:</small>
-                      <select name="proExtracurricular_id" class="form-control form-control-sm">
+                      <select name="proExtracurricular_id" class="form-control form-control-sm select2">
                         <option value="">Seleccione extracurricular...</option>
                         @foreach($extracurriculars as $extracurricular)
                         <option value="{{ $extracurricular->id }}">{{ $extracurricular->extConcept }} - {{ $extracurricular->extIntensity }}</option>

@@ -7,7 +7,7 @@
       <form action="{{ route('achievement.new') }}" method="PUT">
         <div class="row">
           <div class="col-md-6">
-            <select class="form-control mb-2 form-control-sm" name="intelligence_id" required>
+            <select class="form-control mb-2 form-control-sm select2" name="intelligence_id" required>
               <option value="">Seleccione inteligencia...</option>
               @foreach($intelligences as $intelligence)
               <option value="{{ $intelligence->id }}">{{ $intelligence->type }}</option>

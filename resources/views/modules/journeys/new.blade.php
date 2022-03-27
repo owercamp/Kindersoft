@@ -46,7 +46,7 @@
           </div>
           <div id="divSelects" class="form-group justify-content-center">
             <input type="hidden" id="fullDays" name="fullDays" required>
-            <select class='form-control form-control-sm my-2 jouDays' name='jouDays[]' required>
+            <select class='form-control form-control-sm select2 my-2 jouDays' name='jouDays[]' required>
               <option value=''>Seleccione dia...</option>
               <option value='LUNES'>LUNES</option>
               <option value='MARTES'>MARTES</option>

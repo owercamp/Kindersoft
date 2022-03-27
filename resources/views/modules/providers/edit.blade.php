@@ -20,7 +20,7 @@
         <div class="col-md-6 border-right">
           <div class="form-group">
             <small class="text-muted">TIPO DE DOCUMENTO: *</small>
-            <select class="form-control form-control-sm" name="typedocument_id_edit" id="typedocument_id_edit" required>
+            <select class="form-control form-control-sm select2" name="typedocument_id_edit" id="typedocument_id_edit" required>
               <option value="">Seleccione tipo...</option>
               @php $namedocument = '' @endphp
               @foreach($documents as $document)
@@ -63,7 +63,7 @@
         <div class="col-md-6 border-left">
           <div class="form-group">
             <small class="text-muted">CIUDAD: *</small>
-            <select class="form-control form-control-sm" id="cityhome_id_edit" name="cityhome_id_edit" required="required">
+            <select class="form-control form-control-sm select2" id="cityhome_id_edit" name="cityhome_id_edit" required="required">
               <option value="">Seleccione ciudad...</option>
               @php $namecity = '' @endphp
               @foreach($citys as $city)
@@ -81,7 +81,7 @@
               <div class="col-md-6">
                 <small class="text-muted">LOCALIDAD: *</small>
                 <input type="hidden" id="locationhome_id_hidden" value="{{ $provider->locationhome_id }}">
-                <select class="form-control form-control-sm" id="locationhome_id_edit" name="locationhome_id_edit" required>
+                <select class="form-control form-control-sm select2" id="locationhome_id_edit" name="locationhome_id_edit" required>
                   <option value="">Seleccione localidad...</option>
                   <!-- Options dinamics -->
                 </select>
@@ -89,7 +89,7 @@
               <div class="col-md-6">
                 <small class="text-muted">BARRIO: *</small>
                 <input type="hidden" id="dictricthome_id_hidden" value="{{ $provider->dictricthome_id }}">
-                <select class="form-control form-control-sm" id="dictricthome_id_edit" name="dictricthome_id_edit" required>
+                <select class="form-control form-control-sm select2" id="dictricthome_id_edit" name="dictricthome_id_edit" required>
                   <option value="">Seleccione barrio...</option>
                   <!-- Options dinamics -->
                 </select>

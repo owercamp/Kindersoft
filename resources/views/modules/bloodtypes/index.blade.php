@@ -7,7 +7,7 @@
       <form action="{{ route('bloodtype.new') }}" method="PUT">
         <div class="row">
           <div class="col-md-6">
-            <select class="form-control my-2 form-control-sm" name="group" required>
+            <select class="form-control my-2 form-control-sm select2" name="group" required>
               <option value="">Seleccione grupo...</option>
               <option value="AB">AB</option>
               <option value="A">A</option>
@@ -17,7 +17,7 @@
             </select>
           </div>
           <div class="col-md-6">
-            <select class="form-control my-2 form-control-sm" name="type" required>
+            <select class="form-control my-2 form-control-sm select2" name="type" required>
               <option value="">Seleccion tipo...</option>
               <option value="POSITIVO">POSITIVO</option>
               <option value="NEGATIVO">NEGATIVO</option>

@@ -126,7 +126,7 @@
           </div>
           <div class="form-group">
             <small class="text-muted">ESTADO:</small>
-            <select name="apStatusEdit" class="form-control form-control-sm" required>
+            <select name="apStatusEdit" class="form-control form-control-sm select2" required>
               <option value="">Seleccione un estado...</option>
               <option value="ACTIVO">ACTIVO</option>
               <option value="INACTIVO">INACTIVO</option>

@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <select name="cerStudent" class="form-control form-control-sm" required>
+            <select name="cerStudent" class="form-control form-control-sm select2" required>
               <option value="">Seleccione un estudiante...</option>
               @foreach($students as $student)
               <option value="{{ $student->studentId }}">{{ $student->nameStudent }}</option>

@@ -36,7 +36,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <small class="text-muted">AÑO:</small>
-        <select name="yearSelected" class="form-control form-control-sm">
+        <select name="yearSelected" class="form-control form-control-sm select2">
           <option value="">Seleccione...</option>
           <option value="{{ $yearnow }}">{{ $yearnow }}</option>
           <option value="{{ $yearfutureOne }}">{{ $yearfutureOne }}</option>
@@ -50,7 +50,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <small class="text-muted">MES:</small>
-        <select name="mountSelected" class="form-control form-control-sm">
+        <select name="mountSelected" class="form-control form-control-sm select2">
           <option value="">Seleccione...</option>
           <option value="01">ENERO</option>
           <option value="02">FEBRERO</option>

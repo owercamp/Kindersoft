@@ -54,7 +54,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <small class="text-muted">NOMBRE DE ALUMNO:</small>
-              <select name="legStudent_id" class="form-control form-control-sm" required>
+              <select name="legStudent_id" class="form-control form-control-sm select2" required>
                 <option value="">Seleccione un alumno...</option>
                 @for($i = 0; $i < count($studentsUnique); $i++) <option value="{{ $studentsUnique[$i][0] }}">{{ $studentsUnique[$i][1] }}</option>
                   @endfor
@@ -92,7 +92,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <small class="text-muted">GRADO:</small>
-                  <select name="legGrade_id" class="form-control form-control-sm" required>
+                  <select name="legGrade_id" class="form-control form-control-sm select2" required>
                     <option value="">Seleccione un grado...</option>
                     @foreach($grades as $grade)
                     <option value="{{ $grade->id }}">{{ $grade->name }}</option>
@@ -103,7 +103,7 @@
               <!-- <div class="col-md-6">
 									<div class="form-group">
 										<small class="text-muted">CURSO:</small>
-										<select name="legCourse_id" class="form-control form-control-sm" required>
+										<select name="legCourse_id" class="form-control form-control-sm select2" required>
 											<option value="">Seleccione un curso...</option>
 											 SELECTOR DINAMICO DE CURSO
 										</select>
@@ -135,7 +135,7 @@
               <small class="text-muted">NOMBRE DE ACUDIENTE 1:</small>
               <input type="hidden" name="legAttendantfather_id">
               <input type="text" name="acudiente1" class="form-control form-control-sm" disabled>
-              <!-- <select name="legAttendantfather_id" class="form-control form-control-sm">
+              <!-- <select name="legAttendantfather_id" class="form-control form-control-sm select2">
                 <option value="">Seleccione el padre...</option>
                 @foreach($attendants as $attendant)
                 @if ($attendant->status == 'ACTIVO')
@@ -162,7 +162,7 @@
               <small class="text-muted">NOMBRE DE ACUDIENTE 2:</small>
               <input type="hidden" name="legAttendantmother_id">
               <input type="text" name="acudiente2" class="form-control form-control-sm" disabled>
-              <!-- <select name="legAttendantmother_id" class="form-control form-control-sm">
+              <!-- <select name="legAttendantmother_id" class="form-control form-control-sm select2">
                 <option value="">Seleccione la madre...</option>
                 @foreach($attendants as $attendant)
                 @if ($attendant->status == 'ACTIVO')
@@ -187,7 +187,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">JORNADA:</small>
-              <select name="legJourney_id" class="form-control form-control-sm" required>
+              <select name="legJourney_id" class="form-control form-control-sm select2" required>
                 <option value="">Seleccione la jornada...</option>
                 @foreach($journeys as $journey)
                 <option value="{{ $journey->id }}">{{ $journey->jouJourney . ' - ' . $journey->jouDays . ' - ' . $journey->jouHourEntry . ' - ' . $journey->jouHourExit }}</option>

@@ -11,7 +11,7 @@
       <small class="form-text text-muted">Identificador en base de datos</small>
     </div>
     <div class="form-group">
-      <select class="form-control form-control-sm" name="intelligence_id" id="intelligence_id" required="required">
+      <select class="form-control form-control-sm select2" name="intelligence_id" id="intelligence_id" required="required">
         <option value="">SELECCIONE UNA INTELIGENCIA...</option>
         @php $nameintelligence = '' @endphp
         @foreach($intelligences as $intelligence)

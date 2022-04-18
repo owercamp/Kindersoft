@@ -121,7 +121,7 @@
             <td>{{ $row }}</td>
             <td>{{ $all['conDate' . $i] }}</td>
             <td>{{ $all['conConcept' . $i] }}</td>
-            <td>{{ $all['conValue' . $i] }}</td>
+            <td>{{ number_format($all['conValue' . $i],0,',','.') }}</td>
             </tr>
             @php $row++ @endphp
             @endfor
@@ -132,7 +132,7 @@
   <div class="row p-2 border-top border-right border-bottom border-left text-center">
     <div class="col-md-3">
       <small class="text-muted">SUBTOTAL:</small><br>
-      <span class="form-control form-control-sm badge badge-success subtotalFacture" style="color: #fff; font-weight: bold; font-size: 20px;">{{ $all['totalFacture'] }}</span>
+      <span class="form-control form-control-sm badge badge-success subtotalFacture" style="color: #fff; font-weight: bold; font-size: 20px;">{{ number_format($all['totalFacture'],0,',','.') }}</span>
       <!-- <div class="form-group">
 						<small class="text-muted">TOTAL:</small>
 						<div class="input-group">
@@ -256,7 +256,7 @@
           facDateInitial: dateInitial,
           facDateFinal: countDays,
           facConcepts: concepts,
-          facSubtotal: subtotal,
+          facSubtotal: totalWithIva,
           facValuediscount: valueDiscount,
           facPorcentageIva: porcentage,
           facValueIva: totalWithIva

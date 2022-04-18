@@ -36,30 +36,30 @@ class AccountsController extends Controller
   public function getAccount(Request $request)
   {
     /** SE CONSULTAN LAS LEGALIZACIONES ACTIVAS **/
-    $accounts = Legalization::with('student:id,firstname,threename,fourname', 'father:id,firstname,threename', 'mother:id,firstname,threename','grade:id,name','journey')
-    ->join('concepts', 'concepts.conLegalization_id', 'legalizations.legId')
-    ->where('legStatus', 'ACTIVO')
-    ->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])
-    ->get();
+    $accounts = Legalization::with('student:id,firstname,threename,fourname', 'father:id,firstname,threename', 'mother:id,firstname,threename', 'grade:id,name', 'journey')
+      ->join('concepts', 'concepts.conLegalization_id', 'legalizations.legId')
+      ->where('legStatus', 'ACTIVO')
+      ->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])
+      ->get();
 
     $datas = array();
-    
+
     $temporal = "";
     /** SE RECORE TODAS LAS LEGALIZACIONES Y SE FILTRA POR MEDIO DEL ID EN LA VARIABLE TEMPORAL PARA ELIMINAR DUPLICADOS **/
     foreach ($accounts as $key => $account) {
       if ($account->legStudent_id != $temporal) {
-        array_push($datas,[
+        array_push($datas, [
           $account->legId,
           $account->student->id,
-          $account->student->firstname." ".$account->student->threename." ".$account->student->fourname,
+          $account->student->firstname . " " . $account->student->threename . " " . $account->student->fourname,
           $account->grade->name,
           // $account->nameCourse,
-          $account->father->firstname." ".$account->father->threename."</br>".$account->mother->firstname." ".$account->mother->threename
+          $account->father->firstname . " " . $account->father->threename . "</br>" . $account->mother->firstname . " " . $account->mother->threename
         ]);
         $temporal = $account->legStudent_id;
-      }  
+      }
     }
-    
+
     return response()->json($datas);
   }
 
@@ -172,25 +172,12 @@ class AccountsController extends Controller
       $validatefacture = Facturation::select('facCode')->where('facCode', $prefix->fgPrefix . $numeration->niFacture)->first();
       // SI EXISTE EL NUMERO ENTONCES CONSULTAR EL NUMERO MAYOR DE LAS FACTURAS EXISTENTES Y SUMARLE UNO PARA LA NUEVA FACTURA
       if ($validatefacture != null) {
-        $codeLastfacture = Facturation::select('facCode')->max('facCode'); // CODIGO DE ULTIMA FACTURA
-        $validatePrefix = strpos($codeLastfacture, $prefix->fgPrefix); //VALIDAR SI TIENE EL PREFIJO
-        if ($validatePrefix == true || $validatePrefix >= 0) {
-          // $onlyprefix = substr($codeLastfacture,0,strlen($prefix));
-          $nextnumber = (int)substr($codeLastfacture, strlen($prefix->fgPrefix));
-          $nextnumber += 1; //SUMAR EN 1 EL NUMERO DE LA ULTIMA FACTURA
-          $newCodeFacture = $prefix->fgPrefix . $nextnumber;
-        } else {
-          $validatefactureNotPrefix = Facturation::select('facCode')->where('facCode', $numeration->niFacture)->first();
-          if ($validatefactureNotPrefix != null) {
-            $nextnumber = $validatefactureNotPrefix->facCode;
-            $nextnumber += 1;
-            $newCodeFacture = $prefix->fgPrefix . $nextnumber;
-          } else {
-            $nextnumber = $numeration->niFacture;
-            $nextnumber += 1;
-            $newCodeFacture = $prefix->fgPrefix . $nextnumber;
-          }
+        $codeLastfacture = filter_var(Facturation::max('facCode'), FILTER_SANITIZE_NUMBER_INT); // CODIGO DE ULTIMA FACTURA
+        while (Facturation::where('facCode', $prefix->fgPrefix . $codeLastfacture)->count() > 0) {
+          $codeLastfacture++;
         }
+        $newCodeFacture = $prefix->fgPrefix . $codeLastfacture;
+        DB::table('numbersinitial')->update(['niFacture' => $codeLastfacture]);
       } else { //SI NO EXISTE EL NUMERO INICIAL ENTONCES SE USA PARA LA NUEVA FACTURA
         $newCodeFacture = $prefix->fgPrefix . $numeration->niFacture;
       }
@@ -200,11 +187,11 @@ class AccountsController extends Controller
         $validatefacture = Facturation::select('facCode')->where('facCode', $numeration->niFacture)->first();
         // SI EXISTE EL NUMERO ENTONCES CONSULTAR EL NUMERO MAYOR DE LAS FACTURAS EXISTENTES Y SUMARLE UNO PARA LA NUEVA FACTURA
         if ($validatefacture != null) {
-          $codeLastfacture = Facturation::select('facCode')->max('facCode'); // CODIGO DE ULTIMA FACTURA
-          if ($codeLastfacture != null) {
-            $newCodeFacture = $codeLastfacture;
-            $newCodeFacture += 1;
+          $codeLastfacture = filter_var(Facturation::max('facCode'), FILTER_SANITIZE_NUMBER_INT); // CODIGO DE ULTIMA FACTURA
+          while (Facturation::where('facCode', $prefix->fgPrefix . $codeLastfacture)->count() > 0) {
+            $codeLastfacture++;
           }
+          DB::table('numbersinitial')->update(['niFacture' => $codeLastfacture]);
         } else { //SI NO EXISTE EL NUMERO INICIAL ENTONCES SE USA PARA LA NUEVA FACTURA
           $newCodeFacture = $numeration->niFacture;
         }

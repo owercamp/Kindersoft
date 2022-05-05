@@ -177,7 +177,7 @@ class AccountsController extends Controller
           $codeLastfacture++;
         }
         $newCodeFacture = $prefix->fgPrefix . $codeLastfacture;
-        DB::table('numbersinitial')->update(['niFacture' => $codeLastfacture]);
+        Numeration::updated(['niFacture' => $codeLastfacture]);
       } else { //SI NO EXISTE EL NUMERO INICIAL ENTONCES SE USA PARA LA NUEVA FACTURA
         $newCodeFacture = $prefix->fgPrefix . $numeration->niFacture;
       }
@@ -191,7 +191,7 @@ class AccountsController extends Controller
           while (Facturation::where('facCode', $prefix->fgPrefix . $codeLastfacture)->count() > 0) {
             $codeLastfacture++;
           }
-          DB::table('numbersinitial')->update(['niFacture' => $codeLastfacture]);
+          Numeration::updated(['niFacture' => $codeLastfacture]);
         } else { //SI NO EXISTE EL NUMERO INICIAL ENTONCES SE USA PARA LA NUEVA FACTURA
           $newCodeFacture = $numeration->niFacture;
         }

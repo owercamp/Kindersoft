@@ -287,7 +287,6 @@
           "<span class='sr-only' align='center'>Procesando...</span></div>");
       },
       success: function(response) {
-        console.log(response);
         var join = '';
         var countConcepts = 1;
         for (var i = 0; i < response.length; i++) {

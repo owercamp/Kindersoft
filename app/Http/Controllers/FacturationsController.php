@@ -55,18 +55,6 @@ class FacturationsController extends Controller
   function newFacturation(Request $request)
   {
     try {
-      // dd($request->all());
-      /*
-            $request->facLegalization_id
-            $request->facCode
-            $request->facDate
-            $request->facConcepts
-            $request->facSubtotal
-            $request->facValuediscount
-            $request->facPorcentageIva
-            $request->facTotal
-            */
-
       $validateFacturation = Facturation::where('facCode', trim($request->facCode))->first();
 
       if ($validateFacturation == null) {
@@ -109,110 +97,40 @@ class FacturationsController extends Controller
             $dateFinal = Date('Y-m-d');
             break;
         }
-        // if(trim($request->facDateFinal) != ''){
-        //     // $dateInitial = Date('Y-m-d',strtotime(trim($request->facDateInitial)));
-        //     // $dateFinal = Date('Y-m-d',strtotime($dateInitial . ' + ' . trim($request->facDateFinal) . ' month'));
-        //     $dateInitial = Date('Y-m-d');
-        //     $dateFinal = Date('Y-m-d');
-        // }else{
-        //     $dateInitial = Date('Y-m-d',strtotime(trim($request->facDateInitial)));
-        //     $days = Date('t',strtotime(trim($request->facDateInitial)));
-        //     $separatedDateInitial = explode('-', trim($request->facDateInitial));
-        //     $dateFinal = Date('Y-m-d',strtotime($separatedDateInitial[0] . '-' . $separatedDateInitial[1] . '-' . $days));
-        // }
-
 
         //CREAR LA FACTURA EN ESTADO POR DEFECTO 'EN REVISION'
-        Facturation::create([
-          'facCode' => trim($request->facCode),
-          'facDateInitial' => $dateInitial,
-          'facDateFinal' => $dateFinal,
-          'facValue' => trim($request->facSubtotal),
-          'facValueCopy' => trim($request->facValueIva),
-          'facLegalization_id' => trim($request->facLegalization_id),
-          'facConcepts' => trim($request->facConcepts),
-          'facPorcentageIva' => trim($request->facPorcentageIva),
-          'facValuediscount' => trim($request->facValuediscount),
-          'facValueIva' => trim($request->facValueIva)
-        ]);
+        // Facturation::create([
+        //   'facCode' => trim($request->facCode),
+        //   'facDateInitial' => $dateInitial,
+        //   'facDateFinal' => $dateFinal,
+        //   'facValue' => trim($request->facSubtotal),
+        //   'facValueCopy' => trim($request->facValueIva),
+        //   'facLegalization_id' => trim($request->facLegalization_id),
+        //   'facConcepts' => trim($request->facConcepts),
+        //   'facPorcentageIva' => trim($request->facPorcentageIva),
+        //   'facValuediscount' => trim($request->facValuediscount),
+        //   'facValueIva' => trim($request->facValueIva)
+        // ]);
 
-
-        // $facture = array();
         $ids = explode(':', $request->facConcepts);
         for ($i = 0; $i < count($ids); $i++) {
           $concept = Concept::find($ids[$i]);
-          // $totalConcept = ((int)$request->facPorcentageIva * $concept->conValue)/100;
-          // array_push($facture, [
-          //     'CONCEPTO',
-          //     $concept->conId,
-          //     $concept->conConcept,
-          //     1, //UNIDADES
-          //     $concept->conValue, //PRECIO UNITARIO
-          //     $request->facSubtotal, //SUBTOTAL
-          //     $request->facPorcentageIva, // PROCENTAJE
-          //     $totalConcept // TOTAL CON IVA
-          // ]);
           $concept->conStatus = 'FACTURADO';
           $concept->save();
         }
-
-        // // DATOS DE FACTURA
-        // $newFacturation = Facturation::where('facCode',trim($request->facCode))->first();
-        // // DATOS DE JARDIN
-        // $garden = Garden::select(
-        //         'garden.*',
-        //         'citys.name AS garNameCity',
-        //         'locations.name AS garNameLocation',
-        //         'districts.name AS garNameDistrict'
-        //     )
-        //     ->join('citys','citys.id','garden.garCity_id')
-        //     ->join('locations','locations.id','garden.garLocation_id')
-        //     ->join('districts','districts.id','garden.garDistrict_id')
-        //     ->first();
-
-        // // DATOS DE INFROMACION GENERAL
-        // $general = General::first();
-        /*
-                fgRegime
-                fgTaxpayer
-                fgAutoretainer
-                fgActivityOne
-                fgActivityTwo
-                fgActivityThree
-                fgActivityFour
-                fgResolution
-                fgDateresolution
-                fgMountactive
-                fgDatefallresolution
-                fgPrefix
-                fgNumerationsince
-                fgNumerationuntil
-                fgBank
-                fgAccounttype
-                fgNumberaccount
-                fgNotes
-                */
-        //dd('FACTURA: ' . $newFacturation . ', INFORMACION: ' . $general . ', JARDIN: ' . $garden);
-        //DATOS PARA EL ARCHIVO PDF
-
-        // $pdf = \App::make('dompdf.wrapper');
-        // $namefile = 'FACTURA_' . trim($request->facCode) . '.pdf';
-
-        // $pdf->loadView('modules.facturations.facturePdf',compact('facture','newFacturation','garden','general'));
-        // //$pdf->setPaper("A6", "landscape");
-        // $pdf->download($namefile);
-
-        $nextnumber = \mb_split('K', $request->facCode);
+        
+        $split = substr($request->facCode,1,1);
+        $nextnumber = \mb_split($split, $request->facCode);
         $numb = $nextnumber[1];
-        $facture = Numeration::where('niId', 1)->first();
+        $facture = Numeration::where('niId','>', 0)->first();
         $newVal = \intval($numb) + 1;
-
+        
         if ($newVal != null) {
           $facture->niFacture = $newVal;
           $facture->save();
         }
-
-        return response()->json("SE HA GENERADO LA FACTURA: " . trim($request->facCode) . " CORRECTAMENTE, CONSULTE EN LA OPCION GESTION DE CARTERA");
+          
+        return response()->json(['success' => "SE HA GENERADO LA FACTURA: " . trim($request->facCode) . " CORRECTAMENTE, CONSULTE EN LA OPCION GESTION DE CARTERA"]);
       } else {
         return response()->json("POR FAVOR VUELVA A INTENTARLO: HUBO UNA COINCIDENCIA DE FACTURA YA EXISTENTE");
       }

@@ -266,12 +266,12 @@
             "<span class='sr-only' align='center'>Procesando...</span></div>");
         },
         success: function(response) {
-          var find = response.indexOf('CORRECTAMENTE', 0);
-          if (find >= 0) {
+          var find = response.success;
+          if (find >= "") {
             $('.btn-saveFacture').html("CONTINUAR");
             $('.btn-getModal').attr('disabled', true);
             $('.btn-getModal').html("<i class='fas fa-ban'></i> GENERAR FACTURA <i class='fas fa-ban'></i>");
-            $('.message').html("<p style='font-size: 12px;'>" + response + "</p>");
+            $('.message').html("<p style='font-size: 12px;'>" + response.success + "</p>");
             $('.message').addClass('alert-success');
             $('.message').removeClass('alert-warning');
             $('.message').css('display', 'block');
@@ -283,7 +283,7 @@
             $('.btn-saveFacture').html("CONTINUAR");
             $('.btn-getModal').attr('disabled', false);
             $('.btn-getModal').html("GENERAR FACTURA");
-            $('.message').html("<p style='font-size: 12px;'>" + response + "</p>");
+            $('.message').html("<p style='font-size: 12px;'>" + response.success + "</p>");
             $('.message').addClass('alert-warning');
             $('.message').removeClass('alert-success');
             $('.message').css('display', 'block');

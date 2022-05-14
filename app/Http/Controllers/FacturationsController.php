@@ -584,11 +584,14 @@ class FacturationsController extends Controller
     $code = $facturation->facCode;
     $val = $totalAbsolut;
     $subjects = "ORDEN DE PAGO - " . Str::upper(config('app.name'));
+    $countData = General::select('fgAccounttype','fgBank','fgNumberaccount')->first();
 
-    $recipients = [$father->emailone, $mother->emailone];
-    // $recipients = ["owerion22@gmail.com", "navilok557@mnqlm.com"];
+    $garden = Garden::select('garReasonsocial','garNit')->first();
 
-    Mail::to($recipients)->send(new MessageFactureGenerate($code, $dateFinal, $nameFat, $nameMot, $val, $pdfOutput, $namefile, $subjects));
+    // $recipients = [$father->emailone, $mother->emailone];
+    $recipients = ["owerion22@gmail.com", "tyson01b_e413j@hxsni.com"];
+
+    Mail::to($recipients)->send(new MessageFactureGenerate($code, $dateFinal, $nameFat, $nameMot, $val, $pdfOutput, $namefile, $subjects, $countData, $garden));
 
     return redirect()->route('facturation.all')->with('SuccessSaveEntry', "Correo enviado al Sr " . Str::ucfirst($nameFat) . " y la Sra " . Str::ucfirst($nameMot) . " con factura adjunta");
   }

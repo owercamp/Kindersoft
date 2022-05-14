@@ -20,13 +20,15 @@ class MessageFactureGenerate extends Mailable
   public $val;
   public $pdfOutput;
   public $namefile;
+  public $countData;
+  public $infoGarden;
 
   /**
    * Create a new message instance.
    *
    * @return void
    */
-  public function __construct($code, $dateFinal, $nameFat, $nameMot, $val, $pdf, $namefile, $subjects)
+  public function __construct($code, $dateFinal, $nameFat, $nameMot, $val, $pdf, $namefile, $subjects, $countData, $infoGarden)
   {
     $this->code = $code;
     $this->dateFinal = $dateFinal;
@@ -36,6 +38,8 @@ class MessageFactureGenerate extends Mailable
     $this->pdf = $pdf;
     $this->namefile = $namefile;
     $this->subjects = $subjects;
+    $this->countData = $countData;
+    $this->infoGarden = $infoGarden;
   }
 
   /**

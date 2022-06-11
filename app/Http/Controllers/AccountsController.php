@@ -38,7 +38,7 @@ class AccountsController extends Controller
     /** SE CONSULTAN LAS LEGALIZACIONES ACTIVAS **/
     $accounts = Legalization::with('student:id,firstname,threename,fourname', 'father:id,firstname,threename', 'mother:id,firstname,threename', 'grade:id,name', 'journey')
       ->join('concepts', 'concepts.conLegalization_id', 'legalizations.legId')
-      ->where('legStatus', 'ACTIVO')
+      ->where([['legStatus', 'ACTIVO'],['concepts.conStatus', 'PENDIENTE']])
       ->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])
       ->get();
 
@@ -77,7 +77,7 @@ class AccountsController extends Controller
       ->where('legId', trim($request->legId))->first();
     $father = Attendant::find($legalization->legAttendantfather_id);
     $mother = Attendant::find($legalization->legAttendantmother_id);
-    $concepts = Concept::where('conLegalization_id', trim($request->legId))->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])->get();
+    $concepts = Concept::where([['conLegalization_id', trim($request->legId)],['conStatus','PENDIENTE']])->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])->get();
     $dates = array();
 
     if (isset($father) && isset($mother)) {

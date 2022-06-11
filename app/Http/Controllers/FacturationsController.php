@@ -98,19 +98,19 @@ class FacturationsController extends Controller
             break;
         }
 
-        //CREAR LA FACTURA EN ESTADO POR DEFECTO 'EN REVISION'
-        // Facturation::create([
-        //   'facCode' => trim($request->facCode),
-        //   'facDateInitial' => $dateInitial,
-        //   'facDateFinal' => $dateFinal,
-        //   'facValue' => trim($request->facSubtotal),
-        //   'facValueCopy' => trim($request->facValueIva),
-        //   'facLegalization_id' => trim($request->facLegalization_id),
-        //   'facConcepts' => trim($request->facConcepts),
-        //   'facPorcentageIva' => trim($request->facPorcentageIva),
-        //   'facValuediscount' => trim($request->facValuediscount),
-        //   'facValueIva' => trim($request->facValueIva)
-        // ]);
+        // CREAR LA FACTURA EN ESTADO POR DEFECTO 'EN REVISION'
+        Facturation::create([
+          'facCode' => trim($request->facCode),
+          'facDateInitial' => $dateInitial,
+          'facDateFinal' => $dateFinal,
+          'facValue' => trim($request->facSubtotal),
+          'facValueCopy' => trim($request->facValueIva),
+          'facLegalization_id' => trim($request->facLegalization_id),
+          'facConcepts' => trim($request->facConcepts),
+          'facPorcentageIva' => trim($request->facPorcentageIva),
+          'facValuediscount' => trim($request->facValuediscount),
+          'facValueIva' => trim($request->facValueIva)
+        ]);
 
         $ids = explode(':', $request->facConcepts);
         for ($i = 0; $i < count($ids); $i++) {
@@ -171,6 +171,7 @@ class FacturationsController extends Controller
     }
     $students = Student::all();
     $courses = Course::all();
+    // dd($allDates);
     return view('modules.facturations.all', compact('allDates', 'courses', 'students'));
   }
 

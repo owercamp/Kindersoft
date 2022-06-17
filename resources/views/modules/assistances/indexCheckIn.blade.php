@@ -133,7 +133,7 @@
         response.forEach(student => {
           students.push(student);
         });
-        $.get("{{route('getAsistences')}}", function(objectAssistances) {
+        $.get("{{route('apiGetAsistences')}}", function(objectAssistances) {
 
           for (const iterator of students) {
             objectAssistances.forEach(element => {

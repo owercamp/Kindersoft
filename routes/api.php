@@ -3135,7 +3135,7 @@ Route::post("getStudent", function (Request $request) {
   return response()->json($query);
 })->name("getStudent");
 
-Route::get("getAsistences", function () {
+Route::get("apiGetAsistences", function () {
   $date = Carbon::today('America/Bogota')->locale('es')->isoFormat('LL');
   $day = Carbon::today('America/Bogota')->locale('es')->dayName;
   $dateNow = ucfirst($day) . " " . $date;
@@ -3143,7 +3143,7 @@ Route::get("getAsistences", function () {
     ->join("students", "students.id", "presences.pre_student")
     ->where("pre_date", trim($dateNow))->get();
   return response()->json($query);
-})->name("getAsistences");
+})->name("apiGetAsistences");
 
 Route::post('getInfoArrival', function (Request $request) {
   $query = Presence::where('pre_id', $request->data)

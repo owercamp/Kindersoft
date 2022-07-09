@@ -182,9 +182,9 @@
               <small class="text-muted">)</small>
             </li>
             <li>
-              <small class="text-muted">JORNADA VIRTUAL O REMOTA</small>
+              <small class="text-muted">JORNADA HASTA LAS 05:00 PM</small>
               <small class="text-muted">(</small>
-              <input type="radio" name="typeprogram" class="" value="JORNADA VIRTUAL O REMOTA" required>
+              <input type="radio" name="typeprogram" class="" value="JORNADA HASTA LAS 05:00 PM" required>
               <small class="text-muted">)</small>
             </li>
           </ul>

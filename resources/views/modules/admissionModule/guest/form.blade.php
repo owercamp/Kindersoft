@@ -91,7 +91,7 @@
           <h4 style="color: #1200FF; text-shadow: 1px 1px 1px #000000;">FORMULARIO DE MATRICULA</h4>
           <h5 style="color: #E0E608; text-shadow: 1px 1px 1px #000000;">ADMISION</h5>
           @if(config('app.name') == "Dream Home By Creatyvia")
-          <h6 style="color: #1200FF;">Agosto {{ date('Y') - 1 }} / Junio {{ date('Y') }}</h6>
+          <h6 style="color: #1200FF;">Agosto {{ (date('m') >= 07 ? date('Y') : date('Y') - 1) }} / Junio {{ (date('m') >= 07 ? date('Y') + 1 : date('Y') )}}</h6>
           <h6 style="color: #E0E608; text-shadow: 1px 1px 1px #000000;">CALENDARIO B</h6>
           @elseif(config('app.name') == "Colchildren Kindergarten")
           <h6 style="color: #1200FF;">Año lectivo {{ date('Y') +1}}</h6>

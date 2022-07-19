@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Exception;
 
+use Carbon\Carbon;
+
 use App\Models\City;
 
 use App\Models\Garden;
-
 use App\Models\Health;
 use App\Models\Student;
 use App\Models\District;
@@ -18,8 +19,8 @@ use App\Models\Bloodtype;
 use App\Models\Authorized;
 use App\Models\Profession;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use App\Models\Formadmission;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
@@ -601,10 +602,10 @@ class AdmissionmoduleController extends Controller
   function pdfAdmission(Request $request)
   {
     // dd($request->all());
-    // $request->fmId
+    // dd($request->fmId);
     $form = Formadmission::find($request->fmId);
     if ($form != null) {
-      $date = Date('Y-m-d h:i:s');
+      $date = Carbon::now('-05:00');
       $dateborn = explode('-', $form->fechanacimiento);
       $dateentry = explode('-', $form->fechaingreso);
       $health = Health::find($form->health);

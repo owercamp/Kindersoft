@@ -761,8 +761,8 @@ class EnrollmentsController extends Controller
         ->join('locations', 'locations.id', 'garden.garLocation_id')
         ->join('districts', 'districts.id', 'garden.garDistrict_id')
         ->first();
-      $paid = Pay::where('payLegalization_id', $legalization->legId)->first();
-      //dd($paid);
+      $paid = Pay::where('payLegalization_id', $legalization->legId)->get();
+      // dd($paid);
       if ($legalization !== null && $student !== null && $garden !== null) {
         $namefile = 'CONTRATO_FINALIZADO_' . $student->firstname . '_' . $student->threename . '.pdf';
         $pdf = App::make('dompdf.wrapper');

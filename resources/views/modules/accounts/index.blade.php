@@ -312,7 +312,7 @@
         }
         if (join.length > 50) {
           const num = response.length - 1;
-          if (response[num] === "Kindersoft Test") {
+          if (response[num] === "DevOps") {
             window.location = `/financial/accounttants/facturations?${join}`;
           } else if (response[num] === "Dream Home By Creatyvia") {
             window.location = `/dreamhome/financial/accounttants/facturations?${join}`;

@@ -104,8 +104,6 @@ class CreateFormsadmissionsTable extends Migration
       $table->text('cultural_eventfamily');
       $table->text('cultural_supportculturefamily');
       $table->text('cultural_gardenlearnculture');
-      $table->text('cultural_aspectchild');
-      $table->text('cultural_dreamforchild');
       $table->text('cultural_shareculturefamily');
     });
   }

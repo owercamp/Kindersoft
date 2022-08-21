@@ -403,11 +403,13 @@
         },
         url: "{{ route('legStudentSelected') }}",
         beforeSend() {
-          Swal.fire(
-            'Consultando datos',
-            'por favor espere',
-            'info'
-          )
+          Swal.fire({
+            title:'Consultando datos',
+            html: 'por favor espere',
+            icon:'info',
+            timer: 1500,
+            showConfirmButton: false
+          })
         },
         success(res) {
           $('input[name=infoLegalizationTypeDocumentStudent]').val(res[0]['type']);

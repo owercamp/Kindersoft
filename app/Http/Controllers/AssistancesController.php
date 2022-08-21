@@ -122,7 +122,7 @@ class AssistancesController extends Controller
     $consulta = DB::table('presences')
       ->join('students', 'students.id', 'presences.pre_student')
       ->join('courses', 'courses.id', 'presences.pre_course')
-      ->select('presences.pre_date AS date', 'students.firstname AS firstname', 'students.threename AS threename', 'students.fourname AS fourname', 'courses.name AS name', 'presences.pre_harrival AS harrival', 'presences.pre_hexit AS hexit');
+      ->select('presences.pre_date AS date', 'students.firstname AS student', 'students.threename AS threename', 'students.fourname AS fourname', 'courses.name AS course', 'presences.pre_harrival AS harrival', 'presences.pre_hexit AS hexit');
 
     /** VALORES PARA DATATABLE **/
     $totalData = $consulta->count();
@@ -132,19 +132,18 @@ class AssistancesController extends Controller
     $dir = $request->input('order.0.dir');
 
     if (empty($request->input('search.value'))) {
-      $clausulas = $consulta->where("pre_date",$dateSearch);
+      $clausulas = $consulta->where("presences.pre_date",$dateSearch);
       $totalFiltered = $clausulas->count();
       $posts = $clausulas->offset($start)->limit($limit)->orderBy($order, $dir)->get();
-    }
-    else {
+    }else {
       $search = $request->input('search.value');
-      $clausulas = $consulta->where("pre_date", "like", "%{$search}%");
+      $clausulas = $consulta->where("presences.pre_date", "like", "%{$search}%");
       $clausulas = $consulta->orwhere("students.firstname", "like", "%{$search}%");
       $clausulas = $consulta->orWhere("students.threename", "like", "%{$search}%");
       $clausulas = $consulta->orWhere("students.fourname", "like", "%{$search}%");
       $clausulas = $consulta->orWhere("courses.name", "like", "%{$search}%");
-      $clausulas = $consulta->orWhere("pre_harrival", "like", "%{$search}%");
-      $clausulas = $consulta->orWhere("pre_hexit", "like", "%{$search}%");
+      $clausulas = $consulta->orWhere("presences.pre_harrival", "like", "%{$search}%");
+      $clausulas = $consulta->orWhere("presences.pre_hexit", "like", "%{$search}%");
 
       $totalFiltered = $clausulas->count();
       $posts = $clausulas->offset($start)->limit($limit)->orderBy($order, $dir)->get();
@@ -154,8 +153,8 @@ class AssistancesController extends Controller
     if ($posts) {
       foreach ($posts as $presence) {
         $nestedData['date'] = $presence->date;
-        $nestedData['student'] = $presence->firstname." ".$presence->threename." ".$presence->fourname;
-        $nestedData['course'] = $presence->name;
+        $nestedData['student'] = $presence->student." ".$presence->threename." ".$presence->fourname;
+        $nestedData['course'] = $presence->course;
         $nestedData['harrival'] = $presence->harrival;
         $nestedData['hexit'] = $presence->hexit;
         $data[] = $nestedData;

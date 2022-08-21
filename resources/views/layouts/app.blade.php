@@ -80,6 +80,7 @@
               <li><a href="{{ route('intelligences') }}">CONFIGURACION PROGRAMA ACADEMICO</a></li>
               <li><a href="{{ route('collaborators') }}">CONFIGURACION RECURSOS HUMANOS</a></li>
               <li><a href="{{ route('admissions') }}">CONFIGURACION PRODUCTOS Y SERVICIOS</a></li>
+              <li><a href="{{ route('general') }}">CONFIGURACION EMPRESA</a></li>
             </ul>
           </li>
           @endhasanyrole
@@ -118,7 +119,7 @@
           <li><a href="#">FINANCIERA <i class="fas fa-level-down-alt"></i></a>
             <ul class="bj-header-submenu">
               <li><a href="{{ route('accounts') }}">ESTADO DE CUENTA</a></li>
-              <li><a href="{{ route('general') }}">DOCUMENTOS CONTABLES</a></li>
+              <li><a href="{{ route('facturation.all') }}">DOCUMENTOS CONTABLES</a></li>
               <li><a href="{{ route('analysis.structure') }}">ANALISIS DE PRESUPUESTO</a></li>
             </ul>
           </li>

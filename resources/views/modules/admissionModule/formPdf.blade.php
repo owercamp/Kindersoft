@@ -148,11 +148,11 @@
 
           @if(config('app.name') == "Dream Home By Creatyvia")
               <h5 style="color: #FFCF35; font-weight: bold;">ADMISION</h5>
-              <h6 style="color: #1200FF;">Año lectivo {{ (date('m') >= 07 ? date('Y') : date('Y') - 1) }} - {{ (date('m') >= 07 ? date('Y') + 1 : date('Y') )}}</h6>
+              <h6 style="color: #1200FF;">Año lectivo {{ $form->periodo_escolar }}</h6>
               <h6 style="color: #E0E608; text-shadow: 1px 1px 1px #000000;">CALENDARIO B</h6>
               @elseif(config('app.name') == "Colchildren Kindergarten")
               <h5 style="color: #FFCF35; font-weight: bold;">ADMISION</h5>
-              <h6 style="color: #1200FF;">Año lectivo {{ date('Y') + 1 }}</h6>
+              <h6 style="color: #1200FF;">Año lectivo {{ $form->periodo_escolar }}</h6>
               <h6 style="color: #E0E608; text-shadow: 1px 1px 1px #000000;">CALENDARIO A</h6>
               @endif
         </td>

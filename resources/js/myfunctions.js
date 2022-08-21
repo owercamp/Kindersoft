@@ -73,6 +73,7 @@ const sinComa = event => {
 function seeDirection($direction = '/home') {
   // let initial = "/colchildren/";
   // let initial = "/dreamhome/";
+  // let initial = "/devops/";
   let initial = "/";
   let administrativeHumans = `${initial}administrative/humans`,
     administrativeServices = `${initial}administrative/services`,
@@ -467,8 +468,8 @@ function seeDirection($direction = '/home') {
     case `${financialAccounttants}/accounts`:
       return 'GESTION FINANCIERA > ESTADOS DE CUENTA';
       break;
-    case `${financialAccounttants}/facturations/general`:
-      return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > INFORMACION GENERAL';
+    case `${initial}administrative/general`:
+      return 'GESTION ADMINISTRATIVA > INFORMACION GENERAL';
       break;
     case `${financialAccounttants}/facturations`:
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > FACTURACION';

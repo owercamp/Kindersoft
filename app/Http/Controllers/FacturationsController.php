@@ -590,7 +590,7 @@ class FacturationsController extends Controller
     $garden = Garden::select('garReasonsocial','garNit')->first();
 
     $recipients = [$father->emailone, $mother->emailone];
-    // $recipients = ["owerion22@gmail.com", "tyson01b_e413j@hxsni.com"];
+    // $recipients = ["cavid32399@galotv.com", "cavid32399@galotv.com"];
 
     Mail::to($recipients)->send(new MessageFactureGenerate($code, $dateFinal, $nameFat, $nameMot, $val, $pdfOutput, $namefile, $subjects, $countData, $garden));
 

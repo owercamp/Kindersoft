@@ -156,58 +156,41 @@
   $(document).ready(function() {
 
     $('#AssisTable').DataTable({
-      "processing": true,
-      "serverSide": true,
-      "order": [
+      processing: true,
+      serverSide: true,
+      order: [
         [0, 'asc']
       ],
-      "ajax": {
-        "url": "{{ route('getAsistences') }}",
-        "dataType": "JSON",
-        "type": "GET",
-        "data": {
+      ajax: {
+        url: "{{ route('getAsistences') }}",
+        dataType: "JSON",
+        type: "GET",
+        data: {
           "_token": "{{ csrf_token() }}"
         }
       },
-      "columns": [{
-          "data": 'date'
+      columns: [{
+          data: 'date'
         },
         {
-          "data": 'student'
+          data: 'student'
         },
         {
-          "data": 'course'
+          data: 'course'
         },
         {
-          "data": 'harrival'
+          data: 'harrival',
         },
         {
-          "data": 'hexit'
+          data: 'hexit',
         }
       ],
-      "responsive": true,
-      // pagingType: "full_numbers",
-      "language": {
-        "processing": "Procesamiento en curso...",
-        "search": "Buscar:",
-        "lengthMenu": "Mostrar _MENU_ registros",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros. ",
-        "infoEmpty": "Mostrando dato 0 a 0 de 0 registros",
-        "emptyTable": "No hay registros disponibles",
-        "infoFiltered": "Filtrado de _MAX_ elementos totales",
-        "infoPostFix": "",
-        "loadingRecords": "Cargando...",
-        "zeroRecords": "No hay registros para mostrar",
-        "infoFiltered": "Filtrado de _MAX_ registros",
-        "paginate": {
-          "first": "|<",
-          "previous": "<",
-          "next": ">",
-          "last": ">|"
-        }
-      }
+      language:{
+        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+      },
+      responsive: true,
+      pagingType: "full_numbers"
     });
-
     setTimeout(prep_modal, 2000);
   });
 

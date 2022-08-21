@@ -38,8 +38,9 @@ Route::post('/deleteAdmission', 'AdmissionmoduleController@deleteAdmission')->na
 
 Route::get('/Admission', 'AdmissionmoduleController@filesTo')->name('filesAdmission');
 Route::get('/filesAdmission', 'AdmissionmoduleController@filesTofiles')->name('admissionFiles');
+Route::get('/filesAdmission/serderside', 'AdmissionmoduleController@filesServerSide')->name('serverSide');
 Route::post('/migrationAdmission', 'AdmissionmoduleController@migrationAdmission')->name('migrationAdmission');
-Route::get('/pdfAdmission', 'AdmissionmoduleController@pdfAdmission')->name('pdfAdmission');
+Route::post('/pdfAdmission', 'AdmissionmoduleController@pdfAdmission')->name('pdfAdmission');
 
 Route::get('/formulario', 'AdmissionguestController@registerTo')->name('registerGuest');
 Route::post('/saveAdmission', 'AdmissionguestController@saveAdmission')->name('saveAdmission');
@@ -253,7 +254,6 @@ Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINIS
   Route::get('/academic/evaluation/bulletins/pdf', 'BulletinsController@bulletinPdf')->name('bulletins.pdf');
 
   // FACTURACIONES
-  Route::get('/financial/accounttants/facturations/general', 'GeneralController@generalTo')->name('general');
   Route::get('/financial/accounttants/facturations/general/save', 'GeneralController@generalSave')->name('general.save');
   Route::get('/financial/accounttants/facturations/general/numbers', 'GeneralController@generalNumbersSave')->name('general.numberinitial');
 
@@ -412,6 +412,9 @@ Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINIS
   Route::get('/administrative/academic', 'AdministrativoController@academicTo')->name('academic');
   Route::get('/administrative/humans', 'AdministrativoController@humansTo')->name('humans');
   Route::get('/administrative/services', 'AdministrativoController@servicesTo')->name('services');
+
+  //GENERAL
+  Route::get('/administrative/general', 'GeneralController@generalTo')->name('general');
 
   //ADMISSIONS
   Route::get('/administrative/services/admissions', 'AdmissionsController@index')->name('admissions');

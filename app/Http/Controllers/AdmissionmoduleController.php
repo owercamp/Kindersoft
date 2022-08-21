@@ -22,10 +22,10 @@ use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
 use App\Models\Formadmission;
+use App\Models\RecordArchive;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
-
 
 class AdmissionmoduleController extends Controller
 {
@@ -64,13 +64,13 @@ class AdmissionmoduleController extends Controller
     $nombreEmpresaAcudiente2 = str_replace($myExpresions, "", $request->bussinessattendant2);
     $direccionEmpresaAcudiente1 = str_replace($myExpresions, "", $request->addressbussinessattendant1);
     $direccionEmpresaAcudiente2 = str_replace($myExpresions, "", $request->addressbussinessattendant2);
-    $nombreAlumno = str_replace($myExpresions,"",$request->firstname);
-    $apellidoAlumno = str_replace($myExpresions,"",$request->lastname);
-    $nacionalidad = str_replace($myExpresions,"",$request->nationality);
-    $tituloAcudiente1 = str_replace($myExpresions,"",$request->tituloattendant1);
-    $tituloAcudiente2 = str_replace($myExpresions,"",$request->tituloattendant2);
-    $cargoAcudiente1 = str_replace($myExpresions,"",$request->positionattendant1);
-    $cargoAcudiente2 = str_replace($myExpresions,"",$request->positionattendant2);
+    $nombreAlumno = str_replace($myExpresions, "", $request->firstname);
+    $apellidoAlumno = str_replace($myExpresions, "", $request->lastname);
+    $nacionalidad = str_replace($myExpresions, "", $request->nationality);
+    $tituloAcudiente1 = str_replace($myExpresions, "", $request->tituloattendant1);
+    $tituloAcudiente2 = str_replace($myExpresions, "", $request->tituloattendant2);
+    $cargoAcudiente1 = str_replace($myExpresions, "", $request->positionattendant1);
+    $cargoAcudiente2 = str_replace($myExpresions, "", $request->positionattendant2);
 
     /******
      * 
@@ -190,6 +190,7 @@ class AdmissionmoduleController extends Controller
       $formAdmission->cultural_supportculturefamily = $this->fu($request->cultural_supportculturefamily);
       $formAdmission->cultural_gardenlearnculture = $this->fu($request->cultural_gardenlearnculture);
       $formAdmission->cultural_shareculturefamily = $this->fu($request->cultural_shareculturefamily);
+      $formAdmission->periodo_escolar = trim($request->school_period);
       $formAdmission->save();
 
       return redirect()->route('registerAdmission')->with('SuccessAdmission', 'Se ha registrado el formulario para el niño/niña (' . $formAdmission->nombres . ' '  . $formAdmission->apellidos . ') con número de documento (' . $formAdmission->numerodocumento . '), CORRECTAMENTE!!');
@@ -306,6 +307,7 @@ class AdmissionmoduleController extends Controller
       $search->cultural_shareculturefamily = $this->fu($request->cultural_shareculturefamily);
       $search->status = "PENDIENTE";
       $search->migracion = 0;
+      $search->periodo_escolar = trim($request->school_period);
       $search->save();
 
       return redirect()->route('registerAdmission')->with('SuccessAdmission', 'Se ha registrado el formulario para el niño/niña (' . $search->nombres . ' '  . $search->apellidos . ') con número de documento (' . $search->numerodocumento . '), CORRECTAMENTE!!');
@@ -581,6 +583,9 @@ class AdmissionmoduleController extends Controller
     }
   }
 
+  /**
+   * ADMISIONES > MIGRACION FORMULARIOS
+   */
   function filesTo()
   {
     $forms = Formadmission::where([
@@ -590,20 +595,97 @@ class AdmissionmoduleController extends Controller
     return view('modules.admissionModule.files', compact('forms'));
   }
 
+  /**
+   * ADMISIONES > ARCHIVO FORMULARIOS
+   */
   function filesTofiles()
   {
-    $forms = Formadmission::where([
-      ['status', '=', 'APROBADA'],
-      ['migracion', '=', '1']
-    ])->get();
-    return view('modules.admissionModule.filesAdmission', compact('forms'));
+    // $consulta = DB::table('record_archives')->select('record_archives.nombres as nombres','record_archives.apellidos as apellidos','record_archives.numerodocumento as documento','record_archives.periodo_escolar as periodo','record_archives.nombreacudiente1 as acudiente_1','record_archives.celularacudiente1 as contacto_1','record_archives.nombreacudiente2 as acudiente_2','record_archives.celularacudiente2 as contacto_2')->get();
+
+    // dd($consulta);
+    return view('modules.admissionModule.filesAdmission');
+  }
+
+  public function filesServerSide(Request $request)
+  {
+    ini_set('max_execution_set',0);
+    ini_set('memory_limit', '-1');
+
+    $columns = array(
+      0 => 'nombres',
+      1 => 'documento',
+      2 => 'periodo',
+      3 => 'acudiente_1',
+      4 => 'contacto_1',
+      5 => 'acudiente_2',
+      6 => 'contacto_2',
+      7 => 'action'
+    );
+
+    /**
+     * Consulta de Datos
+     */
+    $consulta = DB::table('record_archives')->select('record_archives.nombres as nombres', 'record_archives.apellidos as apellidos','record_archives.numerodocumento as documento','record_archives.nombreacudiente1 as acudiente_1','record_archives.celularacudiente1 as contacto_1','record_archives.nombreacudiente2 as acudiente_2','record_archives.celularacudiente2 as contacto_2','record_archives.periodo_escolar as periodo','record_archives.id as id');
+
+    /**
+     * Totales Datatable
+     */
+    $totalData = $consulta->count();
+    $limit = $request->input('length');
+    $start = $request->input('start');
+    $order = $columns[$request->input('order.0.column')];
+    $dir = $request->input('order.0.dir');
+
+    if (empty($request->input('search.value'))) {
+      $posts = $consulta->offset($start)->limit($limit)->orderBy($order,$dir)->get();
+      $totalFiltered = $totalData;
+    } else {
+      $search = $request->input('search.value');
+      $clausulas = $consulta->where("record_archives.nombres", "like","%{$search}%");
+      $clausulas = $consulta->orWhere("record_archives.apellidos", "like","%{$search}%");
+      $clausulas = $consulta->orWhere("record_archives.nombreacudiente1", "like","%{$search}%");
+      $clausulas = $consulta->orWhere("record_archives.nombreacudiente2", "like","%{$search}%");
+      $clausulas = $consulta->orWhere("record_archives.numerodocumento", "like","%{$search}%");
+      $clausulas = $consulta->orWhere("record_archives.celularacudiente1", "like","%{$search}%");
+      $clausulas = $consulta->orWhere("record_archives.celularacudiente2", "like","%{$search}%");
+      $clausulas = $consulta->orWhere("record_archives.periodo_escolar", "like","%{$search}%");
+
+      $totalFiltered = $clausulas->count();
+      $posts = $clausulas->offset($start)->limit($limit)->orderBy($order,$dir)->get();
+    }
+
+    /**
+     * Array de los Datos
+     */
+
+     $data = array();
+     if ($posts) {
+      foreach ($posts as $key => $register) {
+        $nestedData['nombres'] = $register->nombres." ".$register->apellidos;
+        $nestedData['documento'] = $register->documento;
+        $nestedData['periodo'] = $register->periodo;
+        $nestedData['acudiente_1'] = $register->acudiente_1;
+        $nestedData['contacto_1'] = $register->contacto_1;
+        $nestedData['acudiente_2'] = $register->acudiente_2;
+        $nestedData['contacto_2'] = $register->contacto_2;
+        $nestedData['action'] = $register;
+        $data[] = $nestedData;
+      }
+     }
+     $json_data = array(
+      "draw"            => intval($request->input('draw')),
+      "recordsTotal"    => intval($totalData),
+      "recordsFiltered" => intval($totalFiltered),
+      "data"            => $data
+     );
+     return json_encode($json_data);
   }
 
   function pdfAdmission(Request $request)
   {
     // dd($request->all());
     // dd($request->fmId);
-    $form = Formadmission::find($request->fmId);
+    $form = RecordArchive::find($request->id);
     if ($form != null) {
       $date = Carbon::now('-05:00');
       $dateborn = explode('-', $form->fechanacimiento);
@@ -649,6 +731,9 @@ class AdmissionmoduleController extends Controller
     }
   }
 
+  /**
+   * MIGRACION DE INFORMACION A LAS TABLAS ACUDIENTE, AUTORIZADO, ESTUDIANTE Y ARCHIVO 
+   */
   function migrationAdmission(Request $request)
   {
     $dates = trim($request->json_migration);
@@ -804,7 +889,7 @@ class AdmissionmoduleController extends Controller
                   $health_id = $healthId;
                 }
 
-                Student::create([
+                Student::updateOrCreate([
                   'typedocument_id' => $typedocument_id,
                   'numberdocument' => $relations[$m][3][1],
                   'photo' => $namephoto,
@@ -1086,6 +1171,107 @@ class AdmissionmoduleController extends Controller
           $validateGuardian2->save();
         }
       }
+
+
+      /**
+       * Migracion de datos de la tabla formadmission a la tabla de record_archives
+       */
+      $register = new RecordArchive();
+      $register->foto = trim($form->foto);
+      $register->nombres = $this->upper($form->nombres);
+      $register->apellidos = $this->upper($form->apellidos);
+      $register->genero = trim($form->genero);
+      $register->fechanacimiento = $form->fechanacimiento;
+      $register->tipodocumento = trim($form->tipodocumento);
+      $register->numerodocumento = trim($form->numerodocumento);
+      $register->nacionalidad = $this->upper($form->nacionalidad);
+      $register->mesesgestacion = trim($form->mesesgestacion);
+      $register->tiposangre = trim($form->tiposangre);
+      $register->tipoparto = trim($form->tipoparto);
+      $register->enfermedades = $this->fu($form->enfermedades);
+      $register->tratamientos = $this->fu($form->tratamientos);
+      $register->alergias = $this->fu($form->alergias);
+      $register->asistenciaterapias = trim($form->asistenciaterapias);
+      $register->cual = $this->fu($form->cual);
+      $register->health = trim($form->health);
+      $register->programa = trim($form->programa);
+      $register->numerohermanos = trim($form->numerohermanos);
+      $register->lugarqueocupa = trim($form->placeblugarqueocuparother);
+      $register->conquienvive = $this->upper($form->conquienvive);
+      $register->otroscuidados = $this->fu($form->otroscuidados);
+      $register->nombreacudiente1 = $this->ucwords($form->nombreacudiente1);
+      $register->documentoacudiente1 = trim($form->documentoacudiente1);
+      $register->docacu1 = trim($form->docacu1);
+      $register->direccionacudiente1 = trim($form->direccionacudiente1);
+      $register->barrioacudiente1 = trim($form->barrioacudiente1);
+      $register->localidadacudiente1 = trim($form->localidadacudiente1);
+      $register->celularacudiente1 = trim($form->celularacudiente1);
+      $register->whatsappacudiente1 = trim($form->whatsappacudiente1);
+      $register->correoacudiente1 = $this->lower($form->correoacudiente1);
+      $register->formacionacudiente1 = trim($form->formacionacudiente1);
+      $register->tituloacudiente1 = $this->upper($form->tituloacudiente1);
+      $register->tipoocupacionacudiente1 = trim($form->tipoocupacionacudiente1);
+      $register->empresaacudiente1 = $this->upper($form->empresaacudiente1);
+      $register->direccionempresaacudiente1 = $this->upper($form->direccionempresaacudiente1);
+      $register->ciudadempresaacudiente1 = trim($form->ciudadempresaacudiente1);
+      $register->barrioempresaacudiente1 = trim($form->barrioempresaacudiente1);
+      $register->localidadempresaacudiente1 = trim($form->localidadempresaacudiente1);
+      $register->cargoempresaacudiente1 = $this->upper($form->cargoempresaacudiente1);
+      $register->fechaingresoempresaacudiente1 = $form->fechaingresoempresaacudiente1;
+      $register->rhacu1 = trim($form->rhacu1);
+      $register->sexoacudiente1 = trim($form->sexoacudiente1);
+      $register->nombreacudiente2 = $this->ucwords($form->nombreacudiente2);
+      $register->documentoacudiente2 = trim($form->documentoacudiente2);
+      $register->docacu2 = trim($form->docacu2);
+      $register->direccionacudiente2 = trim($form->direccionacudiente2);
+      $register->barrioacudiente2 = trim($form->barrioacudiente2);
+      $register->localidadacudiente2 = trim($form->localidadacudiente2);
+      $register->celularacudiente2 = trim($form->celularacudiente2);
+      $register->whatsappacudiente2 = trim($form->whatsappacudiente2);
+      $register->correoacudiente2 = $this->lower($form->correoacudiente2);
+      $register->formacionacudiente2 = trim($form->formacionacudiente2);
+      $register->tituloacudiente2 = $this->upper($form->tituloacudiente2);
+      $register->tipoocupacionacudiente2 = trim($form->tipoocupacionacudiente2);
+      $register->empresaacudiente2 = $this->upper($form->empresaacudiente2);
+      $register->direccionempresaacudiente2 = $this->upper($form->direccionempresaacudiente2);
+      $register->ciudadempresaacudiente2 = trim($form->ciudadempresaacudiente2);
+      $register->barrioempresaacudiente2 = trim($form->barrioempresaacudiente2);
+      $register->localidadempresaacudiente2 = trim($form->localidadempresaacudiente2);
+      $register->cargoempresaacudiente2 = $this->upper($form->cargoempresaacudiente2);
+      $register->fechaingresoempresaacudiente2 = $form->fechaingresoempresaacudiente2;
+      $register->rhacu2 = trim($form->rhacu2);
+      $register->sexoacudiente2 = trim($form->sexoacudiente2);
+      $register->nombreemergencia = $this->ucwords($form->nombreemergencia);
+      $register->documentoemergencia = trim($form->documentoemergencia);
+      $register->direccionemergencia = $this->upper($form->direccionemergencia);
+      $register->barrioemergencia = trim($form->barrioemergencia);
+      $register->localidademergencia = trim($form->localidademergencia);
+      $register->celularemergencia = trim($form->celularemergencia);
+      $register->whatsappemergencia = trim($form->whatsappemergencia);
+      $register->parentescoemergencia = $this->fu($form->parentescoemergencia);
+      $register->correoemergencia = $this->lower($form->correoemergencia);
+      $register->nombreautorizado1 = $this->ucwords($form->nombreautorizado1);
+      $register->documentoautorizado1 = trim($form->documentoautorizado1);
+      $register->parentescoautorizado1 = trim($form->parentescoautorizado1);
+      $register->nombreautorizado2 = $this->ucwords($form->nombreautorizado2);
+      $register->documentoautorizado2 = trim($form->documentoautorizado2);
+      $register->parentescoautorizado2 = trim($form->parentescoautorizado2);
+      $register->fechaingreso = $form->fechaingreso;
+      $register->expectatives_likechild = $this->fu($form->expectatives_likechild);
+      $register->expectatives_activityschild = $this->fu($form->expectatives_activityschild);
+      $register->expectatives_toychild = $this->fu($form->expectatives_toychild);
+      $register->expectatives_aspectchild = $this->fu($form->expectatives_aspectchild);
+      $register->expectatives_dreamforchild = $this->fu($form->expectatives_dreamforchild);
+      $register->expectatives_learnchild = $this->fu($form->expectatives_learnchild);
+      $register->cultural_eventfamily = $this->fu($form->cultural_eventfamily);
+      $register->cultural_supportculturefamily = $this->fu($form->cultural_supportculturefamily);
+      $register->cultural_gardenlearnculture = $this->fu($form->cultural_gardenlearnculture);
+      $register->cultural_shareculturefamily = $this->fu($form->cultural_shareculturefamily);
+      $register->status = $form->status;
+      $register->migracion = 1;
+      $register->periodo_escolar = trim($form->periodo_escolar);
+      $register->save();
+
 
       $form->migracion = 1;
       $form->save();

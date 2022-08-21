@@ -173,6 +173,7 @@ class AdmissionguestController extends Controller
       $formAdmission->cultural_supportculturefamily = $this->fu($request->cultural_supportculturefamily);
       $formAdmission->cultural_gardenlearnculture = $this->fu($request->cultural_gardenlearnculture);
       $formAdmission->cultural_shareculturefamily = $this->fu($request->cultural_shareculturefamily);
+      $formAdmission->periodo_escolar = trim($request->school_period);
       $formAdmission->save();
       return redirect()->route('registerGuest')->with('SuccessAdmission', 'Se ha registrado el formulario para el niño/niña (' . $formAdmission->nombres . ' '  . $formAdmission->apellidos . ') con número de documento (' . $formAdmission->numerodocumento . '), CORRECTAMENTE!!');
     } else {
@@ -288,6 +289,7 @@ class AdmissionguestController extends Controller
       $search->cultural_shareculturefamily = $this->fu($request->cultural_shareculturefamily);
       $search->status = "PENDIENTE";
       $search->migracion = 0;
+      $search->periodo_escolar = trim($request->school_period);
       $search->save();
 
       return redirect()->route('registerGuest')->with('SecondaryAdmission', 'Se ha registrado el formulario para el niño/niña (' . $search->nombres . ' '  . $search->apellidos . ') con número de documento (' . $search->numerodocumento . '), CORRECTAMENTE!!');

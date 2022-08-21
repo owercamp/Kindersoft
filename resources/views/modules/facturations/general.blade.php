@@ -1,7 +1,7 @@
-@extends('modules.accountants')
+@extends('financial')
 
-@section('financialModules')
-<div class="col-md-12">
+@section('modulesFinancial')
+<div class="container">
   <div class="row my-3 border-bottom">
     <div class="col-md-6">
       <h3>INFORMACION GENERAL</h3>

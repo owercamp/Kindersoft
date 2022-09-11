@@ -4,7 +4,7 @@
 <div class="col-md-12">
   <div class="row my-3 border-bottom">
     <div class="col-md-6">
-      <h3>GESTION DE CARTERA</h3>
+      <h3>FACTURACION ELECTRONICA</h3>
     </div>
     <div class="col-md-6">
       <form action="{{ route('facturation.defeatedPdf') }}" method="GET" style="display: inline;">

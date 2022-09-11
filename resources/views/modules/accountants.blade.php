@@ -4,7 +4,7 @@
 	<div class="col-md-2">
 		<ul class="nav bj-flex" style="min-height: 60vh;">
 			<li>
-				<a href="#" class="nav-link">
+				<a href="{{ route('facturation.all') }}" class="nav-link">
 					<i class="fas fa-credit-card"></i>
 					<p>{{ __('Facturación Electronica') }}</p>
 				</a>
@@ -18,7 +18,7 @@
 			</li> -->
 			<div class="dropdown-divider bj-divider"></div>
 			<li>
-				<a href="{{ route('facturation.all') }}" class="nav-link">
+				<a href="#" class="nav-link">
 					<i class="fas fa-money-check-alt"></i>
 					<p>{{ __('Gestión de cartera') }}</p>
 				</a>

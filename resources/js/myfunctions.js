@@ -475,7 +475,7 @@ function seeDirection($direction = '/home') {
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > FACTURACION';
       break;
     case `${financialAccounttants}/facturations/all`:
-      return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > GESTION DE CARTERA';
+      return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > FACTURACION ELECTRONICA';
       break;
     case `${financialAccounttants}/entryvouchers`:
       return 'GESTION FINANCIERA > DOCUMENTOS CONTABLES > COMPROBANTE DE INGRESO';

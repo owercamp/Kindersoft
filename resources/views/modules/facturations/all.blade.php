@@ -72,44 +72,47 @@
         <td>${{ $allDates[$i][5] }}</td>
         <td>
           <a href="#" class="btn btn-outline-primary rounded-circle editFacture-link" title="EDITAR FACTURA">
-            <i class="fas fa-edit"></i>
+            <i class="fas fa-edit" aria-hidden="true"></i>
             <span hidden>{{ $allDates[$i][1] }}</span><!-- ID DE FACTURA -->
             <span hidden>{{ $allDates[$i][4] }}</span><!-- NOMBRE DE ALUMNO -->
           </a>
-          <a href="#" class="btn btn-outline-success rounded-circle createVoucher-link" title="GENERAR COMPROBANTE">
+          <!-- <a href="#" class="btn btn-outline-success rounded-circle createVoucher-link" title="GENERAR COMPROBANTE">
             <i class="fas fa-sync"></i>
             <span hidden>{{ $allDates[$i][0] }}</span>
             <span hidden>{{ $allDates[$i][1] }}</span>
-            <span hidden>{{ $allDates[$i][2] }}</span><!-- CODIGO DE FACTURA -->
-            <span hidden>{{ $allDates[$i][5] }}</span><!-- VALOR -->
-          </a>
+            <span hidden>{{ $allDates[$i][2] }}</span>CODIGO DE FACTURA
+            <span hidden>{{ $allDates[$i][5] }}</span>VALOR
+          </a> -->
           <form action="{{ route('facturation.pdf') }}" method="GET" style="display: inline;">
             <input type="hidden" name="legId" value="{{ $allDates[$i][0] }}" readonly>
             <input type="hidden" name="facId" value="{{ $allDates[$i][1] }}" readonly>
             <button type="submit" class="btn btn-outline-tertiary rounded-circle  pdfFacturation-link" title="PDF">
-              <i class="fas fa-file-pdf"></i>
+              <i class="fas fa-file-pdf" aria-hidden="true"></i>
             </button>
           </form>
-          <form action="{{ route('facturation.pdf-mail') }}" method="GET" style="display: inline;">
+          <!-- <form action="{{ route('facturation.pdf-mail') }}" method="GET" style="display: inline;">
             <input type="hidden" name="legId" value="{{ $allDates[$i][0] }}" readonly>
             <input type="hidden" name="facId" value="{{ $allDates[$i][1] }}" readonly>
             <button type="submit" class="btn btn-outline-info rounded-circle  pdfFacturation-mail" title="EMAIL - PDF">
               <i class="fas fa-mail-bulk"></i>
             </button>
-          </form>
-          <a href="#" class="btn btn-outline-primary rounded-circle accountsPending-link" title="CARTERA PENDIENTE">
+          </form> -->
+          <!-- <a href="#" class="btn btn-outline-primary rounded-circle accountsPending-link" title="CARTERA PENDIENTE">
             <i class="fas fa-funnel-dollar"></i>
-            <span hidden>{{ $allDates[$i][0] }}</span><!-- ID DE LEGALIZACION -->
-            <span hidden>{{ $allDates[$i][4] }}</span><!-- NOMBRE DE ALUMNO -->
-          </a>
+            <span hidden>{{ $allDates[$i][0] }}</span>ID DE LEGALIZACION
+            <span hidden>{{ $allDates[$i][4] }}</span>NOMBRE DE ALUMNO
+          </a> -->
           <a href="#" class="btn btn-outline-secondary rounded-circle accountsCanceled-link" title="ANULAR FACTURA">
-            <i class="fas fa-times"></i>
+            <i class="fas fa-times" aria-hidden="true"></i>
             <span hidden>{{ $allDates[$i][0] }}</span><!-- ID DE LEGALIZACION -->
             <span hidden>{{ $allDates[$i][1] }}</span><!-- ID DE FACTURA -->
             <span hidden>{{ $allDates[$i][2] }}</span><!-- CODIGO DE FACTURA -->
             <span hidden>{{ $allDates[$i][3] }}</span><!-- FECHA DE VENCIMIENTO -->
             <span hidden>{{ $allDates[$i][4] }}</span><!-- NOMBRE DE ALUMNO -->
             <span hidden>{{ $allDates[$i][5] }}</span><!-- VALOR A PAGAR -->
+          </a>
+          <a href="#" class="btn btn-outline-danger rounded-circle" title="EMITIR FACTURA">
+            <i class="fa fa-exchange" aria-hidden="true"></i>
           </a>
         </td>
         </tr>

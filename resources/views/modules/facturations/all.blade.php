@@ -111,9 +111,13 @@
             <span hidden>{{ $allDates[$i][4] }}</span><!-- NOMBRE DE ALUMNO -->
             <span hidden>{{ $allDates[$i][5] }}</span><!-- VALOR A PAGAR -->
           </a>
-          <a href="#" class="btn btn-outline-danger rounded-circle" title="EMITIR FACTURA">
-            <i class="fa fa-exchange" aria-hidden="true"></i>
-          </a>
+          <form action="{{ route('facturation.xml') }}" method="GET" style="display: inline;">
+            <input type="hidden" name="legId" value="{{ $allDates[$i][0] }}" readonly>
+            <input type="hidden" name="facId" value="{{ $allDates[$i][1] }}" readonly>
+            <button type="submit" class="btn btn-outline-danger rounded-circle" title="EMITIR FACTURA">
+              <i class="fa fa-exchange" aria-hidden="true"></i>
+            </button>
+          </form>
         </td>
         </tr>
         @endfor

@@ -266,6 +266,7 @@ Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINIS
   Route::post('/financial/accounttants/facturations/denied', 'FacturationsController@deniedFacturation')->name('facturation.denied');
   Route::get('/financial/accounttants/facturations/pdf', 'FacturationsController@pdfFacturation')->name('facturation.pdf');
   Route::get('/financial/accounttants/facturations/email-pdf', 'FacturationsController@pdfFacturationEmail')->name('facturation.pdf-mail');
+  Route::get('//financial/accounttants/facturations/xml', 'FacturationsController@xmlFacturation')->name('facturation.xml');
 
   Route::get('/financial/accounttants/facturations/defeated', 'FacturationsController@defeatedFacturation')->name('facturation.defeatedPdf');
 

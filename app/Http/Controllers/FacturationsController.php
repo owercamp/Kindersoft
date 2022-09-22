@@ -118,18 +118,18 @@ class FacturationsController extends Controller
           $concept->conStatus = 'FACTURADO';
           $concept->save();
         }
-        
-        $split = substr($request->facCode,1,1);
+
+        $split = substr($request->facCode, 1, 1);
         $nextnumber = \mb_split($split, $request->facCode);
         $numb = $nextnumber[1];
-        $facture = Numeration::where('niId','>', 0)->first();
+        $facture = Numeration::where('niId', '>', 0)->first();
         $newVal = \intval($numb) + 1;
-        
+
         if ($newVal != null) {
           $facture->niFacture = $newVal;
           $facture->save();
         }
-          
+
         return response()->json(['success' => "SE HA GENERADO LA FACTURA: " . trim($request->facCode) . " CORRECTAMENTE, CONSULTE EN LA OPCION GESTION DE CARTERA"]);
       } else {
         return response()->json("POR FAVOR VUELVA A INTENTARLO: HUBO UNA COINCIDENCIA DE FACTURA YA EXISTENTE");
@@ -585,9 +585,9 @@ class FacturationsController extends Controller
     $code = $facturation->facCode;
     $val = $totalAbsolut;
     $subjects = "ORDEN DE PAGO - " . Str::upper(config('app.name'));
-    $countData = General::select('fgAccounttype','fgBank','fgNumberaccount')->first();
+    $countData = General::select('fgAccounttype', 'fgBank', 'fgNumberaccount')->first();
 
-    $garden = Garden::select('garReasonsocial','garNit')->first();
+    $garden = Garden::select('garReasonsocial', 'garNit')->first();
 
     $recipients = [$father->emailone, $mother->emailone];
     // $recipients = ["cavid32399@galotv.com", "cavid32399@galotv.com"];
@@ -1057,6 +1057,437 @@ class FacturationsController extends Controller
     // return $pdf->stream($namefile);
     return $pdf->download($namefile);
   }
+
+  public function xmlFacturation(Request $request)
+  {
+    // dd($request->all());
+    /*
+          $request->legId;
+          $request->facId;
+          */
+    $facture = array(); // DONDE SE GUARDA TODA LA INFORMACIÖN QUE SE MUESTRA EN EL PDF
+    $facturation = Facturation::select(
+      'facturations.*', // facCode, facDateInitial, facFateFinal, facValue, facLegalization_id, facConcepts, facStatus
+      DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
+      'citys.name as nameCity'
+    )
+      ->join('legalizations', 'legalizations.legId', 'facturations.facLegalization_id')
+      ->join('students', 'students.id', 'legalizations.legStudent_id')
+      ->join('citys', 'citys.id', 'students.cityhome_id')
+      ->where('facId', $request->facId)
+      ->first();
+    $garden = Garden::select('garden.*', 'citys.name as nameCity', 'locations.name as nameLocation')
+      ->join('citys', 'citys.id', 'garden.garCity_id')
+      ->join('locations', 'locations.id', 'garden.garLocation_id')
+      ->first();
+    array_push($facture, [
+      'SECTION ONE',
+      $facturation->facCode,
+      $facturation->facDateInitial,
+      $facturation->facDateFinal,
+      $garden->garReasonsocial,
+      $garden->garNamerepresentative,
+      $garden->garNit,
+      $garden->garAddress,
+      $garden->nameCity,
+      $garden->nameLocation,
+      $garden->garMailone,
+      $garden->garPhone
+    ]);
+
+    $general = General::first();
+    $father = Legalization::select(
+      'legalizations.*',
+      DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameFather"),
+      'documents.type',
+      'attendants.numberdocument',
+      'attendants.address',
+      'citys.name as city'
+    )
+      ->join('attendants', 'attendants.id', 'legalizations.legAttendantfather_id')
+      ->join('documents', 'documents.id', 'attendants.typedocument_id')
+      ->join('citys', 'citys.id', 'attendants.cityhome_id')
+      ->where('legId', $request->legId)->first();
+    $mother = Legalization::select(
+      'legalizations.*',
+      DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameMother"),
+      'documents.type',
+      'attendants.numberdocument',
+      'attendants.address',
+      'citys.name as city'
+    )
+      ->join('attendants', 'attendants.id', 'legalizations.legAttendantmother_id')
+      ->join('documents', 'documents.id', 'attendants.typedocument_id')
+      ->join('citys', 'citys.id', 'attendants.cityhome_id')
+      ->where('legId', $request->legId)->first();
+    $student = Legalization::select(
+      DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
+      'documents.type',
+      'students.numberdocument',
+      'grades.name as grade'
+    )
+      ->join('students', 'students.id', 'legalizations.legStudent_id')
+      ->join('documents', 'documents.id', 'students.typedocument_id')
+      ->join('grades', 'grades.id', 'legalizations.legGrade_id')
+      ->where('legId', $request->legId)->first();
+    // $user = User::select('collaborators.firm', 'collaborators.position')->join('collaborators', 'collaborators.id', 'users.collaborator_id')->where('users.id', auth()->id())->first();
+    $user = User::find(auth()->id());
+    $firm = 'N/A';
+    if ($user->id != 0 and $user->id != "1024500065" and $user->id != "80503717") {
+      $firm = Collaborator::where('numberdocument', $user->id)->first();
+      if (!$firm) {
+        return back()->with('WarningUpdateFacturation', 'Este usuario no se encuentra registrado como colaborador');
+      }
+    }
+
+    if ($firm != 'N/A') {
+      if ($father != null && $mother != null) {
+        array_push($facture, [
+          'SECTION TWO',
+          $father->nameFather . ' ' . $father->numberdocument,
+          $mother->nameMother . ' ' . $mother->numberdocument,
+          $father->type  . ' - ' . $mother->type,
+          $student->nameStudent,
+          $student->type,
+          $student->numberdocument,
+          $student->grade,
+          $father->address,
+          $father->city,
+          $general->fgRegime,
+          $general->fgTaxpayer,
+          $general->fgAutoretainer,
+          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
+          $general->fgResolution,
+          $general->fgDateresolution,
+          $general->fgNumerationsince,
+          $general->fgNumerationuntil,
+          $general->fgBank,
+          $general->fgAccounttype,
+          $general->fgNumberaccount,
+          $general->fgNotes,
+          $firm->firm,
+          $firm->firstname . ' ' . $firm->threename . ' ' . $firm->fourname,
+          $firm->position
+        ]);
+      } else if ($mother != null && $father == null) {
+        array_push($facture, [
+          'SECTION TWO',
+          '',
+          $mother->nameMother . ' ' . $mother->numberdocument,
+          $mother->type,
+          $student->nameStudent,
+          $student->type,
+          $student->numberdocument,
+          $student->grade,
+          $mother->address,
+          $mother->city,
+          $general->fgRegime,
+          $general->fgTaxpayer,
+          $general->fgAutoretainer,
+          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
+          $general->fgResolution,
+          $general->fgDateresolution,
+          $general->fgNumerationsince,
+          $general->fgNumerationuntil,
+          $general->fgBank,
+          $general->fgAccounttype,
+          $general->fgNumberaccount,
+          $general->fgNotes,
+          $firm->firm,
+          $firm->firstname . ' ' . $firm->threename . ' ' . $firm->fourname,
+          $firm->position
+        ]);
+      } else if ($mother == null && $father != null) {
+        array_push($facture, [
+          'SECTION TWO',
+          $father->nameFather . ' ' . $father->numberdocument,
+          '',
+          $father->type,
+          $student->nameStudent,
+          $student->type,
+          $student->numberdocument,
+          $student->grade,
+          $father->address,
+          $father->city,
+          $general->fgRegime,
+          $general->fgTaxpayer,
+          $general->fgAutoretainer,
+          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
+          $general->fgResolution,
+          $general->fgDateresolution,
+          $general->fgNumerationsince,
+          $general->fgNumerationuntil,
+          $general->fgBank,
+          $general->fgAccounttype,
+          $general->fgNumberaccount,
+          $general->fgNotes,
+          $firm->firm,
+          $firm->firstname . ' ' . $firm->threename . ' ' . $firm->fourname,
+          $firm->position
+        ]);
+      } else {
+        array_push($facture, [
+          'SECTION TWO',
+          '',
+          '',
+          '',
+          $student->nameStudent,
+          $student->type,
+          $student->numberdocument,
+          $student->grade,
+          '',
+          '',
+          $general->fgRegime,
+          $general->fgTaxpayer,
+          $general->fgAutoretainer,
+          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
+          $general->fgResolution,
+          $general->fgDateresolution,
+          $general->fgNumerationsince,
+          $general->fgNumerationuntil,
+          $general->fgBank,
+          $general->fgAccounttype,
+          $general->fgNumberaccount,
+          $general->fgNotes,
+          $firm->firm,
+          $firm->firstname . ' ' . $firm->threename . ' ' . $firm->fourname,
+          $firm->position
+        ]);
+      }
+    } else {
+      if ($father != null && $mother != null) {
+        array_push($facture, [
+          'SECTION TWO',
+          $father->nameFather . ' ' . $father->numberdocument,
+          $mother->nameMother . ' ' . $mother->numberdocument,
+          $father->type  . ' - ' . $mother->type,
+          $student->nameStudent,
+          $student->type,
+          $student->numberdocument,
+          $student->grade,
+          $father->address,
+          $father->city,
+          $general->fgRegime,
+          $general->fgTaxpayer,
+          $general->fgAutoretainer,
+          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
+          $general->fgResolution,
+          $general->fgDateresolution,
+          $general->fgNumerationsince,
+          $general->fgNumerationuntil,
+          $general->fgBank,
+          $general->fgAccounttype,
+          $general->fgNumberaccount,
+          $general->fgNotes,
+          $firm
+        ]);
+      } else if ($mother != null && $father == null) {
+        array_push($facture, [
+          'SECTION TWO',
+          '',
+          $mother->nameMother . ' ' . $mother->numberdocument,
+          $mother->type,
+          $student->nameStudent,
+          $student->type,
+          $student->numberdocument,
+          $student->grade,
+          $mother->address,
+          $mother->city,
+          $general->fgRegime,
+          $general->fgTaxpayer,
+          $general->fgAutoretainer,
+          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
+          $general->fgResolution,
+          $general->fgDateresolution,
+          $general->fgNumerationsince,
+          $general->fgNumerationuntil,
+          $general->fgBank,
+          $general->fgAccounttype,
+          $general->fgNumberaccount,
+          $general->fgNotes,
+          $firm
+        ]);
+      } else if ($mother == null && $father != null) {
+        array_push($facture, [
+          'SECTION TWO',
+          $father->nameFather . ' ' . $father->numberdocument,
+          '',
+          $father->type,
+          $student->nameStudent,
+          $student->type,
+          $student->numberdocument,
+          $student->grade,
+          $father->address,
+          $father->city,
+          $general->fgRegime,
+          $general->fgTaxpayer,
+          $general->fgAutoretainer,
+          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
+          $general->fgResolution,
+          $general->fgDateresolution,
+          $general->fgNumerationsince,
+          $general->fgNumerationuntil,
+          $general->fgBank,
+          $general->fgAccounttype,
+          $general->fgNumberaccount,
+          $general->fgNotes,
+          $firm
+        ]);
+      } else {
+        array_push($facture, [
+          'SECTION TWO',
+          '',
+          '',
+          '',
+          $student->nameStudent,
+          $student->type,
+          $student->numberdocument,
+          $student->grade,
+          '',
+          '',
+          $general->fgRegime,
+          $general->fgTaxpayer,
+          $general->fgAutoretainer,
+          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
+          $general->fgResolution,
+          $general->fgDateresolution,
+          $general->fgNumerationsince,
+          $general->fgNumerationuntil,
+          $general->fgBank,
+          $general->fgAccounttype,
+          $general->fgNumberaccount,
+          $general->fgNotes,
+          $firm
+        ]);
+      }
+    }
+
+    $totalAbsolut = 0;
+    $totalAbsolutNotIva = 0;
+    $totalAbsolutOnlyIva = 0;
+    $separatedConcepts = explode(':', $facturation->facConcepts);
+    $concepts = [];
+    for ($i = 0; $i < count($separatedConcepts); $i++) {
+      $concept = Concept::find($separatedConcepts[$i]); // conId, conDate, conConcept, conValue, conStatus, conLegalization_id
+      // var value = $(this).find('td:last').text();
+      $resultTotalWithIva = ($facturation->facPorcentageIva * $concept->conValue) / 100 + $concept->conValue;
+      $resultOnlyIva = ($facturation->facPorcentageIva * $concept->conValue) / 100;
+
+
+      // total += resultIva
+      array_push($facture, [
+        'CONCEPTOS',
+        $concept->conId,
+        $concept->conConcept,
+        $concept->conValue,
+        $resultOnlyIva,
+        $resultTotalWithIva,
+        $facturation->facPorcentageIva
+      ]);
+      array_push($concepts, [
+        'ID' => $concept->conId,
+        'Concept' => $concept->conConcept,
+        'Value' => $concept->conValue,
+        'Iva' => $resultOnlyIva,
+        'Total' => $resultTotalWithIva,
+        'Porcentage' => $facturation->facPorcentageIva
+      ]);
+      $totalAbsolut += $resultTotalWithIva;
+      $totalAbsolutNotIva += $concept->conValue;
+      $totalAbsolutOnlyIva += ($facturation->facPorcentageIva * $concept->conValue) / 100;
+    }
+
+    $iva = $facturation->facPorcentageIva;
+    $discount = $facturation->facValuediscount;
+    $totalAbsolutOnlyIva = ($iva * $facturation->facValue) / 100;
+    $totalAbsolutNotIva = $facturation->facValue - $facturation->facValuediscount;
+    $totalAbsolut = $totalAbsolutNotIva + $totalAbsolutOnlyIva;
+    /**
+     * ESTE ES EL CODIGO PARA LA FACTURACION XML
+     */
+    // dd($facture);
+    $regime = "";
+    switch ($facture[1][10]) {
+      case 'COMUN':
+        $regime = 'IVA regimen común';
+        break;
+      case 'SIMPLIFICADO':
+        $regime = 'IVA regimen simplificado';
+        break;
+      case 'ESPECIAL':
+        $regime = 'IVA regimen especial';
+        break;
+    }
+    $taxpayer = "";
+    switch ($facture[1][11]) {
+      case 'SI':
+        $taxpayer = 'somos grandes contribuyentes';
+        break;
+      case 'NO':
+        $taxpayer = 'no somos grandes contribuyentes';
+        break;
+    }
+    $autoretainer = "";
+    switch ($facture[1][12]) {
+      case 'SI':
+        $autoretainer = 'somos autoretenedores';
+        break;
+      case 'NO':
+        $autoretainer = 'no somos autoretenedores';
+        break;
+    }
+    $array = [
+      'Header' => [
+        'Number' => $facture[0][1],
+        'Date' => $facture[0][2],
+        'Expiration' => $facture[0][3],
+        'Garden' => [
+          'Name' => $facture[0][4],
+          'Nit' => $facture[0][6],
+          'Address' => $facture[0][7],
+          'Neighborhood' => $facture[0][9],
+          'City' => $facture[0][8],
+          'Mail' => $facture[0][10],
+          'Contact' => $facture[0][11]
+        ]
+      ],
+      'Clients' => [
+        'Attendants' => [
+          'Attendant1' => $facture[1][1],
+          'Attendant2' => $facture[1][2],
+        ],
+        'Student' => [
+          'Name' => $facture[1][4],
+          'ID Type' => $facture[1][5],
+          'ID Number' => $facture[1][6],
+          'Grade' => $facture[1][7],
+          'Home' => $facture[1][8]
+        ]
+      ],
+      'Information' => [
+        'Regime' => $regime,
+        'Taxpayer' => $taxpayer,
+        'Autoretainer' => $autoretainer,
+        'Economic Activity' => $facture[1][13],
+        'Resolution' => $facture[1][14],
+      ],
+      'Concepts' => [
+        'information' => [
+          $concepts
+        ]
+      ],
+      'Values' => [
+        'TotalIva' => $iva,
+        'Discount' => $discount,
+        'ValueWithIva' => $totalAbsolutOnlyIva,
+        'ValueWithoutiva' => $totalAbsolutNotIva,
+        'Total' => $totalAbsolut
+      ]
+    ];
+
+    return response()->xml($array,  200, [], 'Root', 'UTF-8');
+  }
+
 
   public function pdfFilter(Request $request)
   {

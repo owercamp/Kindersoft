@@ -1,8 +1,8 @@
 ## Proyecto Kindersoft
 
-<img src="public\img\logo_javapri.png">
+<img src="public/img/logo_javapri.png">
 
-<p>Proyecto plataforma Jardines Infantiles</p>
+<p>plataforma Jardines Infantiles, en donde se administran matriculas, examenes, extracurriculares y demás</p>
 
   <ul>
     <li>DreamHome</li>

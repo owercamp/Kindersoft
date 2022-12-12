@@ -102,6 +102,19 @@
 
         <div class="col-md-6 border-left">
           <div class="form-group">
+            <small class="text-muted">PAIS</small>
+            <select class="form-control form-control-sm select2" name="country_home_id_edit" id="country_home_id_edit" require>
+              <option value=""></option>
+              @foreach ($countrys as $key => $country)
+                @if ($country == "Colombia")
+                  <option value="{{ $key }}" selected>{{ $country }}</option>
+                @else
+                  <option value="{{ $key }}">{{ $country }}</option>
+                @endif
+              @endforeach
+            </select>
+          </div>
+          <!-- <div class="form-group">
             <small class="text-muted">CIUDAD: *</small>
             <select class="form-control form-control-sm select2" id="cityhome_id_edit" name="cityhome_id_edit" required="required">
               <option value="">Seleccione ciudad...</option>
@@ -115,12 +128,7 @@
               @endif
               @endforeach
             </select>
-            <!-- @ if($namecity == '')
-								<small class="text-muted">Referencia actual <b>{{ __('Dato vacio') }}</b></small>
-							@ else
-								<small class="text-muted">Referencia actual <b>{{ $namecity }}</b></small>
-							@ endif -->
-          </div>
+          </div> -->
           <div class="form-group">
             <div class="row">
               <div class="col-md-6">

@@ -15,6 +15,7 @@ use App\Models\District;
 use App\Models\Legalization;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class AttendantsController extends Controller
 {
@@ -34,8 +35,11 @@ class AttendantsController extends Controller
         $documents = Document::all();
         $bloodtypes = Bloodtype::all();
         $professions = Profession::all();
+        // $country = DB::table("paises_prefijoopcional")->limit(5)->get();
+        $countrys = DB::table("paises_prefijoopcional")->pluck('nom_pais_prefijoopcional','iddep_pais_prefijoopcional');
+        // dd($country);
         $citys = City::all();
-        return view('modules.attendants.edit', compact('attendant', 'documents', 'bloodtypes', 'professions', 'citys'));
+        return view('modules.attendants.edit', compact('attendant', 'documents', 'bloodtypes', 'professions', 'countrys', 'citys'));
     }
 
     function updateAttendant(Request $request, $id)

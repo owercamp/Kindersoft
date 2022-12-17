@@ -17,6 +17,7 @@ class CreateTransportsTable extends Migration
             $table->bigIncrements('id');
             $table->string('traConcept')->unique();
             $table->float('traValue',9,2);
+            $table->timestamps();
         });
     }
 

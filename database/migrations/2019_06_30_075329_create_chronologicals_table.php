@@ -24,6 +24,7 @@ class CreateChronologicalsTable extends Migration
       $table->bigInteger('chCollaborator_id')->unsigned();
       $table->foreign('chCollaborator_id')->references('id')->on('collaborators')->onDelete('cascade');
       $table->string('chDescription', 1000);
+      $table->timestamps();
     });
   }
 

@@ -17,6 +17,7 @@ class CreateHealthsTable extends Migration
             $table->bigIncrements('id');
             $table->string('entity');
             $table->enum('type',['EPS','PREPAGADA']);
+            $table->timestamps();
         });
     }
 

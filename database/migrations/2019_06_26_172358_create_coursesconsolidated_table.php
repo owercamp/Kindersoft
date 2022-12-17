@@ -24,6 +24,7 @@ class CreateCoursesconsolidatedTable extends Migration
       $table->date('ccDateInitial');
       $table->date('ccDateFinal');
       $table->enum('ccStatus', ['ACTIVO', 'INACTIVO'])->default('ACTIVO');
+      $table->timestamps();
     });
   }
 

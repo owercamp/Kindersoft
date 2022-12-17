@@ -18,6 +18,7 @@ class CreateExtracurricularsTable extends Migration
             $table->string('extConcept')->unique();
             $table->string('extIntensity');
             $table->float('extValue',9,2);
+            $table->timestamps();
         });
     }
 

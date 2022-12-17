@@ -18,6 +18,7 @@ class CreateActivityclassTable extends Migration
             $table->integer('acNumber');
             $table->string('acClass');
             $table->string('acDescription',600);
+            $table->timestamps();
         });
     }
 

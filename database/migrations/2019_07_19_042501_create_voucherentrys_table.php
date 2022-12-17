@@ -20,6 +20,7 @@ class CreateVoucherentrysTable extends Migration
       $table->date('venDate');
       $table->float('venPaid');
       $table->text('venDescription')->nullable();
+      $table->timestamps();
     });
   }
 

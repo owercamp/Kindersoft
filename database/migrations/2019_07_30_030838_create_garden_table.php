@@ -36,6 +36,7 @@ class CreateGardenTable extends Migration
       $table->string('garNamelogo')->default('default.png');
       $table->string('garNamerepresentative');
       $table->string('garCardrepresentative');
+      $table->timestamps();
     });
   }
 

@@ -38,6 +38,7 @@ class CreateCollaboratorsTable extends Migration
       $table->enum('gender', ['MASCULINO', 'FEMENINO', 'INDEFINIDO']);
       $table->bigInteger('profession_id')->unsigned()->nullable(); //Llave foranea de tabla PROFESIONES
       $table->foreign('profession_id')->references('id')->on('professions')->onDelete('cascade');
+      $table->timestamps();
     });
   }
 

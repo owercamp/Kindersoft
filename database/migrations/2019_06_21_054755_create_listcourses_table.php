@@ -21,6 +21,7 @@ class CreateListcoursesTable extends Migration
       $table->foreign('listCourse_id')->references('id')->on('courses');
       $table->bigInteger('listStudent_id')->unsigned();
       $table->foreign('listStudent_id')->references('id')->on('students');
+      $table->timestamps();
     });
   }
 

@@ -21,6 +21,7 @@ class CreateBulletinsTable extends Migration
       $table->foreign('buCourse_id')->references('id')->on('courses')->onDelete('cascade');
       $table->bigInteger('buPeriod_id')->unsigned();
       $table->foreign('buPeriod_id')->references('apId')->on('academicperiods')->onDelete('cascade');
+      $table->timestamps();
     });
   }
 

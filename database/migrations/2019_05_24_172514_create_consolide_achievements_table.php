@@ -19,6 +19,7 @@ class CreateConsolideAchievementsTable extends Migration
       $table->foreign('achievement_id')->references('id')->on('achievements');
       $table->bigInteger('period_id')->unsigned(); //Llave foranea de tabla PERIODOS
       $table->foreign('period_id')->references('id')->on('periods');
+      $table->timestamps();
     });
   }
 

@@ -28,6 +28,7 @@ class CreateFacturationsTable extends Migration
       $table->bigInteger('facAutorization_id')->unsigned();
       $table->foreign('facAutorization_id')->references('auId')->on('autorizations')->onDelete('cascade');
       $table->enum('facStatus', ['EN REVISION', 'APROBADA', 'DENEGADA', 'PAGADO'])->default('EN REVISION');
+      $table->timestamps();
     });
   }
 

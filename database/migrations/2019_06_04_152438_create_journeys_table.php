@@ -15,6 +15,7 @@ class CreateJourneysTable extends Migration
             $table->time('jouHourEntry');
             $table->time('jouHourExit');
             $table->float('jouValue',9,2);
+            $table->timestamps();
         });
     }
 

@@ -25,6 +25,7 @@ class CreateAuthorizedTable extends Migration
       $table->string('autRelationship')->nullable();
       $table->string('autObservations')->nullable();
       $table->string('autPhoto')->default('authorizeddefault.png');
+      $table->timestamps();
     });
   }
 

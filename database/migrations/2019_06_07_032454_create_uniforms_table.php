@@ -17,6 +17,7 @@ class CreateUniformsTable extends Migration
             $table->bigIncrements('id');
             $table->string('uniConcept')->unique();
             $table->float('uniValue',9,2);
+            $table->timestamps();
         });
     }
 

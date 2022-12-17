@@ -21,6 +21,7 @@ class CreateTrackingachievementsTable extends Migration
       $table->foreign('taAchievement_id')->references('id')->on('achievements')->onDelete('cascade');
       $table->bigInteger('taPercentage')->default(0);
       $table->enum('taStatus', ['PENDIENTE', 'INICIADO', 'EN PROCESO', 'POR TERMINAR', 'COMPLETADO'])->default('PENDIENTE');
+      $table->timestamps();
     });
   }
 

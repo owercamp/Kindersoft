@@ -32,6 +32,7 @@ class CreateProvidersTable extends Migration
       $table->string('whatsapp')->nullable();
       $table->string('emailone')->nullable();
       $table->string('emailtwo')->nullable();
+      $table->timestamps();
     });
   }
 

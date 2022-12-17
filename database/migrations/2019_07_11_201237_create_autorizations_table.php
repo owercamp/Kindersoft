@@ -24,6 +24,7 @@ class CreateAutorizationsTable extends Migration
       $table->date('auDate');
       $table->text('auDescription', 600);
       $table->text('auAutorized');
+      $table->timestamps();
     });
   }
 

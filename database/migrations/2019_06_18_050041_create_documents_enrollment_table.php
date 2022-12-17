@@ -18,6 +18,7 @@ class CreateDocumentsEnrollmentTable extends Migration
             $table->string('deConcept');
             $table->enum('deRequired',['SI','NO'])->default('SI');
             $table->enum('deStatus',['ACTIVO','INACTIVO'])->default('ACTIVO');
+            $table->timestamps();
         });
     }
 

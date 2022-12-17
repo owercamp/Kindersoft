@@ -18,6 +18,7 @@ class CreateLocationsTable extends Migration
       $table->string('name');
       $table->bigInteger('city_id')->unsigned(); //Llave foranea de tabla ciudades
       $table->foreign('city_id')->references('id')->on('citys')->onDelete('cascade');
+      $table->timestamps();
       //$table->dropForeign('city_id_foreign');
     });
   }

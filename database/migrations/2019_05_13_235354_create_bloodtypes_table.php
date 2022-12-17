@@ -17,6 +17,7 @@ class CreateBloodtypesTable extends Migration
             $table->bigIncrements('id');
             $table->enum('group',['A','B','AB','O','NO REPORTADA']);
             $table->enum('type',['POSITIVO','NEGATIVO'])->nullable();
+            $table->timestamps();
         });
     }
 

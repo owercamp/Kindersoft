@@ -23,6 +23,7 @@ class CreateSchedulingsTable extends Migration
       $table->enum('schStatusVisit', ['ACTIVO', 'INACTIVO'])->default('ACTIVO');
       $table->enum('schResultVisit', ['ASISTIDO', 'INASISTIDO', 'PENDIENTE'])->default('PENDIENTE');
       $table->string('schColor', 8)->nullable();
+      $table->timestamps();
     });
   }
 

@@ -18,6 +18,7 @@ class CreateDistrictsTable extends Migration
       $table->string('name');
       $table->bigInteger('location_id')->unsigned(); //Llave foranea de tabla localidades
       $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+      $table->timestamps();
       //$table->dropForeign('location_id_foreign');
     });
   }

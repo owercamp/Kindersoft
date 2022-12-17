@@ -28,6 +28,7 @@ class CreateHoursweekTable extends Migration
       $table->bigInteger('hwCourse_id')->unsigned();
       $table->foreign('hwCourse_id')->references('id')->on('courses');
       $table->enum('hwStatus', ['ACTIVO', 'INACTIVO'])->default('ACTIVO');
+      $table->timestamps();
     });
   }
 

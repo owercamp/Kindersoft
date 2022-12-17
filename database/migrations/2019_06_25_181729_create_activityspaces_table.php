@@ -18,6 +18,7 @@ class CreateActivityspacesTable extends Migration
             $table->integer('asNumber');
             $table->string('asSpace');
             $table->string('asDescription',600);
+            $table->timestamps();
         });
     }
 

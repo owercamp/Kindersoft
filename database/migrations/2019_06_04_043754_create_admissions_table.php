@@ -12,6 +12,7 @@ class CreateAdmissionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('admConcept')->unique();
             $table->float('admValue',9,2);
+            $table->timestamps();
         });
     }
 

@@ -20,6 +20,7 @@ class CreatePeriodTable extends Migration
       $table->foreign('grade_id')->references('id')->on('grades');
       $table->date('initialDate');
       $table->date('finalDate');
+      $table->timestamps();
     });
   }
 

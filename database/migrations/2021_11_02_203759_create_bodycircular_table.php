@@ -17,6 +17,7 @@ class CreateBodycircularTable extends Migration
       $table->bigIncrements('bcId');
       $table->string('bcName', 50);
       $table->text('bcDescription');
+      $table->timestamps();
     });
   }
 

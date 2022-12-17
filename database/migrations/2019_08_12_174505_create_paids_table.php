@@ -23,6 +23,7 @@ class CreatePaidsTable extends Migration
       $table->string('payAccount');
       $table->bigInteger('payLegalization_id')->unsigned();
       $table->foreign('payLegalization_id')->references('legId')->on('legalizations')->onDelete('cascade');
+      $table->timestamps();
     });
   }
 

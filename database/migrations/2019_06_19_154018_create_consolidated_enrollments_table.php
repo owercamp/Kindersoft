@@ -19,6 +19,7 @@ class CreateConsolidatedEnrollmentsTable extends Migration
       $table->foreign('conenStudent_id')->references('id')->on('students');
       $table->enum('conenStatus', ['PENDIENTE', 'COMPLETADO'])->default('PENDIENTE');
       $table->text('conenRequirements');
+      $table->timestamps();
     });
   }
 

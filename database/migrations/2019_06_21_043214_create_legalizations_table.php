@@ -27,6 +27,7 @@ class CreateLegalizationsTable extends Migration
       $table->foreign('legCourse_id')->references('id')->on('courses');
       $table->date('legDateInitial');
       $table->date('legDateFinal');
+      $table->timestamps();
     });
   }
 

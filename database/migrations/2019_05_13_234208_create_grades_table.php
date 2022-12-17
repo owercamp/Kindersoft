@@ -17,6 +17,7 @@ class CreateGradesTable extends Migration
     Schema::create('grades', function (Blueprint $table) {
       $table->bigIncrements('id');
       $table->string('name')->unique();
+      $table->timestamps();
     });
 
     // Cración de tabla CURSOS
@@ -25,6 +26,7 @@ class CreateGradesTable extends Migration
       $table->string('name')->unique();
       $table->bigInteger('grade_id')->unsigned(); //Llave foranea de tabla GRADOS
       $table->foreign('grade_id')->references('id')->on('grades');
+      $table->timestamps();
     });
   }
 

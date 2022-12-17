@@ -17,6 +17,7 @@ class CreateSuppliesTable extends Migration
             $table->bigIncrements('id');
             $table->string('supConcept')->unique();
             $table->float('supValue',9,2);
+            $table->timestamps();
         });
     }
 

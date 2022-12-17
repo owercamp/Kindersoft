@@ -17,6 +17,7 @@ class CreateObservationsTable extends Migration
             $table->bigIncrements('obsId');
             $table->string('obsNumber');
             $table->text('obsDescription');
+            $table->timestamps();
         });
     }
 

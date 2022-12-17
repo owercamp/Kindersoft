@@ -17,6 +17,7 @@ class CreateFeedingsTable extends Migration
             $table->bigIncrements('id');
             $table->string('feeConcept')->unique();
             $table->float('feeValue',9,2);
+            $table->timestamps();
         });
     }
 

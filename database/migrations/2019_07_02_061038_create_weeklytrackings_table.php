@@ -21,6 +21,7 @@ class CreateWeeklytrackingsTable extends Migration
       $table->foreign('wtStudent_id')->references('id')->on('students')->onDelete('cascade');
       $table->bigInteger('wtIntelligence_id')->unsigned();
       $table->foreign('wtIntelligence_id')->references('id')->on('intelligences')->onDelete('cascade');
+      $table->timestamps();
     });
   }
 

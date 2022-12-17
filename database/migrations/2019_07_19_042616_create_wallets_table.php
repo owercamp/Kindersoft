@@ -19,6 +19,7 @@ class CreateWalletsTable extends Migration
       $table->enum('waStatus', ['SIN SALDO', 'A FAVOR', 'EN DEUDA'])->default('SIN SALDO');
       $table->bigInteger('waStudent_id')->unsigned();
       $table->foreign('waStudent_id')->references('id')->on('students')->onDelete('cascade');
+      $table->timestamps();
     });
   }
 

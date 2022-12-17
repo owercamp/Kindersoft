@@ -17,6 +17,7 @@ class CreateExtratimesTable extends Migration
             $table->bigIncrements('id');
             $table->string('extTConcept')->unique();
             $table->float('extTValue',9,2);
+            $table->timestamps();
         });
     }
 

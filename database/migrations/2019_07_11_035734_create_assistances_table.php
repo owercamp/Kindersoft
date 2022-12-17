@@ -20,6 +20,7 @@ class CreateAssistancesTable extends Migration
       $table->date('assDate');
       $table->text('assPresents');
       $table->text('assAbsents');
+      $table->timestamps();
     });
   }
 

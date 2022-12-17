@@ -18,6 +18,7 @@ class CreateAchievementsTable extends Migration
       $table->bigIncrements('id');
       $table->string('type')->unique();
       $table->string('description');
+      $table->timestamps();
     });
 
     // Creación de tabla LOGROS
@@ -27,6 +28,7 @@ class CreateAchievementsTable extends Migration
       $table->string('description');
       $table->bigInteger('intelligence_id')->unsigned(); //Llave foranea de tabla INTELIGENCIAS
       $table->foreign('intelligence_id')->references('id')->on('intelligences');
+      $table->timestamps();
     });
   }
 

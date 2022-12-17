@@ -48,6 +48,7 @@ class CreateAttendantsTable extends Migration
       $table->foreign('locationcompany_id')->references('id')->on('locations')->onDelete('cascade');
       $table->bigInteger('dictrictcompany_id')->unsigned()->nullable(); //Llave foranea de tabla BARRIOS
       $table->foreign('dictrictcompany_id')->references('id')->on('districts')->onDelete('cascade');
+      $table->timestamps();
     });
   }
 

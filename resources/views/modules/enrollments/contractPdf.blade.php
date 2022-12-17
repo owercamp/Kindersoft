@@ -234,7 +234,13 @@
             <b>B)</b>
             POR PARTE DEL ESTUDIANTE BENEFICIARIO: No asistir a la Institución ni cumplir lo estipulado en el Pacto de Corresponsabilidad. El incumplimiento de éste es imputable al Estudiante, Padres de Familia o Acudientes. <b>C)</b> POR PARTE DE LOS PADRES DE FAMILIA O ACUDIENTE, DEUDOR Y CODEUDOR: <b>A)</b> No conocer el Pacto de Convivencia y El modelo aplicado, en los cuales se comparten los principios de desarrollo en que se fundamentan y se comprometen a cumplirlos en la parte que les corresponde.
             <b>PARÁGRAFO: </b>Para todos los efectos legales, tanto el Pacto de Corresponsabilidad y el modelo aplicado., se consideran incorporados al presente contrato. <b>B) </b>El no pago oportuno del costo del servicio aquí pactado y el suministro inmediato de los implementos determinados por el Jardin al Beneficiario.
-            <b>CLÁUSULA CUARTA</b>. DURACIÓN: Este contrato tiene vigencia por el año lectivo {{date('Y')}} contado a partir de <b>
+            <b>CLÁUSULA CUARTA</b>. DURACIÓN: Este contrato tiene vigencia por el año lectivo
+            @if (date('m') == 12)
+            {{date('Y') + 1}}
+            @else
+            {{date('Y')}}
+            @endif 
+             contado a partir de <b>
               {{ returnFormatDate($legalization->legDateInitial) }} </b> hasta <b> {{ returnFormatDate($legalization->legDateFinal) }} </b>, Su ejecución será sucesiva por periodos mensuales y podrá renovarse para el año siguiente, siempre y cuando el Beneficiario, los Padres de Familia o Acudiente, Deudor y Codeudor hayan cumplido estrictamente las condiciones estipuladas en el presente contrato, en el Pacto de Corresponsabilidad y modelo aplicado y estar a paz y salvo por todo concepto con {{ mb_strtoupper($garden->garReasonsocial) }} - {{ mb_strtoupper($garden->garNamecomercial) }}. En caso que un beneficiario se matricule extemporáneo la duración y el monto a cancelar se ajustará en relación al tiempo faltante para la finalización del año lectivo.
             <b>CLÁUSULA QUINTA</b>.
             @if(isset($paid))
@@ -289,7 +295,31 @@
             <b>PARÁGRAFO PRIMERO:</b>
             Los padres de familia o acudiente, deudor y codeudor una vez acepten el punto 2 de la cláusula décimo cuarta, no podrán enviar solicitud alguna para negar el permiso aquí otorgado, salvo que se estén violando los preceptos jurídicos del código de infancia y adolescencia.
             <b>CLÁUSULA DÉCIMA QUINTA.</b>
-            HORARIOS, EXCURSIONES, SALIDAS Y EVENTOS. HORARIOS: {{ mb_strtoupper($garden->garNamecomercial) }}, está inscrito como calendario @if (config('app.name') == "Dream Home By Creatyvia") B @elseif(config('app.name') == "Colchildren Kindergarten") A  @endif , desde los meses de @if(config('app.name') == "Dream Home By Creatyvia") agosto de @php echo date('Y') @endphp hasta junio de @php echo date('Y') + 1 @endphp @elseif(config('app.name') == "Colchildren Kindergarten") febrero de @php echo date('Y') @endphp hasta noviembre de @php echo date('Y') @endphp @endif. En @if(config('app.name') == "Dream Home By Creatyvia") noviembre @elseif(config('app.name') == "Colchildren Kindergarten") junio @endif tendremos receso previamente informado hasta @if(config('app.name') == "Dream Home By Creatyvia") diciembre de @php echo (date('Y')) @endphp @elseif(config('app.name') == "Colchildren Kindergarten") julio de @php echo (date('Y')) @endphp @endif. Parte de @if(config('app.name') == "Dream Home By Creatyvia") noviembre y diciembre @elseif(config('app.name') == "Colchildren Kindergarten") junio y julio @endif de @php echo date('Y') @endphp por vacaciones de mitad de año lectivo. El Jardín ofrece vacaciones divertidas por semanas con cobro adicional y de manera voluntaria para el beneficiario que quiera tomarlas; De igual manera también tendremos los recesos de semana Mayor.
+            HORARIOS, EXCURSIONES, SALIDAS Y EVENTOS. HORARIOS: {{ mb_strtoupper($garden->garNamecomercial) }}, está inscrito como calendario @if (config('app.name') == "Dream Home By Creatyvia") B @elseif(config('app.name') == "Colchildren Kindergarten") A  @endif , desde los meses de @if(config('app.name') == "Dream Home By Creatyvia") agosto de @php echo date('Y') @endphp hasta junio de @php echo date('Y') + 1 @endphp @elseif(config('app.name') == "Colchildren Kindergarten") febrero de @php
+            if(date('m') == 12){
+              echo (date('Y') + 1);
+            }else{
+              echo (date('Y'));
+            }
+            @endphp hasta noviembre de @php
+            if(date('m') == 12){
+              echo (date('Y') + 1);
+            }else{
+              echo (date('Y'));
+            }
+            @endphp @endif. En @if(config('app.name') == "Dream Home By Creatyvia") noviembre @elseif(config('app.name') == "Colchildren Kindergarten") junio @endif tendremos receso previamente informado hasta @if(config('app.name') == "Dream Home By Creatyvia") diciembre de @php echo (date('Y')) @endphp @elseif(config('app.name') == "Colchildren Kindergarten") julio de @php
+            if(date('m') == 12){
+              echo (date('Y') + 1);
+            } else {
+              echo (date('Y'));
+            }
+            @endphp @endif. Parte de @if(config('app.name') == "Dream Home By Creatyvia") noviembre y diciembre @elseif(config('app.name') == "Colchildren Kindergarten") junio y julio @endif de @php
+            if(date('m') == 12){
+              echo (date('Y') + 1);
+            }else{
+              echo (date('Y'));
+            }
+            @endphp por vacaciones de mitad de año lectivo. El Jardín ofrece vacaciones divertidas por semanas con cobro adicional y de manera voluntaria para el beneficiario que quiera tomarlas; De igual manera también tendremos los recesos de semana Mayor.
             <b>PARÁGRAFO PRIMERO:</b>
             Cuando se presentes disturbios, Huelgas, paros cívico-urbanos o nacionales, daños locativos, servicios públicos restringidos. u otros que las directivas determinen que puedan arriesgar la integridad de los Beneficiarios o trabajadores física o emocional, el servicio se prestará con restricción o no se prestara. <b>PARÁGRAFO SEGUNDO:</b> Con el fin de dar cumplimiento a nuestro modelo aplicado. {{ mb_strtoupper($garden->garReasonsocial) }} - {{ mb_strtoupper($garden->garNamecomercial) }}, ha formalizado la realización sin obligatoriedad por parte del jardin a realizarla de por lo menos una salida lúdica al año por edades, eventos que sin perjuicios de su valor lúdico no tienen carácter obligatorio y requieren, para la asistencia del Beneficiario, la autorización expresa, irrevocable y anticipada de los Padres de Familia o Acudiente, Deudor y Codeudor; por lo cual estos asumen de forma directa y solidaria la responsabilidad civil de los riesgos inherentes que impliquen tales eventos desde el transporte hasta la ejecución.
           </p>

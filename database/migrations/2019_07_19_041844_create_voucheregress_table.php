@@ -20,6 +20,7 @@ class CreateVoucheregressTable extends Migration
       $table->text('vegConcept', 500);
       $table->date('vegDate');
       $table->float('vegPay');
+      $table->timestamps();
     });
   }
 

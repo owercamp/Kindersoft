@@ -19,6 +19,7 @@ class CreateObservationsBulletinTable extends Migration
       $table->foreign('obuBulletin_id')->references('buId')->on('bulletins')->onDelete('cascade');
       $table->bigInteger('obuObservation_id')->unsigned();
       $table->foreign('obuObservation_id')->references('obsId')->on('observations')->onDelete('cascade');
+      $table->timestamps();
     });
   }
 

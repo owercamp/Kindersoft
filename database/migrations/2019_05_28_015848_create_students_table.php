@@ -38,6 +38,7 @@ class CreateStudentsTable extends Migration
       $table->foreign('health_id')->references('id')->on('healths')->onDelete('cascade');
       $table->enum('additionalHealt', ['SI', 'NO'])->nullable();
       $table->string('additionalHealtDescription')->nullable();
+      $table->timestamps();
     });
   }
 

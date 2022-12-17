@@ -22,6 +22,7 @@ class CreateCustomersTable extends Migration
             $table->string('cusChild',30);
             $table->string('cusChildYearsold',2);
             $table->string('cusNotes',200)->nullable();
+            $table->timestamps();
         });
     }
 

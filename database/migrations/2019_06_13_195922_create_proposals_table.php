@@ -36,6 +36,7 @@ class CreateProposalsTable extends Migration
       $table->float('proValueQuotation');
       $table->enum('proStatus', ['ABIERTO', 'CERRADO'])->default('ABIERTO');
       $table->enum('proResult', ['ACEPTADO', 'DENEGADO'])->nullable();
+      $table->timestamps();
     });
   }
 

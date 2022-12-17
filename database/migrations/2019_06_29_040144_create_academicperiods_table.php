@@ -21,6 +21,7 @@ class CreateAcademicperiodsTable extends Migration
       $table->bigInteger('apCourse_id')->unsigned();
       $table->foreign('apCourse_id')->references('id')->on('courses');
       $table->enum('apStatus', ['ACTIVO', 'INACTIVO'])->default('ACTIVO');
+      $table->timestamps();
     });
   }
 

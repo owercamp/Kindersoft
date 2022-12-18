@@ -102,33 +102,29 @@
 
         <div class="col-md-6 border-left">
           <div class="form-group">
-            <small class="text-muted">PAIS</small>
-            <select class="form-control form-control-sm select2" name="country_home_id_edit" id="country_home_id_edit" require>
-              <option value=""></option>
-              @foreach ($countrys as $key => $country)
-                @if ($country == "Colombia")
-                  <option value="{{ $key }}" selected>{{ $country }}</option>
-                @else
-                  <option value="{{ $key }}">{{ $country }}</option>
-                @endif
-              @endforeach
-            </select>
+            <div class="row">
+              <div class="col-md-6">
+                <small class="text-muted">PAIS</small>
+                <select class="form-control form-control-sm select2" name="country_home_id_edit" id="country_home_id_edit" require>
+                  <option value=""></option>
+                  @foreach ($countrys as $key => $country)
+                  @if ($country == "Colombia")
+                  <option value="{{ $key }}" selected>{{ $key }} - {{ $country }}</option>
+                  @else
+                  <option value="{{ $key }}">{{ $key }} - {{ $country }}</option>
+                  @endif
+                  @endforeach
+                </select>
+              </div>
+              <div class="col-md-6">
+                <small class="text-muted">DEPARTAMENTO: *</small>
+                <select class="form-control form-control-sm select2" name="departament_home_id_edit" id="departament_home_id_edit" require>
+                  <option value=""></option>
+
+                </select>
+              </div>
+            </div>
           </div>
-          <!-- <div class="form-group">
-            <small class="text-muted">CIUDAD: *</small>
-            <select class="form-control form-control-sm select2" id="cityhome_id_edit" name="cityhome_id_edit" required="required">
-              <option value="">Seleccione ciudad...</option>
-              @php $namecity = '' @endphp
-              @foreach($citys as $city)
-              @if($city->id == $attendant->cityhome_id)
-              @php $namecity = $city->name @endphp
-              <option value="{{ $city->id }}" selected>{{ $city->name }}</option>
-              @else
-              <option value="{{ $city->id }}">{{ $city->name }}</option>
-              @endif
-              @endforeach
-            </select>
-          </div> -->
           <div class="form-group">
             <div class="row">
               <div class="col-md-6">
@@ -388,6 +384,24 @@
       fullSelectCompany(citycompany_id);
     }
 
+    let country = $("#country_home_id_edit").val();
+    $.ajax({
+      "_token": "{{ csrf_token() }}",
+      url: "{{ route('apiDepartament') }}",
+      type: "POST",
+      dataType: "JSON",
+      data: {
+        country: country
+      },
+      success(response) {
+        response.map((e) => {
+          $("#departament_home_id_edit").append(`<option value="${e.codiDepartament}">${e.diminutiveDepartment} - ${e.nomDepartament}</option>`)
+        })
+      },
+      error(err){
+        console.error(err);
+      }
+    });
 
     $("#cityhome_id_edit").on("change", function(e) {
       var cityhome_id = e.target.value;

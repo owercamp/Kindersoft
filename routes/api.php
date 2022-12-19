@@ -3212,3 +3212,9 @@ Route::post('getAssistAnual', function (Request $request) {
   $search = Presence::where("pre_student", $request->student)->get();
   return response()->json($search);
 })->name('getAssistAnual');
+
+Route::post('departament', function (Request $request) {
+  $country = DB::table('paises_prefijoopcional')->where('iddep_pais_prefijoopcional',$request->country)->value('cod_pais_prefijoopcional');
+  $departments = DB::table('departamentospaises_prefijoopcional')->where('cod_pais_prefijoopcional',$country)->select('departamentospaises_prefijoopcional.cod_deppais_prefijoopcional AS codiDepartament','departamentospaises_prefijoopcional.nom_deppais_prefijoopcional AS nomDepartament','departamentospaises_prefijoopcional.iddep_deppais_prefijoopcional AS diminutiveDepartment')->get();
+  return $departments;
+})->name('apiDepartament');

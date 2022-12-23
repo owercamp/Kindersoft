@@ -3218,3 +3218,8 @@ Route::post('departament', function (Request $request) {
   $departments = DB::table('departamentospaises_prefijoopcional')->where('cod_pais_prefijoopcional',$country)->select('departamentospaises_prefijoopcional.cod_deppais_prefijoopcional AS codiDepartament','departamentospaises_prefijoopcional.nom_deppais_prefijoopcional AS nomDepartament','departamentospaises_prefijoopcional.iddep_deppais_prefijoopcional AS diminutiveDepartment')->get();
   return $departments;
 })->name('apiDepartament');
+
+Route::post('citys', function(Request $request){
+  $departament = DB::table('ciudades_prefijoopcional')->where('cod_deppais_prefijoopcional',$request->departement)->get();
+  return $departament;
+})->name('apiCity');

@@ -119,8 +119,7 @@
               <div class="col-md-6">
                 <small class="text-muted">DEPARTAMENTO: *</small>
                 <select class="form-control form-control-sm select2" name="departament_home_id_edit" id="departament_home_id_edit" require>
-                  <option value=""></option>
-
+                  <option value="">Seleccione departamento...</option>
                 </select>
               </div>
             </div>
@@ -128,23 +127,17 @@
           <div class="form-group">
             <div class="row">
               <div class="col-md-6">
-                <small class="text-muted">LOCALIDAD: *</small>
-                <input type="hidden" id="locationhome_id_hidden" value="{{ $attendant->locationhome_id }}">
-                <select class="form-control form-control-sm select2" id="locationhome_id_edit" name="locationhome_id_edit" required>
-                  <option value="">Seleccione localidad...</option>
+                <small class="text-muted">CIUDAD: *</small>
+                <select class="form-control form-control-sm select2" id="city_home_id_edit" name="city_home_id_edit" required>
+                  <option value="">Seleccione ciudad...</option>
                   <!-- Options dinamics -->
                 </select>
-                <!-- @ if($attendant->locationhome_id == '')
-										<small class="text-muted">Referencia actual <b>{{ __('Dato vacio') }}</b></small>
-									@ else
-										<small class="text-muted">Referencia actual <b>{{ $attendant->locationhome_id }}</b></small>
-									@ endif -->
               </div>
               <div class="col-md-6">
-                <small class="text-muted">BARRIO: *</small>
+                <small class="text-muted">CODIGO POSTAL: *</small>
                 <input type="hidden" id="dictricthome_id_hidden" value="{{ $attendant->dictricthome_id }}">
                 <select class="form-control form-control-sm select2" id="dictricthome_id_edit" name="dictricthome_id_edit" required>
-                  <option value="">Seleccione barrio...</option>
+                  <option value="">Seleccione codigo...</option>
                   <!-- Options dinamics -->
                 </select>
                 <!-- @ if($attendant->dictricthome_id == '')
@@ -401,7 +394,7 @@
       error(err){
         console.error(err);
       }
-    });
+    });    
 
     $("#cityhome_id_edit").on("change", function(e) {
       var cityhome_id = e.target.value;
@@ -462,6 +455,29 @@
     });
 
   });
+
+  $("#departament_home_id_edit").change((e)=>{
+    e.preventDefault();
+    $.ajax({
+      "_token": "{{ csrf_token() }}",
+      url: "{{ route('apiCity') }}",
+      type: "POST",
+      dataType: "JSON",
+      data:{
+        departement: e.currentTarget.value
+      },
+      beforeSend(){
+        $("#city_home_id_edit").empty();
+      },
+      success(response){
+        response.map((e) =>{
+          $("#city_home_id_edit").append(`<option value="${e.cod_ciud_prefijoopcional}">${e.nom_ciud_prefijoopcional}</option>`)
+        })
+      }
+    })
+  });
+
+
 
   function fullSelectHome(value) {
     $.get("{{ route('edit.sublocation') }}", {

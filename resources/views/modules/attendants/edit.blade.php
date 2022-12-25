@@ -390,7 +390,33 @@
     let country = $("select[name=country_home_id_edit]").val()
     var citycompany_id = $("select[name=citycompany_id_edit]").val();
     let id = $("#formAttendantUpdate").prop('action').split("update/");
-    if (country != "") {
+
+    $.ajax({
+      "_token": "{{ csrf_token() }}",
+      url: "{{ route('apiDepartament') }}",
+      type: "POST",
+      dataType: "JSON",
+      data: {
+        country: country
+      },
+      beforeSend() {
+        $("#departament_home_id_edit").empty();
+      },
+      success(response) {
+        $("#departament_home_id_edit").append(
+          `<option value="">Seleccione un departamento</option>`);
+        response.map((e) => {
+          $("#departament_home_id_edit").append(
+            `<option value="${e.codiDepartament}">${e.diminutiveDepartment} - ${e.nomDepartament}</option>`
+          )
+        })
+      },
+      error(err) {
+        console.error(err);
+      }
+    });
+
+    if (country) {
       //Llenar select de las localidades
       countryHome(id[1], country);
       // fullSelectHome(cityhome_id);

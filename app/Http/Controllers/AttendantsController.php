@@ -57,9 +57,10 @@ class AttendantsController extends Controller
                 $attendant->firstname = mb_strtoupper(trim($request->firstname_edit));
                 $attendant->threename = mb_strtoupper(trim($request->threename_edit));
                 $attendant->address = mb_strtoupper(trim($request->address_edit));
-                $attendant->cityhome_id = $request->cityhome_id_edit;
-                $attendant->locationhome_id = $request->locationhome_id_edit;
-                $attendant->dictricthome_id = $request->dictricthome_id_edit;
+                $attendant->cityhome_id = $request->city_home_id_edit;
+                $attendant->departamenthome_id = $request->departament_home_id_edit;
+                $attendant->postalhome_id = $request->postal_home_id_edit;
+                $attendant->countryhome_id = $request->country_home_id_edit;
                 $attendant->phoneone = $request->phoneone_edit;
                 $attendant->phonetwo = $request->phonetwo_edit;
                 $attendant->whatsapp = $request->whatsapp_edit;

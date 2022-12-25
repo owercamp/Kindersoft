@@ -599,7 +599,7 @@ Route::get('getDatesCertificate', function (Request $request) {
   )
     ->join('students', 'students.id', 'legalizations.legStudent_id')
     ->join('attendants', 'attendants.id', 'legalizations.legAttendantfather_id')
-    ->where("legStatus","ACTIVO")
+    ->where("legStatus", "ACTIVO")
     ->where('legStudent_id', $request->selectedStudent)->first();
 
   return response()->json($legalization);
@@ -2244,8 +2244,8 @@ Route::get('getReportDaily', function (Request $request) {
   $day = Carbon::create($request->dateSelected)->locale('es')->dayName;
   $dateSearch = ucfirst($day) . " " . $dates;
 
-  $assistances = App\Models\Presence::with('student:id,firstname,threename,fourname','course:id,name')->where('pre_date',$dateSearch)->get();
-  
+  $assistances = App\Models\Presence::with('student:id,firstname,threename,fourname', 'course:id,name')->where('pre_date', $dateSearch)->get();
+
   $consolidated = array();
 
   // SE RECORRE LA INFORMACION RECOLECTADA POR ASISTENCES
@@ -2261,9 +2261,9 @@ Route::get('getReportDaily', function (Request $request) {
         $countPresent = $countPresent + 1;
         $countStatus = $countStatus + ($assistance->pre_hexit != null) ? 1 : 0;
 
-        array_push($datesPresents,[
+        array_push($datesPresents, [
           $assistance->student->id, //id del estudiante
-          $assistance->student->firstname." ".$assistance->student->threename." ".$assistance->student->fourname, // nombre del estudiante
+          $assistance->student->firstname . " " . $assistance->student->threename . " " . $assistance->student->fourname, // nombre del estudiante
           $assistance->pre_harrival, // hora de llegada
           $assistance->pre_hexit, //hora de salida
           $assistance->pre_obsa, //obs llegada
@@ -2271,9 +2271,9 @@ Route::get('getReportDaily', function (Request $request) {
           $assistance->pre_tarrival, // temperatura llegada
           $assistance->pre_texit //temperatura salida  
         ]);
-      }elseif ($assistance->pre_status == "AUSENTE" & $assistance->pre_course == $course->id) {
+      } elseif ($assistance->pre_status == "AUSENTE" & $assistance->pre_course == $course->id) {
         $countAbsent = $countAbsent + 1;
-      }  
+      }
     }
     array_push($consolidated, [
       'ASISTENCIA',
@@ -2794,7 +2794,7 @@ Route::get('getLegalizationMigration', function (Request $request) {
   )
     // ->join('students','students.id','legalizations.legStudent_id')
 
-    ->join('documents','documents.id','students.typedocument_id')
+    ->join('documents', 'documents.id', 'students.typedocument_id')
     ->join('bloodtypes', 'bloodtypes.id', 'students.bloodtype_id')
     ->join('healths', 'healths.id', 'students.health_id')
 
@@ -2820,10 +2820,10 @@ Route::get('getLegalizationMigration', function (Request $request) {
       $documentStudent = $admission->tipodocumento;
       $documentStudentMigration = null;
     }
-    $typeArrival = Bloodtype::where('id',$admission->tiposangre)->value('type');
-    $EPSArrival = Health::where('id',$admission->health)->value('entity');
-    $typeExists = Bloodtype::where('id',$student->bloodtype_id)->value('type');
-    $EPSExists = Health::where('id',$student->health_id)->value('entity');
+    $typeArrival = Bloodtype::where('id', $admission->tiposangre)->value('type');
+    $EPSArrival = Health::where('id', $admission->health)->value('entity');
+    $typeExists = Bloodtype::where('id', $student->bloodtype_id)->value('type');
+    $EPSExists = Health::where('id', $student->health_id)->value('entity');
     array_push(
       $migration,
       [
@@ -2831,7 +2831,7 @@ Route::get('getLegalizationMigration', function (Request $request) {
         ["Foto", $admission->foto, $student->photo],
         ["Tipo de documento", $documentStudent, $student->type, $documentStudent],
         ["Número de documento", $admission->numerodocumento, $student->numberdocument],
-        ["Fecha de nacimiento", $admission->fechanacimiento, date_format($student->birthdate,'Y-m-d')],
+        ["Fecha de nacimiento", $admission->fechanacimiento, date_format($student->birthdate, 'Y-m-d')],
         ["Nombres y apellidos", $admission->nombres . " " . $admission->apellidos, $student->nameStudent, $admission->nombres . "|" . $apellidosNew],
         ["Tipo de sangre", $typeArrival, $typeExists],
         ["Género", $admission->genero, $student->gender],
@@ -2883,7 +2883,7 @@ Route::get('getLegalizationMigration', function (Request $request) {
       $documentStudentMigration = null;
     }
     // array_push($migration,null);
-    $typeArrival = Bloodtype::where('id',$admission->tiposangre)->value('type');
+    $typeArrival = Bloodtype::where('id', $admission->tiposangre)->value('type');
     array_push(
       $migration,
       [
@@ -3214,12 +3214,34 @@ Route::post('getAssistAnual', function (Request $request) {
 })->name('getAssistAnual');
 
 Route::post('departament', function (Request $request) {
-  $country = DB::table('paises_prefijoopcional')->where('iddep_pais_prefijoopcional',$request->country)->value('cod_pais_prefijoopcional');
-  $departments = DB::table('departamentospaises_prefijoopcional')->where('cod_pais_prefijoopcional',$country)->select('departamentospaises_prefijoopcional.cod_deppais_prefijoopcional AS codiDepartament','departamentospaises_prefijoopcional.nom_deppais_prefijoopcional AS nomDepartament','departamentospaises_prefijoopcional.iddep_deppais_prefijoopcional AS diminutiveDepartment')->get();
+  $country = DB::table('paises_prefijoopcional')->where('iddep_pais_prefijoopcional', $request->country)->value('cod_pais_prefijoopcional');
+  $departments = DB::table('departamentospaises_prefijoopcional')->where('cod_pais_prefijoopcional', $country)->select('departamentospaises_prefijoopcional.cod_deppais_prefijoopcional AS codiDepartament', 'departamentospaises_prefijoopcional.nom_deppais_prefijoopcional AS nomDepartament', 'departamentospaises_prefijoopcional.iddep_deppais_prefijoopcional AS diminutiveDepartment')->get();
   return $departments;
 })->name('apiDepartament');
 
-Route::post('citys', function(Request $request){
-  $departament = DB::table('ciudades_prefijoopcional')->where('cod_deppais_prefijoopcional',$request->departement)->get();
+Route::post('citys', function (Request $request) {
+  $departament = DB::table('ciudades_prefijoopcional')->where('cod_deppais_prefijoopcional', $request->departement)->get();
   return $departament;
 })->name('apiCity');
+
+Route::post('postal', function (Request $request) {
+  $postal = DB::table('codigos_postales_prefijoopcional')->where('cod_ciud_prefijoopcional', $request->city)->pluck('codpos_codpos_prefijoopcional');
+  return $postal;
+})->name('apiPostal');
+
+Route::post('initials', function (Request $request) {
+  $attendant = Attendant::where('id', $request->id)->select('cityhome_id', 'departamenthome_id', 'postalhome_id', 'countryhome_id')->get();
+  $country = DB::table('paises_prefijoopcional')->where('iddep_pais_prefijoopcional', $attendant[0]['countryhome_id'])->value('cod_pais_prefijoopcional');
+  $departament = DB::table('departamentospaises_prefijoopcional')->where('cod_pais_prefijoopcional', $country)->select('departamentospaises_prefijoopcional.cod_deppais_prefijoopcional AS codiDepartament', 'departamentospaises_prefijoopcional.nom_deppais_prefijoopcional AS nomDepartament', 'departamentospaises_prefijoopcional.iddep_deppais_prefijoopcional AS diminutiveDepartment')->get();
+  $city = DB::table('ciudades_prefijoopcional')->where('cod_deppais_prefijoopcional', $attendant[0]['departamenthome_id'])->get();
+  $postal = DB::table('codigos_postales_prefijoopcional')->where('cod_ciud_prefijoopcional', $attendant[0]['cityhome_id'])->pluck('codpos_codpos_prefijoopcional');
+
+  $data = array(
+    "acudiente" => $attendant,
+    "departamentos" => $departament,
+    "ciudades" => $city,
+    "postales" => $postal
+  );
+
+  return $data;
+})->name('apiInitials');

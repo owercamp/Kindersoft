@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\General;
+use App\Models\City;
 
+use App\Models\User;
+use App\Models\Garden;
+use App\Models\General;
 use App\Models\Numeration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -149,5 +152,23 @@ class GeneralController extends Controller
         } catch (Exception $ex) {
             // Exception code
         }
+    }
+
+    public function infoCompany()
+    {
+        $user = User::find(auth()->id());
+        $garden = Garden::select('garden.*', 'citys.name as nameCity', 'locations.name as nameLocation', 'districts.name as nameDistrict')
+            ->join('citys', 'citys.id', 'garden.garCity_id')
+            ->join('locations', 'locations.id', 'garden.garLocation_id')
+            ->join('districts', 'districts.id', 'garden.garDistrict_id')
+            ->first();
+        $citys = City::all();
+
+        return view('modules.garden.companyInformation',compact('user','garden','citys'));
+    }
+
+    public function logosCompany()
+    {
+        return view('modules.garden.companyLogo');
     }
 }

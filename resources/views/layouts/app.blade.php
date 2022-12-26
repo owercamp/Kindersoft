@@ -76,7 +76,7 @@
           @hasanyrole('ADMINISTRADOR SISTEMA|ADMINISTRADOR|ADMINISTRADOR JARDIN')
           <li><a href="#">ADMINISTRATIVA <i class="fas fa-level-down-alt"></i></a>
             <ul class="bj-header-submenu">
-              <li><a href="{{ route('general') }}">INFORMACIÓN JARDÍN INFANTIL</a></li>
+              <li><a href="{{ route('companyInfo') }}">INFORMACIÓN JARDÍN INFANTIL</a></li>
               <li><a href="{{ route('citys') }}">CONFIGURACION BASE DE DATOS</a></li>
               <li><a href="{{ route('intelligences') }}">CONFIGURACION PROGRAMA ACADEMICO</a></li>
               <li><a href="{{ route('collaborators') }}">CONFIGURACION RECURSOS HUMANOS</a></li>

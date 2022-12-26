@@ -1,6 +1,6 @@
-@extends('financial')
+@extends('modules.menuFinancial')
 
-@section('modulesFinancial')
+@section('financialModules')
 <div class="container">
   <div class="row my-3 border-bottom">
     <div class="col-md-6">

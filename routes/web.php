@@ -418,6 +418,7 @@ Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINIS
   Route::get('/administrative/information-general', 'GeneralController@generalTo')->name('general');
   Route::get('/administrative/company-logos','GeneralController@logosCompany')->name('companylogo');
   route::get('/administrative/company-info','GeneralController@infoCompany')->name('companyInfo');
+  route::post('/administrative/company-logo','GeneralController@logoCompany')->name('companylog');
 
   //ADMISSIONS
   Route::get('/administrative/services/admissions', 'AdmissionsController@index')->name('admissions');

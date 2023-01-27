@@ -44,7 +44,7 @@
         </div>
         <div class="form-group">
           <small>SALUDO</small>
-          <textarea name="greetingText" cols="30" rows="5" class="form-control form-control-sm" required></textarea>
+          <textarea name="greetingText" cols="30" rows="5" id="greetingText" class="form-control form-control-sm" required></textarea>
         </div>
       </div>
     </form>
@@ -96,7 +96,7 @@
               </div>
               <div class="form-group">
                 <small>SALUDO</small>
-                <textarea name="greetingTextEdit" cols="30" rows="5" class="form-control form-control-sm" required></textarea>
+                <textarea name="greetingTextEdit" id="greetingTextEdit" cols="30" rows="5" class="form-control form-control-sm" required></textarea>
               </div>
             </div>
           </form>
@@ -147,6 +147,18 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#greetingText").emojioneArea({
+      template: "<filters/><tabs/><editor/>"
+    });
+
+    $("#greetingTextEdit").emojioneArea({
+      template: "<filters/><tabs/><editor/>"
+    });
+  });
+</script>
+
 <script>
   $('.delform').click(function(e) {
     e.preventDefault();

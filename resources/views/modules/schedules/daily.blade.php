@@ -2,6 +2,7 @@
 
 @section('scheduleModules')
 <div class="container">
+  @include('layouts.partial.alerts')
   <div class="col-md-12 w-100">
     INFORMACION DIARIA
   </div>
@@ -100,6 +101,13 @@
         <input type="file" name="archives[]" multiple max="8" maxlength="8" class="w-50" id="archives">
       </div>
       <hr>
+      <div class="w-100">
+        <div class="pl-3">
+          <span class="border-bottom border-primary text-monospace font-weight-bolder text-primary">NOTAS</span>
+        </div>
+        <textarea name="textEmoji" id="textEmoji" cols="30" rows="10" class="form-control form-text"></textarea>
+      </div>
+      <hr>
     </form>
     <div class="w-100 d-flex justify-content-center">
       <button class="btn btn-outline-dark" id="submit" onclick="send()">ENVIAR - GUARDAR</button>
@@ -109,6 +117,13 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#textEmoji").emojioneArea({
+      template: "<filters/><tabs/><editor/>"
+    });
+  });
+</script>
 <script>
   let relojs = setInterval(myTimer, 1000);
 
@@ -135,6 +150,9 @@
     }
   }
 
+  /**
+   *? se realiza el envio masivo de correos a los padres con archivos adjunto pero el maximo es de 8 archivos
+   */
   function send() {
     var $fileUpload = $("input[type='file']");
     if (parseInt($fileUpload.get(0).files.length) > 8) {
@@ -211,7 +229,7 @@
   });
 
   let course = [];
-
+  //? realiza la consulta de los alumnos para ser cargados en el div
   function searchStudents() {
     $('.spinner').fadeIn(1000);
     $('#ListAlumns').fadeOut(1000);
@@ -236,7 +254,7 @@
     $('.spinner').fadeOut(1000);
   }
 
-  // creación de la lista de cursos dinamicamente
+  //? creación de la lista de cursos dinamicamente
   $('#List input').each(function(index, element) {
     $(element).click(function(e) {
       if (e.target.checked == true) {

@@ -133,9 +133,29 @@ class ScheduleController extends Controller
 
   public function dailyInformationToSave(Request $request)
   {
+    /**
+     * ? se consulta la fecha actual si existen circulares seleccionadas
+     * ? y se verifica el contexto y saludo para ser enviado a las diferentes direcciones de correo electronico
+     */
     $date = Carbon::now()->locale('es')->timezone('America/Bogota')->isoFormat('LL');
     $day = Carbon::now()->locale('es')->timezone('America/Bogota')->dayName;
     $fulldate = $day . ", " . $date;
+    if (!$request->cirAdministrative) {
+      return back()->with("Error","Seleccione una CIRCULAR ADMINISTRATIVA");
+    }
+
+    if (!$request->cirAcademic) {
+      return back()->with("Error","Seleccione una CIRCULAR ACADEMICA");
+    }
+
+    if (!$request->myHi) {
+      return back()->with("Error","Seleccione un SALUDO");
+    }
+
+    if (!$request->Context) {
+      return back()->with("Error","Seleccione un CONTEXTO");
+    }
+    
     $administrative = AdministrativeCircularFile::findOrFail($request->cirAdministrative)
       ->join('bodycircular', 'bodycircular.bcId', 'administrative_circular_file.acf_cirBody_id')
       ->join('collaborators', 'collaborators.id', 'administrative_circular_file.acf_cirFrom')->get();
@@ -155,15 +175,21 @@ class ScheduleController extends Controller
         array_push($Emails, $Mail);
       }
     }
-    $files = $request->file('archives');
+
     $NamesFiles = [];
     $NameFiles = [];
-    foreach ($files as $file) {
-      $date = date("Y-m-d");
-      $fileName = $file->getClientOriginalName();
-      array_push($NamesFiles, $date . DIRECTORY_SEPARATOR . $file->getClientOriginalName()); // este es para almacenar para luego buscar
-      array_push($NameFiles, $fileName);
-      Storage::disk('kindersoft')->putFileAs(DIRECTORY_SEPARATOR . "Documents" . DIRECTORY_SEPARATOR . $date . DIRECTORY_SEPARATOR, $file, $fileName);
+    /**
+     * * si existe archivos externos cargados se realiza este procedimiento
+     */
+    if ($request->file('archives')) {
+      $files = $request->file('archives');
+      foreach ($files as $file) {
+        $date = date("Y-m-d");
+        $fileName = $file->getClientOriginalName();
+        array_push($NamesFiles, $date . DIRECTORY_SEPARATOR . $file->getClientOriginalName()); // este es para almacenar para luego buscar
+        array_push($NameFiles, $fileName);
+        Storage::disk('kindersoft')->putFileAs(DIRECTORY_SEPARATOR . "Documents" . DIRECTORY_SEPARATOR . $date . DIRECTORY_SEPARATOR, $file, $fileName);
+      }
     }
 
     $garden = Garden::select(
@@ -208,11 +234,12 @@ class ScheduleController extends Controller
       "id_fulldate" => $fulldate,
       "id_hi" => $hi->sch_body,
       "id_cont" => $cont,
+      "note" => $request->textEmoji,
       "id_NamesFiles" => $NamesArray,
       "id_NamesSin" => $NameArray
     ]);
 
-    Mail::to($Emails)->send(new MessageInfoDaily($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $namefile, $files, $hi, $cont, $NameFiles));
+    Mail::to($Emails)->send(new MessageInfoDaily($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $namefile, $files = "", $hi, $cont,$request->textEmoji, $NameFiles));
 
     return back()->with("SuccessMail", "SuccessMail");
   }

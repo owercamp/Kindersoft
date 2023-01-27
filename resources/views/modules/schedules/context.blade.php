@@ -44,7 +44,7 @@
         </div>
         <div class="form-group">
           <small>CONTEXTO</small>
-          <textarea name="contextText" cols="30" rows="5" class="form-control form-control-sm" required></textarea>
+          <textarea name="contextText" id="contextText" cols="30" rows="5" class="form-control form-control-sm" required></textarea>
         </div>
       </div>
     </form>
@@ -96,7 +96,7 @@
               </div>
               <div class="form-group">
                 <small>SALUDO</small>
-                <textarea name="contextTextEdit" cols="30" rows="5" class="form-control form-control-sm" required></textarea>
+                <textarea name="contextTextEdit" id="contextTextEdit" cols="30" rows="5" class="form-control form-control-sm" required></textarea>
               </div>
             </div>
           </form>
@@ -147,6 +147,17 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#contextText").emojioneArea({
+      template: "<filters/><tabs/><editor/>"
+    });
+
+    $("#contextTextEdit").emojioneArea({
+      template: "<filters/><tabs/><editor/>"
+    });
+  });
+</script>
 <script>
   $('.delform').click(function(e) {
     e.preventDefault();

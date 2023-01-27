@@ -13,6 +13,7 @@
   <h6 style="background-color: hsla(209, 71%, 42%, 0.49); padding: 1rem; color: ivory;">BUENOS DIAS</h6>
   <p style="margin: 1rem;">{{$hi->sch_body}}</p>
   <p style="margin: 1rem;">{{$cont}}</p>
+  <p style="margin: 1rem;">{{$emoji}}</p>
   <br>
   Atentamente,<br>
   Erika Patricia Pertuz<br>

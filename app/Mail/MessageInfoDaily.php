@@ -20,6 +20,7 @@ class MessageInfoDaily extends Mailable
   public $files;
   public $hi;
   public $cont;
+  public $emoji;
   public $NameFiles;
 
   /**
@@ -27,7 +28,7 @@ class MessageInfoDaily extends Mailable
    *
    * @return void
    */
-  public function __construct($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $nameFile, $files, $hi, $cont, $NameFiles)
+  public function __construct($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $nameFile, $files, $hi, $cont, $emoji,$NameFiles)
   {
     $this->pdfOutputAcademic = $pdfOutputAcademic;
     $this->pdfOutputAdministrative = $pdfOutputAdministrative;
@@ -36,6 +37,7 @@ class MessageInfoDaily extends Mailable
     $this->files = $files;
     $this->hi = $hi;
     $this->cont = $cont;
+    $this->emoji = $emoji;
     $this->NameFiles = $NameFiles;
   }
 
@@ -49,12 +51,14 @@ class MessageInfoDaily extends Mailable
     $emails = $this->view('modules.customers.mailInfoDaily')
       ->attachData($this->pdfOutputAcademic, $this->nameFiles)
       ->attachData($this->pdfOutputAdministrative, $this->nameFile);
-    foreach ($this->files as $file) {
-      $emails->attach($file, [
-        "as" => $file->getClientOriginalName(),
-        "mime" => $file->getClientMimeType()
-      ]);
-    }
+      if ($this->files) {
+        foreach ($this->files as $file) {
+          $emails->attach($file, [
+            "as" => $file->getClientOriginalName(),
+            "mime" => $file->getClientMimeType()
+          ]);
+        }
+      }
     return $emails;
   }
 }

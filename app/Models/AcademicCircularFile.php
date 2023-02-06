@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Body;
+use App\Models\Collaborator;
 use Illuminate\Database\Eloquent\Model;
 
 class AcademicCircularFile extends Model
@@ -14,11 +16,11 @@ class AcademicCircularFile extends Model
 
     public function body()
     {
-        return $this->belongsTo(Body::class, 'bcId');
+        return $this->belongsTo(Body::class, "acf_cirBody_id",'bcId');
     }
 
     public function collaborator()
     {
-        return $this->belongsTo(Collaborator::class, 'id');
+        return $this->belongsTo(Collaborator::class, "acf_cirFrom",'id');
     }
 }

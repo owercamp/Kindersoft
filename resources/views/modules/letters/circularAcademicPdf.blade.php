@@ -54,14 +54,18 @@
       <p style="text-align: justify;">{{ $message }}</p>
       <br><br>
       <b>CORDIAL SALUDO,</b><br>
-      @if($from->firm != null)
-      <small class="text-muted">FIRMA:</small><br>
-      <img src="{{ asset('storage/firms/'.$from->firm) }}" style="width: 140px; height: auto;"><br>
+      @if (isset($from->firm))
+        @if($from->firm != null)
+        <small class="text-muted">FIRMA:</small><br>
+        <img src="{{ asset('storage/firms/'.$from->firm) }}" style="width: 140px; height: auto;"><br>
+        @else
+        <h6 style="font-size: 12px;">SIN FIRMA</h6>
+        @endif
+        {{ $from->firstname . ' ' . $from->threename . ' ' . $from->fourname }} <br>
+        {{ $from->position }}
       @else
       <h6 style="font-size: 12px;">SIN FIRMA</h6>
       @endif
-      {{ $from->firstname . ' ' . $from->threename . ' ' . $from->fourname }} <br>
-      {{ $from->position }}
     </div>
     <footer id="footer" style="text-align: center;">
       <div class=" border border-top border-primary w-100 bg-primary"></div>

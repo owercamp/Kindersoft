@@ -133,6 +133,8 @@ class ScheduleController extends Controller
 
   public function dailyInformationToSave(Request $request)
   {
+    ini_set('max_execution_set',0);
+    ini_set('memory_limit', '-1');
     /**
      * ? se consulta la fecha actual si existen circulares seleccionadas
      * ? y se verifica el contexto y saludo para ser enviado a las diferentes direcciones de correo electronico
@@ -140,32 +142,73 @@ class ScheduleController extends Controller
     $date = Carbon::now()->locale('es')->timezone('America/Bogota')->isoFormat('LL');
     $day = Carbon::now()->locale('es')->timezone('America/Bogota')->dayName;
     $fulldate = $day . ", " . $date;
-    if (!$request->cirAdministrative) {
-      return back()->with("Error","Seleccione una CIRCULAR ADMINISTRATIVA");
+    $pdfOutputAdministrative = "";
+    $pdfOutputAcademic ="";
+    $namefile = "";
+    $nameFiles = "";
+    $files = "";
+
+    $NamesFiles = [];
+    $NameFiles = [];
+
+    $garden = Garden::select(
+      'garden.*',
+      'citys.name AS garNameCity',
+      'locations.name AS garNameLocation',
+      'districts.name AS garNameDistrict'
+    )
+      ->join('citys', 'citys.id', 'garden.garCity_id')
+      ->join('locations', 'locations.id', 'garden.garLocation_id')
+      ->join('districts', 'districts.id', 'garden.garDistrict_id')
+      ->first();
+
+    /**
+     * * Si existe una circular administrativa se realiza el proceso de generación de PDF
+     */
+    if ($request->cirAdministrative) {
+      $administrative = AdministrativeCircularFile::with('body', 'collaborator')->where("acf_id", $request->cirAdministrative)->get();
+
+      $code = $administrative[0]['acf_cirNumber'];
+      $date = Carbon::createFromDate($administrative[0]['acf_cirDate'])->locale('es')->timezone('America/Bogota')->isoFormat('LL');
+      $to = $administrative[0]['acf_cirTo'];
+      $message = $administrative[0]['acf_cirBody'];
+      $from = Collaborator::find($administrative[0]['acf_cirFrom']);
+
+      $pdfAdministrative = App::make('dompdf.wrapper');
+      $namefile = 'CIRCULAR_ADMINISTRATIVA.pdf';
+      $pdfAdministrative->loadView('modules.letters.circularAdministrativePdf', compact("code", "date", "to", "message", "from", "garden"));
+      $pdfOutputAdministrative = $pdfAdministrative->output();
+      array_push($NameFiles, $namefile);
     }
 
-    if (!$request->cirAcademic) {
-      return back()->with("Error","Seleccione una CIRCULAR ACADEMICA");
+    if ($request->cirAcademic) {
+      $academic = AcademicCircularFile::with('body', 'collaborator')->where("acf_id", $request->cirAcademic)->get();
+
+      $code = $academic[0]['acf_cirNumber'];
+      $date = Carbon::createFromDate($academic[0]['acf_cirDate'])->locale('es')->timezone('America/Bogota')->isoFormat('LL');
+      $to = $academic[0]['acf_cirTo'];
+      $message = $academic[0]['acf_cirBody'];
+      $from = Collaborator::find($academic[0]['acf_cirFrom']);
+
+      $pdfAcademic = App::make('dompdf.wrapper');
+      $nameFiles = 'CIRCULAR_ACADEMICA.pdf';
+      $pdfAcademic->loadView('modules.letters.circularAcademicPdf', compact("code", "date", "to", "message", "from", "garden"));
+      $pdfOutputAcademic = $pdfAcademic->output();
+      array_push($NameFiles, $nameFiles);
     }
 
     if (!$request->myHi) {
-      return back()->with("Error","Seleccione un SALUDO");
+      return back()->with("Error", "Seleccione un SALUDO");
     }
 
     if (!$request->Context) {
-      return back()->with("Error","Seleccione un CONTEXTO");
+      return back()->with("Error", "Seleccione un CONTEXTO");
     }
-    
-    $administrative = AdministrativeCircularFile::findOrFail($request->cirAdministrative)
-      ->join('bodycircular', 'bodycircular.bcId', 'administrative_circular_file.acf_cirBody_id')
-      ->join('collaborators', 'collaborators.id', 'administrative_circular_file.acf_cirFrom')->get();
-    $academic = AcademicCircularFile::findOrFail($request->cirAcademic)
-      ->join('bodycircular', 'bodycircular.bcId', 'academic_circular_files.acf_cirBody_id')
-      ->join('collaborators', 'collaborators.id', 'academic_circular_files.acf_cirFrom')->get();
-    $hi = Schedule::findOrFail($request->myHi);
+
+    $hi = Schedule::find($request->myHi);
     $cont = $request->Context;
     if (is_numeric($cont)) {
-      $cont1 = ScheduleContext::findOrFail($request->Context);
+      $cont1 = ScheduleContext::find($request->Context);
       $cont = $cont1->sch_body;
     }
     $Emails = [];
@@ -176,8 +219,6 @@ class ScheduleController extends Controller
       }
     }
 
-    $NamesFiles = [];
-    $NameFiles = [];
     /**
      * * si existe archivos externos cargados se realiza este procedimiento
      */
@@ -192,42 +233,7 @@ class ScheduleController extends Controller
       }
     }
 
-    $garden = Garden::select(
-      'garden.*',
-      'citys.name AS garNameCity',
-      'locations.name AS garNameLocation',
-      'districts.name AS garNameDistrict'
-    )
-      ->join('citys', 'citys.id', 'garden.garCity_id')
-      ->join('locations', 'locations.id', 'garden.garLocation_id')
-      ->join('districts', 'districts.id', 'garden.garDistrict_id')
-      ->first();
-
-    $code = $administrative[0]['acf_cirNumber'];
-    $date = Carbon::createFromDate($administrative[0]['acf_cirDate'])->locale('es')->timezone('America/Bogota')->isoFormat('LL');
-    $to = $administrative[0]['acf_cirTo'];
-    $message = $administrative[0]['acf_cirBody'];
-    $from = Collaborator::findOrFail($administrative[0]['acf_cirFrom']);
-
-    $pdfAdministrative = App::make('dompdf.wrapper');
-    $namefile = 'CIRCULAR_ADMINISTRATIVA.pdf';
-    $pdfAdministrative->loadView('modules.letters.circularAdministrativePdf', compact("code", "date", "to", "message", "from", "garden"));
-    $pdfOutputAdministrative = $pdfAdministrative->output();
-
-    $code = $academic[0]['acf_cirNumber'];
-    $date = Carbon::createFromDate($academic[0]['acf_cirDate'])->locale('es')->timezone('America/Bogota')->isoFormat('LL');
-    $to = $academic[0]['acf_cirTo'];
-    $message = $academic[0]['acf_cirBody'];
-    $from = Collaborator::findOrFail($academic[0]['acf_cirFrom']);
-
-    $pdfAcademic = App::make('dompdf.wrapper');
-    $nameFiles = 'CIRCULAR_ACADEMICA.pdf';
-    $pdfAcademic->loadView('modules.letters.circularAcademicPdf', compact("code", "date", "to", "message", "from", "garden"));
-    $pdfOutputAcademic = $pdfAcademic->output();
-
     $NamesArray = json_encode($NamesFiles);
-    array_push($NameFiles, $nameFiles);
-    array_push($NameFiles, $namefile);
     $NameArray = json_encode($NameFiles);
 
     InfoDaily::create([
@@ -239,7 +245,7 @@ class ScheduleController extends Controller
       "id_NamesSin" => $NameArray
     ]);
 
-    Mail::to($Emails)->send(new MessageInfoDaily($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $namefile, $files = "", $hi, $cont,$request->textEmoji, $NameFiles));
+    Mail::to($Emails)->send(new MessageInfoDaily($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $namefile, $files, $hi, $cont, $request->textEmoji, $NameFiles));
 
     return back()->with("SuccessMail", "SuccessMail");
   }

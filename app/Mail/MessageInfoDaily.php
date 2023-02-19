@@ -22,13 +22,15 @@ class MessageInfoDaily extends Mailable
   public $cont;
   public $emoji;
   public $NameFiles;
+  public $firm;
+  public $position;
 
   /**
    * Create a new message instance.
    *
    * @return void
    */
-  public function __construct($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $nameFile, $files, $hi, $cont, $emoji,$NameFiles)
+  public function __construct($pdfOutputAcademic, $nameFiles="", $pdfOutputAdministrative, $nameFile="", $files, $hi, $cont, $emoji,$NameFiles,$firm,$position)
   {
     $this->pdfOutputAcademic = $pdfOutputAcademic;
     $this->pdfOutputAdministrative = $pdfOutputAdministrative;
@@ -39,6 +41,8 @@ class MessageInfoDaily extends Mailable
     $this->cont = $cont;
     $this->emoji = $emoji;
     $this->NameFiles = $NameFiles;
+    $this->firm = $firm;
+    $this->position = $position;
   }
 
   /**
@@ -49,8 +53,13 @@ class MessageInfoDaily extends Mailable
   public function build()
   {
     $emails = $this->view('modules.customers.mailInfoDaily')
-      ->attachData($this->pdfOutputAcademic, $this->nameFiles)
-      ->attachData($this->pdfOutputAdministrative, $this->nameFile);
+      ->from("logistica@colchildren.com.co");
+      if ($this->nameFiles != "") {
+        $emails->attachData($this->pdfOutputAcademic, $this->nameFiles);
+      }
+      if ($this->nameFile != "") {
+        $emails->attachData($this->pdfOutputAdministrative, $this->nameFile);
+      }
       if ($this->files) {
         foreach ($this->files as $file) {
           $emails->attach($file, [

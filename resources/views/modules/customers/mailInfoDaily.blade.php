@@ -16,8 +16,8 @@
   <p style="margin: 1rem;">{{$emoji}}</p>
   <br>
   Atentamente,<br>
-  Erika Patricia Pertuz<br>
-  Directora Administrativa</p>
+  {{$firm}}<br>
+  {{$position}}</p>
   <hr>
   <img src="{{ asset('storage/garden/logo.jpg') }}" style="width: 100px; height: auto;"><br>
   <hr>

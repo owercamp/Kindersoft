@@ -15,6 +15,7 @@ use App\Models\ScheduleContext;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -245,7 +246,10 @@ class ScheduleController extends Controller
       "id_NamesSin" => $NameArray
     ]);
 
-    Mail::to($Emails)->send(new MessageInfoDaily($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $namefile, $files, $hi, $cont, $request->textEmoji, $NameFiles));
+    $firm = Auth::user()->firstname." ".Auth::user()->lastname;
+    $position = (Collaborator::where("numberdocument",Auth::user()->id)->value("position")) ? strtoupper(Collaborator::where("numberdocument",Auth::user()->id)->value("position")) : "CONTRATISTA";
+
+    Mail::to($Emails)->send(new MessageInfoDaily($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $namefile, $files, $hi, $cont, $request->textEmoji, $NameFiles, $firm,$position));
 
     return back()->with("SuccessMail", "SuccessMail");
   }

@@ -7,45 +7,46 @@
       <h3>CREACION DE CUERPOS</h3>
     </div>
     <div class="col-md-4">
-      <button type="button" title="NUEVO REGISTRO" class="btn btn-outline-success form-control-sm newBody-link">NUEVO REGISTRO</button>
+      <button type="button" title="NUEVO REGISTRO" class="btn btn-outline-success form-control-sm newBody-link">NUEVO
+        REGISTRO</button>
     </div>
     <div class="col-md-4">
       <!-- Mensajes de creación de cuerpos -->
-      @if(session('SuccessSaveBody'))
+      @if (session('SuccessSaveBody'))
       <div class="alert alert-success">
         {{ session('SuccessSaveBody') }}
       </div>
       @endif
-      @if(session('SecondarySaveBody'))
+      @if (session('SecondarySaveBody'))
       <div class="alert alert-secondary">
         {{ session('SecondarySaveBody') }}
       </div>
       @endif
       <!-- Mensajes de actualizacion de cuerpos -->
-      @if(session('PrimaryUpdateBody'))
+      @if (session('PrimaryUpdateBody'))
       <div class="alert alert-primary">
         {{ session('PrimaryUpdateBody') }}
       </div>
       @endif
-      @if(session('SecondaryUpdateBody'))
+      @if (session('SecondaryUpdateBody'))
       <div class="alert alert-secondary">
         {{ session('SecondaryUpdateBody') }}
       </div>
       @endif
       <!-- Mensajes de eliminación de cuerpos -->
-      @if(session('WarningDeleteBody'))
+      @if (session('WarningDeleteBody'))
       <div class="alert alert-warning">
         {{ session('WarningDeleteBody') }}
       </div>
       @endif
-      @if(session('SecondaryDeleteBody'))
+      @if (session('SecondaryDeleteBody'))
       <div class="alert alert-secondary">
         {{ session('SecondaryDeleteBody') }}
       </div>
       @endif
     </div>
   </div>
-  <table id="tableDatatable" class="table table-hover text-center" width="100%">
+  <table id="tableDatatable" class="table-hover table text-center" width="100%">
     <thead>
       <tr>
         <th>#</th>
@@ -56,7 +57,7 @@
     </thead>
     <tbody>
       @php $row = 1; @endphp
-      @foreach($bodys as $body)
+      @foreach ($bodys as $body)
       <tr>
         <td>{{ $row++ }}</td>
         <td>{{ $body->bcName }}</td>
@@ -68,7 +69,7 @@
             <span hidden>{{ $body->bcName }}</span>
             <span hidden>{{ $body->bcDescription }}</span>
           </a>
-          <a href="#" title="ELIMINAR" class="btn btn-outline-tertiary rounded-circle  deleteBody-link">
+          <a href="#" title="ELIMINAR" class="btn btn-outline-tertiary rounded-circle deleteBody-link">
             <i class="fas fa-trash-alt"></i>
             <span hidden>{{ $body->bcId }}</span>
             <span hidden>{{ $body->bcName }}</span>
@@ -143,10 +144,11 @@
           <div class="row border-top mt-3 text-center">
             <div class="col-md-6">
               <input type="hidden" class="form-control form-control-sm" name="bcIdEdit" value="" required>
-              <button type="submit" class="btn btn-outline-success form-control-sm my-3">GUARDAR CAMBIOS</button>
+              <button type="submit" class="btn btn-outline-success form-control-sm my-3">GUARDAR
+                CAMBIOS</button>
             </div>
             <div class="col-md-6">
-              <button type="button" class="btn btn-outline-tertiary  mx-3 form-control-sm my-3" data-dismiss="modal">CANCELAR</button>
+              <button type="button" class="btn btn-outline-tertiary form-control-sm mx-3 my-3" data-dismiss="modal">CANCELAR</button>
             </div>
           </div>
         </form>
@@ -170,14 +172,14 @@
             <span class="text-muted"><b class="bcDescriptionDelete"></b></span>
           </div>
         </div>
-        <div class="row mt-3 border-top text-center">
+        <div class="row border-top mt-3 text-center">
           <form action="{{ route('body.delete') }}" method="POST" class="col-md-6">
             @csrf
             <input type="hidden" class="form-control form-control-sm" name="bcIdDelete" value="" required>
             <button type="submit" class="btn btn-outline-success form-control-sm my-3">ELIMINAR</button>
           </form>
           <div class="col-md-6">
-            <button type="button" class="btn btn-outline-tertiary  mx-3 form-control-sm my-3" data-dismiss="modal">CANCELAR</button>
+            <button type="button" class="btn btn-outline-tertiary form-control-sm mx-3 my-3" data-dismiss="modal">CANCELAR</button>
           </div>
         </div>
 

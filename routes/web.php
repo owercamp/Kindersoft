@@ -46,6 +46,10 @@ Route::get('/formulario', 'AdmissionguestController@registerTo')->name('register
 Route::post('/saveAdmission', 'AdmissionguestController@saveAdmission')->name('saveAdmission');
 Route::get('/listDocuments', 'AdmissionguestController@listDocumentsPdf')->name('list.documents.pdf');
 
+/** Ruta Publica del Calendario **/
+Route::get('/daily-student',"DailyStudentController@index")->name('daily-stu');
+Route::get('/daily-student/serverside',"DailyStudentController@indexServerSide")->name('daily-serverside');
+
 //RUTAS DEL MODULO LOGISTICO
 Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINISTRADOR JARDIN|LOGISTICO']], function () {
 

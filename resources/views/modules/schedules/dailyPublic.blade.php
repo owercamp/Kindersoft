@@ -45,13 +45,18 @@
       fill: #000;
       text-anchor: middle;
     }
+
+    td {
+      height: 12px !important;
+      overflow: hidden;
+    }
   </style>
 </head>
 
 <body class="full-screen-image">
   <main class="container" style="border: 1px solid #ccc; border-top: none; border-bottom: none;">
     <div style="width: 1140px; height: 300px;">
-      <svg viewBox="0 0 100 150" style="width: 100%; height: 100%;">
+      <svg viewBox="0 0 100 150" style="width: 100%; height: 100%; z-index:-1000 !important">
         <path id="curve" d="M 13 80 Q 95 15 180 87" />
         <text x="-10" y="-34" font-size="7" class="text-lobster">
           <textPath xlink:href="#curve" startOffset="55px">
@@ -60,22 +65,38 @@
         </text>
       </svg>
     </div>
-    <div class="container p-5 text-center text-capitalize text-lobster" style="margin-top: -7%; position: absolute; font-size: x-large;">
-      estudiante
+    <div class="container p-5 text-center text-capitalize text-lobster" style="margin-top: -7%; position: relative; font-size: x-large;" id="student">
+      Estudiante
     </div>
-    <div class="container">
-      <div class="w-50">
-
-      </div>
-      <div class="w-50">
-        <div class="input-group input-group-sm mb-3 w-75">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="Nuip">NUIP</span>
+    <form action="" method="post" style="z-index: 1000 !important;">
+      <div class="container d-flex">
+        <div class="w-50 d-flex justify-content-between">
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Inicio</span>
+            </div>
+            <input type="date" id="date-initials" class="form-control" placeholder="Fecha Inicial" aria-label="Fecha Inicial" aria-describedby="date-initials">
           </div>
-          <input type="text" class="form-control" aria-label="NUIP" aria-describedby="Nuip">
+          <div class="input-group input-group-sm mb-3">
+            <input type="date" id="date-finals" class="form-control" placeholder="Fecha Final" aria-label="Fecha Final" aria-describedby="date-finals">
+            <div class="input-group-append">
+              <span class="input-group-text">Final</span>
+            </div>
+          </div>
+        </div>
+        <div class="w-50 d-flex justify-content-center">
+          <div class="input-group input-group-sm mb-3 w-75">
+            <div class="input-group-prepend">
+              <span class="input-group-text">NUIP</span>
+            </div>
+            <input type="text" id="Nuip" class="form-control" aria-label="NUIP" aria-describedby="Nuip">
+          </div>
+          <div class="mx-2">
+            <button type="button" class="btn btn-primary btn-sm" id="consultar" role="button">Consultar</button>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
     <div>
       <table class="table" id="tbl_daily">
         <caption>Agenda Escolar de </caption>
@@ -89,12 +110,71 @@
       </table>
     </div>
   </main>
+
+
+  <div class="modal fade" id="formView" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    @include('modules.schedules.partials.modal');
+  </div>
 </body>
 
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
+  const informations = () => {
+    let initial = $('#date-initials').val();
+    let final = $('#date-finals').val();
+    let nuip = $('#Nuip').val();
+
+    $.ajax({
+      "_token": "{{ csrf_token() }}",
+      "url": "{{ route('apiDailyStudent') }}",
+      "method": "POST",
+      "dataType": "JSON",
+      "data": {
+        initial: initial,
+        final: final,
+        nuip: nuip
+      },
+      success(response) {
+        $("#student").text(`Estudiante: ${response[0].firstname} ${response[0].threename} ${response[0].fourname}`);
+        let datos = [];
+        tbl_daily.clear().draw();
+        response.forEach(element => {
+          datos.push({
+            0: element.id_fulldate,
+            1: element.id_cont,
+            2: `<div class="btn-group mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-primary rounded" id="view" data-id='${element.id_pivot}'>Ver</button>
+                  @hasanyrole('ADMINISTRADOR SISTEMA')
+                    <button type="button" class="btn btn-secondary rounded" id="del" data-id='${element.id_pivot}'>Eliminar</button>
+                  @endhasanyrole
+                </div>`
+          });
+        });
+
+        tbl_daily.rows.add(datos).draw();
+      },
+      complete() {
+        Swal.fire({
+          icon: 'success',
+          html: `Proceso Exitoso`,
+          footer: `<p class="text-secondary">gracias por esperar</p>`,
+          showConfirmButton: false,
+          focusConfirm: true,
+          confirmButtonText: `Aceptar`,
+          confirmButtonColor: '#333cff',
+          timer: 1500
+        })
+      },
+      error(err) {
+        console.log(err.responseText);
+      }
+    })
+  }
+
+
+  var tbl_daily = $('#tbl_daily').DataTable();
   $(document).ready(function() {
-    $('#tbl_daily').DataTable({
+    tbl_daily.DataTable({
       serverSide: true,
       order: [
         [0, 'asc']
@@ -126,6 +206,111 @@
       },
       responsive: true,
       pagingType: 'full_numbers',
+    })
+  })
+
+  $("#consultar").click(() => {
+    let nuip = $('#Nuip').val();
+    Swal.fire({
+      title: '<strong>Consultado Información</strong>',
+      icon: 'info',
+      html: `<p>Consultando la informacion del estudiante de <b class="text-danger">NUIP:</b> ${nuip}</p>`,
+      showCloseButton: false,
+      showCancelButton: false,
+      focusConfirm: false,
+      confirmButtonColor: '#333cff'
+    });
+    informations();
+  })
+
+  $(document).on('click', '#view', (e) => {
+    let id = e.target.attributes['data-id'].value;
+    $.ajax({
+      "_token": "{{ csrf_token() }}",
+      url: "{{ route('apiViewInfo') }}",
+      dataType: "JSON",
+      type: "POST",
+      data: {
+        id: id
+      },
+      beforeSend() {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 500,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'info',
+          title: 'Consultando...'
+        })
+      },
+      success(response) {
+        let hi = response[0].note[0].id_hi;
+        let cont = response[0].note[0].id_cont;
+        let listAdm = JSON.parse(response[0].note[0].id_NamesFiles);
+        let listDoc = JSON.parse(response[0].note[0].id_NamesSin);
+
+        $('#hi').text(hi);
+        $('#cont').text(cont);
+        $("#list").empty();
+        listAdm.forEach(e => {
+          $("#list").append(`<li>${e}</li>`);
+        })
+        listDoc.forEach(item => {
+          $("#list").append(`<li>${item}</li>`);
+        })
+      },
+      complete() {
+        $("#formView").modal();
+      }
+    })
+  })
+
+  $(document).on('click', '#del', (e) => {
+    let id = e.target.attributes['data-id'].value;
+    let nuip = $('#Nuip').val();
+
+    Swal.fire({
+      html: 'Desea eliminar este registro?',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+      confirmButtonColor: '#333cff'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          "_token": "{{ csrf_token() }}",
+          url: "{{ route('apiDelinfo') }}",
+          type: "POST",
+          dataType: "JSON",
+          data: {
+            id: id
+          },
+          beforeSend() {
+            Swal.fire({
+              title: '<strong>Eliminando Registro</strong>',
+              icon: 'info',
+              html: `<p>Eliminando Registro para el estudiante de <b class="text-danger">NUIP:</b> ${nuip}</p>`,
+              showCloseButton: false,
+              showCancelButton: false,
+              focusConfirm: false,
+              confirmButtonColor: '#333cff'
+            });
+          },
+          success(response) {
+            if (parseInt(response) == 1) {
+              informations();
+            }
+          }
+        })
+      }
     })
   })
 </script>

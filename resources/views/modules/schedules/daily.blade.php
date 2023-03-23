@@ -43,6 +43,7 @@
           <!-- dinamic -->
         </div>
         <textarea name="emailAttendants" cols="30" rows="10" hidden></textarea>
+        <input type="hidden" name="documents">
       </div>
       <hr>
       <div class="w-100 text-center p-2 row">
@@ -164,6 +165,7 @@
         timer: 3000
       })
     } else {
+      $("input[name=documents]").val(assign);
       $.ajax({
         url: "{{route('Emailers')}}",
         type: "GET",

@@ -3,6 +3,7 @@
 use App\Models\Attendant;
 use App\Models\Bloodtype;
 use App\Models\Course;
+use App\Models\DailyStudent;
 use App\Models\Entry;
 use App\Models\Formadmission;
 use App\Models\Health;
@@ -10,7 +11,6 @@ use App\Models\InfoDaily;
 use App\Models\Listcourse;
 use App\Models\Presence;
 use App\Models\Student;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -3204,7 +3204,7 @@ Route::post('getDataStudent', function (Request $request) {
   $query = Presence::where('pre_student', $request->student)
     ->join('students', 'students.id', 'presences.pre_student')
     ->join('courses', 'courses.id', 'presences.pre_course')
-    ->orderBy('created_at', 'asc')->get();
+    ->orderBy('presences.created_at', 'asc')->get();
   return response()->json($query);
 })->name('getDataStudent');
 
@@ -3245,3 +3245,39 @@ Route::post('initials', function (Request $request) {
 
   return $data;
 })->name('apiInitials');
+
+Route::post('daily-student', function (Request $request) {
+
+  $student = Student::where('numberdocument', $request->nuip)->value('id');
+
+  $initials = Carbon::parse($request->initial)->format('Y-m-d') . " 00:00:00";
+  $finals = Carbon::parse($request->final)->format('Y-m-d') . " 23:59:59";
+
+  $data = DB::table('daily_students')->join('students', 'students.id', 'daily_students.id_student')
+    ->join('info_dailies', 'info_dailies.id_id', 'daily_students.id_daily')
+    ->where('daily_students.id_student', $student)->select('students.firstname as firstname', 'students.threename as threename', 'students.fourname as fourname', 'info_dailies.id_fulldate as id_fulldate', 'info_dailies.id_cont as id_cont', 'daily_students.id as id_pivot');
+
+  if ($request->initial != "" && $request->final != "") {
+    $consult = $data->whereBetween('info_dailies.created_at', [$initials, $finals])->get();
+  } else {
+    $consult = $data->get();
+  }
+
+  return $consult;
+})->name('apiDailyStudent');
+
+
+Route::post('viewInfo', function (Request $request) {
+  $note = DailyStudent::with('student', 'note')->where('id', $request->id)->get();
+  return $note;
+})->name('apiViewInfo');
+
+Route::post('delInfo', function (Request $request) {
+  $delete = DailyStudent::destroy($request->id);
+
+  if ($delete) {
+    return 1;
+  } else {
+    return 0;
+  }
+})->name('apiDelinfo');

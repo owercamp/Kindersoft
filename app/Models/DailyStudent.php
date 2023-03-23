@@ -38,6 +38,13 @@ class DailyStudent extends Model
         'id_daily' => 'integer'
     ];
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
     public function student()
     {
         return $this->hasOne(Student::class,'id','id_student');

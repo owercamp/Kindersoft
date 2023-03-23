@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DailyStudent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -31,7 +30,7 @@ class DailyStudentController extends Controller
     /**
      * Consulta del alumno
      */
-    $consulta = DB::table('daily_students')->join('students', 'students.id', 'daily_students.id_student')->join('info_dailies', 'info_dailies.id_id', 'daily_students.id_daily')->select('info_dailies.id_fulldate as date', 'info_dailies.id_cont as cont');
+    $consulta = DB::table('daily_students')->join('students', 'students.id', 'daily_students.id_student')->join('info_dailies', 'info_dailies.id_id', 'daily_students.id_daily')->select('info_dailies.id_fulldate as date', 'info_dailies.id_cont as cont','daily_students.id as id_pivot');
 
     /**
      * Totales Datatable

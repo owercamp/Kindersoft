@@ -7,11 +7,13 @@ use App\Models\AcademicCircularFile;
 use App\Models\AdministrativeCircularFile;
 use App\Models\Collaborator;
 use App\Models\Course;
+use App\Models\DailyStudent;
 use App\Models\Formadmission;
 use App\Models\Garden;
 use App\Models\InfoDaily;
 use App\Models\Schedule;
 use App\Models\ScheduleContext;
+use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -136,6 +138,7 @@ class ScheduleController extends Controller
   {
     ini_set('max_execution_set',0);
     ini_set('memory_limit', '-1');
+
     /**
      * ? se consulta la fecha actual si existen circulares seleccionadas
      * ? y se verifica el contexto y saludo para ser enviado a las diferentes direcciones de correo electronico
@@ -237,14 +240,23 @@ class ScheduleController extends Controller
     $NamesArray = json_encode($NamesFiles);
     $NameArray = json_encode($NameFiles);
 
-    InfoDaily::create([
-      "id_fulldate" => $fulldate,
-      "id_hi" => $hi->sch_body,
-      "id_cont" => $cont,
-      "note" => $request->textEmoji,
-      "id_NamesFiles" => $NamesArray,
-      "id_NamesSin" => $NameArray
-    ]);
+    $info_daily = new InfoDaily();
+    $info_daily->id_fulldate = $fulldate;
+    $info_daily->id_hi = $hi->sch_body;
+    $info_daily->id_cont = $cont;
+    $info_daily->note = $request->textEmoji;
+    $info_daily->id_NamesFiles = $NamesArray;
+    $info_daily->id_NamesSin = $NameArray;
+    if ($info_daily->save()) {
+      $register = explode(",",$request->documents);
+      foreach ($register as $key => $value) {
+        $student = Student::where('numberdocument',$value)->value('id');
+        $daily = new DailyStudent();
+        $daily->id_student = $student;
+        $daily->id_daily = $info_daily->id_id;
+        $daily->save();
+      }
+    }
 
     $firm = Auth::user()->firstname." ".Auth::user()->lastname;
     $position = (Collaborator::where("numberdocument",Auth::user()->id)->value("position")) ? strtoupper(Collaborator::where("numberdocument",Auth::user()->id)->value("position")) : "CONTRATISTA";

@@ -31,7 +31,7 @@
     svg {
       width: 100%;
       height: 100%;
-      position: absolute;
+      position: relative;
       top: 0;
       left: 0;
     }
@@ -50,22 +50,68 @@
       height: 12px !important;
       overflow: hidden;
     }
+
+    .pos-student{
+      margin-top: -30%;
+      padding-bottom: 10%;
+      font-size: 1.5rem !important;
+    }
+
+    .mb-n{
+      margin-bottom: 0%;
+    }
+
+    @media (max-width: 412px) {
+      .text-lobster{
+        font-size: 60%;
+      }
+      .mb-n{
+        margin-bottom: -15%;
+      }
+      .pos-student{
+        font-size: 1em !important;
+      }
+    }
+    @media (max-width: 810px) {
+      .text-lobster{
+        font-size: 40%;
+      }
+      .mb-n{
+        margin-bottom: -19%;
+      }
+    }
+    @media (max-width: 1440px) {
+      .text-lobster{
+        font-size: 28%;
+      }
+      .mb-n{
+        margin-bottom: -20%;
+      }
+    }
+    @media (max-width: 3840px) {
+      .text-lobster{
+        font-size: 43%;
+      }
+      .mb-n{
+        margin-bottom: -15%;
+      }
+    }
   </style>
 </head>
 
 <body class="full-screen-image">
   <main class="container" style="border: 1px solid #ccc; border-top: none; border-bottom: none;">
-    <div style="width: 1140px; height: 300px;">
-      <svg viewBox="0 0 100 150" style="width: 100%; height: 100%; z-index:-1000 !important">
-        <path id="curve" d="M 13 80 Q 95 15 180 87" />
-        <text x="-10" y="-34" font-size="7" class="text-lobster">
-          <textPath xlink:href="#curve" startOffset="55px">
+    <div class="w-100 mb-n">
+      <svg viewBox="0 40 100 50">
+        <path id="curve" d="M 0 80 Q 95 15 180 87" />
+        <text class="text-lobster">
+          <textPath xlink:href="#curve" startOffset="55">
             {{ config('app.name') }}
           </textPath>
         </text>
       </svg>
     </div>
-    <div class="container p-5 text-center text-capitalize text-lobster" style="margin-top: -7%; position: relative; font-size: x-large;" id="student">
+    <div class="container text-center text-capitalize text-lobster pos-student" style="position: relative;" id="student">
       Estudiante
     </div>
     <form action="" method="post" style="z-index: 1000 !important;">

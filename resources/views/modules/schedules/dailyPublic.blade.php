@@ -51,48 +51,56 @@
       overflow: hidden;
     }
 
-    .pos-student{
-      margin-top: -30%;
+    .pos-student {
+      margin-top: -23%;
       padding-bottom: 10%;
       font-size: 1.5rem !important;
     }
 
-    .mb-n{
+    .mb-n {
       margin-bottom: 0%;
     }
 
     @media (max-width: 412px) {
-      .text-lobster{
+      .text-lobster {
         font-size: 60%;
       }
-      .mb-n{
+
+      .mb-n {
         margin-bottom: -15%;
       }
-      .pos-student{
+
+      .pos-student {
         font-size: 1em !important;
       }
     }
+
     @media (max-width: 810px) {
-      .text-lobster{
+      .text-lobster {
         font-size: 40%;
       }
-      .mb-n{
+
+      .mb-n {
         margin-bottom: -19%;
       }
     }
+
     @media (max-width: 1440px) {
-      .text-lobster{
+      .text-lobster {
         font-size: 28%;
       }
-      .mb-n{
+
+      .mb-n {
         margin-bottom: -20%;
       }
     }
+
     @media (max-width: 3840px) {
-      .text-lobster{
+      .text-lobster {
         font-size: 43%;
       }
-      .mb-n{
+
+      .mb-n {
         margin-bottom: -15%;
       }
     }
@@ -102,7 +110,7 @@
 <body class="full-screen-image">
   <main class="container" style="border: 1px solid #ccc; border-top: none; border-bottom: none;">
     <div class="w-100 mb-n">
-      <svg viewBox="0 40 100 50">
+      <svg viewBox="0 40 100 50" style="z-index: -1000;">
         <path id="curve" d="M 0 80 Q 95 15 180 87" />
         <text class="text-lobster">
           <textPath xlink:href="#curve" startOffset="55">
@@ -112,7 +120,7 @@
       </svg>
     </div>
     <div class="container text-center text-capitalize text-lobster pos-student" style="position: relative;" id="student">
-      Estudiante
+      Alumno(a)
     </div>
     <form action="" method="post" style="z-index: 1000 !important;">
       <div class="container d-flex">
@@ -145,7 +153,7 @@
     </form>
     <div>
       <table class="table" id="tbl_daily">
-        <caption>Agenda Escolar de </caption>
+        <caption>Agenda Escolar</caption>
         <thead>
           <tr>
             <th scope="col">{{ ucfirst('fecha') }}</th>
@@ -181,7 +189,7 @@
         nuip: nuip
       },
       success(response) {
-        $("#student").text(`Estudiante: ${response[0].firstname} ${response[0].threename} ${response[0].fourname}`);
+        $("#student").text(`Alumno(a): ${response[0].firstname} ${response[0].threename} ${response[0].fourname} - ${response[0].course}`);
         let datos = [];
         tbl_daily.clear().draw();
         response.forEach(element => {
@@ -220,6 +228,12 @@
 
   var tbl_daily = $('#tbl_daily').DataTable();
   $(document).ready(function() {
+    let date = new Date()
+    let day = `${(date.getDate())}`.padStart(2, '0');
+    let month = `${(date.getMonth()+1)}`.padStart(2, '0');
+    let year = date.getFullYear();
+    let today = `${year}-${month}-${day}`;
+    $('input[type="date"]').val(today);
     tbl_daily.DataTable({
       serverSide: true,
       order: [
@@ -260,7 +274,7 @@
     Swal.fire({
       title: '<strong>Consultado Información</strong>',
       icon: 'info',
-      html: `<p>Consultando la informacion del estudiante de <b class="text-danger">NUIP:</b> ${nuip}</p>`,
+      html: `<p>Consultando la informacion del alumno(a) de <b class="text-danger">NUIP:</b> ${nuip}</p>`,
       showCloseButton: false,
       showCancelButton: false,
       focusConfirm: false,
@@ -300,11 +314,13 @@
       success(response) {
         let hi = response[0].note[0].id_hi;
         let cont = response[0].note[0].id_cont;
+        let note = response[0].note[0].note;
         let listAdm = JSON.parse(response[0].note[0].id_NamesFiles);
         let listDoc = JSON.parse(response[0].note[0].id_NamesSin);
 
         $('#hi').text(hi);
         $('#cont').text(cont);
+        $('#note').text(note);
         $("#list").empty();
         listAdm.forEach(e => {
           $("#list").append(`<li>${e}</li>`);
@@ -343,7 +359,7 @@
             Swal.fire({
               title: '<strong>Eliminando Registro</strong>',
               icon: 'info',
-              html: `<p>Eliminando Registro para el estudiante de <b class="text-danger">NUIP:</b> ${nuip}</p>`,
+              html: `<p>Eliminando Registro para el alumno(a) de <b class="text-danger">NUIP:</b> ${nuip}</p>`,
               showCloseButton: false,
               showCancelButton: false,
               focusConfirm: false,

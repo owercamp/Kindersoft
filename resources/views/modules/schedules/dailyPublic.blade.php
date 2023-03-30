@@ -189,23 +189,35 @@
         nuip: nuip
       },
       success(response) {
-        $("#student").text(`Alumno(a): ${response[0].firstname} ${response[0].threename} ${response[0].fourname} - ${response[0].course}`);
-        let datos = [];
-        tbl_daily.clear().draw();
-        response.forEach(element => {
-          datos.push({
-            0: element.id_fulldate,
-            1: element.id_cont,
-            2: `<div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-primary rounded" id="view" data-id='${element.id_pivot}'>Ver</button>
-                  @hasanyrole('ADMINISTRADOR SISTEMA')
-                    <button type="button" class="btn btn-secondary rounded" id="del" data-id='${element.id_pivot}'>Eliminar</button>
-                  @endhasanyrole
-                </div>`
+        if (response != "") {
+          $("#student").text(`Alumno(a): ${response[0].firstname} ${response[0].threename} ${response[0].fourname} - ${response[0].course}`);
+          let datos = [];
+          tbl_daily.clear().draw();
+          response.forEach(element => {
+            datos.push({
+              0: element.id_fulldate,
+              1: element.id_cont,
+              2: `<div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="button" class="btn btn-primary rounded" id="view" data-id='${element.id_pivot}'>Ver</button>
+                    @hasanyrole('ADMINISTRADOR SISTEMA')
+                      <button type="button" class="btn btn-secondary rounded" id="del" data-id='${element.id_pivot}'>Eliminar</button>
+                    @endhasanyrole
+                  </div>`
+            });
           });
-        });
-
-        tbl_daily.rows.add(datos).draw();
+          tbl_daily.rows.add(datos).draw();
+        } else {
+          Swal.fire({
+            icon: 'success',
+            html: `Proceso Exitoso`,
+            footer: `<p class="text-secondary">gracias por esperar</p>`,
+            showConfirmButton: false,
+            focusConfirm: true,
+            confirmButtonText: `Aceptar`,
+            confirmButtonColor: '#333cff',
+            timer: 1500
+          })
+        }
       },
       complete() {
         Swal.fire({
@@ -322,12 +334,11 @@
         $('#cont').text(cont);
         $('#note').text(note);
         $("#list").empty();
-        listAdm.forEach(e => {
-          $("#list").append(`<li>${e}</li>`);
-        })
-        listDoc.forEach(item => {
-          $("#list").append(`<li>${item}</li>`);
-        })
+        for (const key in listDoc) {
+          let id_id = response[0].note[0].id_id;
+          let ruta = `{{ route('dailyInformation') }}/${id_id}/${key}`;
+          $("#list").append(`<li class="d-flex justify-content-between align-middle"><span class="my-auto mx-2">${listDoc[key]}</span><a class="btn btn-sm btn-primary my-1" href="${ruta}">Guardar</a></li>`);
+        }
       },
       complete() {
         $("#formView").modal();

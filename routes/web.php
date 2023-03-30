@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\SGOperativeController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
   return view('auth.login');
@@ -47,8 +49,8 @@ Route::post('/saveAdmission', 'AdmissionguestController@saveAdmission')->name('s
 Route::get('/listDocuments', 'AdmissionguestController@listDocumentsPdf')->name('list.documents.pdf');
 
 /** Ruta Publica del Calendario **/
-Route::get('/daily-student',"DailyStudentController@index")->name('daily-stu');
-Route::get('/daily-student/serverside',"DailyStudentController@indexServerSide")->name('daily-serverside');
+Route::get('/daily-student', "DailyStudentController@index")->name('daily-stu');
+Route::get('/daily-student/serverside', "DailyStudentController@indexServerSide")->name('daily-serverside');
 
 //RUTAS DEL MODULO LOGISTICO
 Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINISTRADOR JARDIN|LOGISTICO']], function () {
@@ -59,7 +61,7 @@ Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINIS
   Route::get('/logistic/assist-control/check-out', 'AssistancesController@checkoutAssistences')->name('assistences.check-out');
   Route::post('/logistic/assist-control/check-out/save', 'AssistancesController@savecheckoutAssistences')->name('check-out.save');
   Route::get('/logistic/assist-control/register', 'AssistancesController@registerAssistences')->name('assistences.register');
-  Route::get('/logistic/assist-control/registerAssistencesIndex','AssistancesController@registerAssistencesIndex')->name('getAsistences');
+  Route::get('/logistic/assist-control/registerAssistencesIndex', 'AssistancesController@registerAssistencesIndex')->name('getAsistences');
   Route::post('/logistic/assist-control/pdf-assist', 'AssistancesController@pdfAssistences')->name('pdf.Assistences');
   Route::get('/logistic/assist-control/absence', 'AssistancesController@absenceAssistences')->name('assistences.absence');
   Route::post('/logistic/assist-control/pdf-absences', 'AssistancesController@pdfAbsences')->name('pdf.Absences');
@@ -177,6 +179,10 @@ Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINIS
   Route::get('/logistic/school-schedule/daily', 'ScheduleController@dailyInformationTo')->name('dailyInformation');
   Route::post('/logistic/school-schedule/daily/save', 'ScheduleController@dailyInformationToSave')->name('daily.save');
   Route::get('/logistic/school-schedule/file', 'ScheduleController@scheduleFileTo')->name('scheduleFile');
+  Route::get('/logistic/school-schedule/daily/{id}/{pos}', function (int $id, int $pos) {
+    $documento = json_decode(DB::table('info_dailies')->where('id_id', $id)->value('id_NamesFiles'));
+    return Storage::disk('kindersoft')->download(DIRECTORY_SEPARATOR . "storage" . DIRECTORY_SEPARATOR . "documents" . DIRECTORY_SEPARATOR . $documento[$pos]);
+  });
   Route::post('/logistic/school-schedule/file/delete', 'ScheduleController@dailyInformationToDelete')->name('file.destroy');
   Route::get('/logistic/school-schedule/emailers', 'ScheduleController@emailers')->name('Emailers');
 
@@ -420,9 +426,9 @@ Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINIS
 
   //INFORMACION JARDIN INFANTIL
   Route::get('/administrative/information-general', 'GeneralController@generalTo')->name('general');
-  Route::get('/administrative/company-logos','GeneralController@logosCompany')->name('companylogo');
-  route::get('/administrative/company-info','GeneralController@infoCompany')->name('companyInfo');
-  route::post('/administrative/company-logo','GeneralController@logoCompany')->name('companylog');
+  Route::get('/administrative/company-logos', 'GeneralController@logosCompany')->name('companylogo');
+  route::get('/administrative/company-info', 'GeneralController@infoCompany')->name('companyInfo');
+  route::post('/administrative/company-logo', 'GeneralController@logoCompany')->name('companylog');
 
   //ADMISSIONS
   Route::get('/administrative/services/admissions', 'AdmissionsController@index')->name('admissions');

@@ -69,15 +69,20 @@
     $.get("{{route('getInfoMail')}}", {
       data: id
     }, function(objectInfoMail) {
+      console.log(objectInfoMail);
       $("#hi").text("");
       $("#cont").text("");
       $("#list").empty();
       $("#hi").text(objectInfoMail[0]["id_hi"]);
       $("#cont").text(objectInfoMail[0]["id_cont"]);
       let json = JSON.parse(objectInfoMail[0]['id_NamesSin']);
-      json.forEach(element => {
-        $("#list").append("<li>" + element + "</li>")
-      });
+      let route = JSON.parse(objectInfoMail[0]['id_NamesFiles']);
+
+      for (const key in json) {
+        let id_id = objectInfoMail[0]["id_id"];
+        let ruta = `{{ route('dailyInformation') }}/${id_id}/${key}`;
+        $("#list").append(`<li class="d-flex justify-content-between align-middle"><span class="my-auto mx-2">${json[key]}</span><a class="btn btn-sm btn-primary my-1" href="${ruta}">Guardar</a></li>`);
+      }
     });
   }
 </script>

@@ -136,7 +136,7 @@ class ScheduleController extends Controller
 
   public function dailyInformationToSave(Request $request)
   {
-    ini_set('max_execution_set',0);
+    ini_set('max_execution_set', 0);
     ini_set('memory_limit', '-1');
 
     /**
@@ -145,9 +145,11 @@ class ScheduleController extends Controller
      */
     $date = Carbon::now()->locale('es')->timezone('America/Bogota')->isoFormat('LL');
     $day = Carbon::now()->locale('es')->timezone('America/Bogota')->dayName;
+    date_default_timezone_set('America/Bogota');
+    $dateFolder = date("Y-m-d");
     $fulldate = $day . ", " . $date;
     $pdfOutputAdministrative = "";
-    $pdfOutputAcademic ="";
+    $pdfOutputAcademic = "";
     $namefile = "";
     $nameFiles = "";
     $files = "";
@@ -179,9 +181,12 @@ class ScheduleController extends Controller
       $from = Collaborator::find($administrative[0]['acf_cirFrom']);
 
       $pdfAdministrative = App::make('dompdf.wrapper');
-      $namefile = 'CIRCULAR_ADMINISTRATIVA.pdf';
+      $namefile = 'Circular_Administrativa_' . date("H_i_s") . ".pdf";
       $pdfAdministrative->loadView('modules.letters.circularAdministrativePdf', compact("code", "date", "to", "message", "from", "garden"));
       $pdfOutputAdministrative = $pdfAdministrative->output();
+
+      Storage::disk('kindersoft')->put(DIRECTORY_SEPARATOR . "storage" . DIRECTORY_SEPARATOR . "documents" . DIRECTORY_SEPARATOR . $dateFolder . DIRECTORY_SEPARATOR . $namefile, $pdfOutputAdministrative);
+      array_push($NamesFiles, $dateFolder . DIRECTORY_SEPARATOR . $namefile);
       array_push($NameFiles, $namefile);
     }
 
@@ -195,9 +200,12 @@ class ScheduleController extends Controller
       $from = Collaborator::find($academic[0]['acf_cirFrom']);
 
       $pdfAcademic = App::make('dompdf.wrapper');
-      $nameFiles = 'CIRCULAR_ACADEMICA.pdf';
+      $nameFiles = 'Circular_Academica_' . date("H_i_s") . ".pdf";
       $pdfAcademic->loadView('modules.letters.circularAcademicPdf', compact("code", "date", "to", "message", "from", "garden"));
       $pdfOutputAcademic = $pdfAcademic->output();
+
+      Storage::disk('kindersoft')->put(DIRECTORY_SEPARATOR . "storage" . DIRECTORY_SEPARATOR . "documents" . DIRECTORY_SEPARATOR . $dateFolder . DIRECTORY_SEPARATOR . $nameFiles, $pdfOutputAcademic);
+      array_push($NamesFiles, $dateFolder . DIRECTORY_SEPARATOR . $nameFiles);
       array_push($NameFiles, $nameFiles);
     }
 
@@ -229,11 +237,11 @@ class ScheduleController extends Controller
     if ($request->file('archives')) {
       $files = $request->file('archives');
       foreach ($files as $file) {
-        $date = date("Y-m-d");
-        $fileName = $file->getClientOriginalName();
-        array_push($NamesFiles, $date . DIRECTORY_SEPARATOR . $file->getClientOriginalName()); // este es para almacenar para luego buscar
-        array_push($NameFiles, $fileName);
-        Storage::disk('kindersoft')->putFileAs(DIRECTORY_SEPARATOR . "Documents" . DIRECTORY_SEPARATOR . $date . DIRECTORY_SEPARATOR, $file, $fileName);
+        $fileName = explode(".", $file->getClientOriginalName());
+        $fileNameDoc =  $fileName[0] . "_" . date("H_i_s") . "." . $fileName[1];
+        array_push($NamesFiles, $dateFolder . DIRECTORY_SEPARATOR . $fileNameDoc); // este es para almacenar para luego buscar
+        array_push($NameFiles, $fileNameDoc);
+        Storage::disk('kindersoft')->putFileAs(DIRECTORY_SEPARATOR . "storage" . DIRECTORY_SEPARATOR . "documents" . DIRECTORY_SEPARATOR . $dateFolder . DIRECTORY_SEPARATOR, $file, $fileNameDoc);
       }
     }
 
@@ -248,9 +256,9 @@ class ScheduleController extends Controller
     $info_daily->id_NamesFiles = $NamesArray;
     $info_daily->id_NamesSin = $NameArray;
     if ($info_daily->save()) {
-      $register = explode(",",$request->documents);
+      $register = explode(",", $request->documents);
       foreach ($register as $key => $value) {
-        $student = Student::where('numberdocument',$value)->value('id');
+        $student = Student::where('numberdocument', $value)->value('id');
         $daily = new DailyStudent();
         $daily->id_student = $student;
         $daily->id_daily = $info_daily->id_id;
@@ -258,10 +266,10 @@ class ScheduleController extends Controller
       }
     }
 
-    $firm = Auth::user()->firstname." ".Auth::user()->lastname;
-    $position = (Collaborator::where("numberdocument",Auth::user()->id)->value("position")) ? strtoupper(Collaborator::where("numberdocument",Auth::user()->id)->value("position")) : "CONTRATISTA";
+    $firm = Auth::user()->firstname . " " . Auth::user()->lastname;
+    $position = (Collaborator::where("numberdocument", Auth::user()->id)->value("position")) ? strtoupper(Collaborator::where("numberdocument", Auth::user()->id)->value("position")) : "CONTRATISTA";
 
-    Mail::to($Emails)->send(new MessageInfoDaily($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $namefile, $files, $hi, $cont, $request->textEmoji, $NameFiles, $firm,$position));
+    Mail::to($Emails)->send(new MessageInfoDaily($pdfOutputAcademic, $nameFiles, $pdfOutputAdministrative, $namefile, $files, $hi, $cont, $request->textEmoji, $NameFiles, $firm, $position));
 
     return back()->with("SuccessMail", "SuccessMail");
   }
@@ -283,6 +291,7 @@ class ScheduleController extends Controller
     $archive = InfoDaily::all();
     return view('modules.schedules.file', compact("archive"));
   }
+
   public function dailyInformationToDelete(Request $request)
   {
     $deleted = InfoDaily::findOrFail($request->DelID)->delete();

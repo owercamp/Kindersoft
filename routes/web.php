@@ -17,6 +17,12 @@ Route::get('/test_bj', function () {
   return view('test');
 })->name('test');
 
+// descarga de documentos AGENDA ESCOLAR
+Route::get('/logistic/school-schedule/daily/{id}/{pos}', function (int $id, int $pos) {
+    $documento = json_decode(DB::table('info_dailies')->where('id_id', $id)->value('id_NamesFiles'));
+    return Storage::disk('kindersoft')->download(DIRECTORY_SEPARATOR . "storage" . DIRECTORY_SEPARATOR . "documents" . DIRECTORY_SEPARATOR . $documento[$pos]);
+  });
+
 // <span><a href="#" title="DESCRIPCION DE AYUDA"><i class="fas fa-question-circle"></i></a></span>
 
 
@@ -179,10 +185,6 @@ Route::group(['middleware' => ['role:ADMINISTRADOR|ADMINISTRADOR SISTEMA|ADMINIS
   Route::get('/logistic/school-schedule/daily', 'ScheduleController@dailyInformationTo')->name('dailyInformation');
   Route::post('/logistic/school-schedule/daily/save', 'ScheduleController@dailyInformationToSave')->name('daily.save');
   Route::get('/logistic/school-schedule/file', 'ScheduleController@scheduleFileTo')->name('scheduleFile');
-  Route::get('/logistic/school-schedule/daily/{id}/{pos}', function (int $id, int $pos) {
-    $documento = json_decode(DB::table('info_dailies')->where('id_id', $id)->value('id_NamesFiles'));
-    return Storage::disk('kindersoft')->download(DIRECTORY_SEPARATOR . "storage" . DIRECTORY_SEPARATOR . "documents" . DIRECTORY_SEPARATOR . $documento[$pos]);
-  });
   Route::post('/logistic/school-schedule/file/delete', 'ScheduleController@dailyInformationToDelete')->name('file.destroy');
   Route::get('/logistic/school-schedule/emailers', 'ScheduleController@emailers')->name('Emailers');
 

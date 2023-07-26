@@ -11,7 +11,7 @@
       <small class="form-text text-muted">Identificador en base de datos</small>
     </div>
     <div class="form-group">
-      <select required class="form-control form-control-sm select2" name="city_id" id="cityD">
+      <select required class="form-control form-control-sm" name="city_id" id="cityD">
         <option value="">Seleccione ciudad...</option>
         @php $namecity = '' @endphp
         @foreach($citys as $city)
@@ -27,7 +27,7 @@
     </div>
     <div class="form-group">
       <input type="hidden" id="locationD_hidden" value="{{ $district->location_id }}">
-      <select required class="form-control form-control-sm select2" name="location_id" id="locationD">
+      <select required class="form-control form-control-sm" name="location_id" id="locationD">
         <!-- options dinamics -->
         <option value="">Seleccione localidad...</option>
       </select>

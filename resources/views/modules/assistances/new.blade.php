@@ -52,7 +52,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <small class="text-muted">CURSO:</small>
-            <select name="assCourse" class="form-control form-control-sm select2" required>
+            <select name="assCourse" class="form-control form-control-sm" required>
               <option value="">Seleccione un curso...</option>
               @foreach($courses as $course)
               <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -61,7 +61,7 @@
           </div>
           <div class="form-group">
             <small class="text-muted">ALUMNO:</small>
-            <select name="assStudent" class="form-control form-control-sm select2" required>
+            <select name="assStudent" class="form-control form-control-sm" required>
               <option value="">Seleccione un alumno...</option>
               <!-- Option dinamico de seleccion del curso -->
             </select>
@@ -224,7 +224,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <small class="text-muted">CURSO:</small>
-                  <select name="pdfCourseGroup" class="form-control form-control-sm select2" required>
+                  <select name="pdfCourseGroup" class="form-control form-control-sm" required>
                     <option value="">Seleccione un curso...</option>
                     @foreach($courses as $course)
                     <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -243,7 +243,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <small class="text-muted">CURSO:</small>
-                  <select name="pdfCourseUnique" class="form-control form-control-sm select2" disabled>
+                  <select name="pdfCourseUnique" class="form-control form-control-sm" disabled>
                     <option value="">Seleccione un curso...</option>
                     @foreach($courses as $course)
                     <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -254,7 +254,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <small class="text-muted">ESTUDIANTE:</small>
-                  <select name="pdfStudentUnique" class="form-control form-control-sm select2" disabled>
+                  <select name="pdfStudentUnique" class="form-control form-control-sm" disabled>
                     <option value="">Seleccione un alumno...</option>
                     <!-- option dinamicos -->
                   </select>

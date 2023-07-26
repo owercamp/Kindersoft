@@ -55,7 +55,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <small class="text-muted">Forma de contacto:</small>
-                  <select name="cusContact" class="form-control form-control-sm select2" required>
+                  <select name="cusContact" class="form-control form-control-sm" required>
                     <option value="">Seleccione una opción...</option>
                     <option value="LLAMADA TELEFÓNICA">LLAMADA TELEFÓNICA</option>
                     <option value="VISITA PUERTA">VISITA PUERTA</option>

@@ -18,7 +18,7 @@
             <div class="form-group">
               <!-- SELECCION DE GRADO -->
               <small class="form-text text-muted">Grado:</small>
-              <select class="form-control form-control-sm mx-sm-4 mb-2 select2" name="grade_id" id="grade_id" required="required">
+              <select class="form-control form-control-sm mx-sm-4 mb-2" name="grade_id" id="grade_id" required="required">
                 <option value="">Seleccione...</option>
                 @php $nameConsolidated = '' @endphp
                 @foreach($grades as $grade)
@@ -32,7 +32,7 @@
               </select>
               <!-- SELECCION DE PERIODO -->
               <small class="form-text text-muted">Periodo:</small>
-              <select class="form-control form-control-sm mx-sm-4 mb-2 select2" name="period_id" id="period_id" required="required">
+              <select class="form-control form-control-sm mx-sm-4 mb-2" name="period_id" id="period_id" required="required">
                 <option value="">Seleccione...</option>
                 <!-- Select dinamico de periodos -->
               </select>

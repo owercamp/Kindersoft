@@ -11,7 +11,7 @@
       <small class="form-text text-muted">Identificador en base de datos</small>
     </div>
     <div class="form-group">
-      <select class="form-control form-control-sm select2" name="grade_id" id="grade_id" required="required">
+      <select class="form-control form-control-sm" name="grade_id" id="grade_id" required="required">
         <option value="">SELECCIONE UN GRADO...</option>
         @php $namegrade = '' @endphp
         @foreach($grades as $grade)

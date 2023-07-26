@@ -13,7 +13,7 @@
           <div class="col-md-6">
             <!-- SELECCION DE GRADO -->
             <small class="form-text text-muted">GRADO:</small>
-            <select class="form-control form-control-sm select2" name="grade_id" id="grade_id" required>
+            <select class="form-control form-control-sm" name="grade_id" id="grade_id" required>
               <option value="">Seleccione...</option>
               @foreach($grades as $grade)
               <option value="{{ $grade->id }}">{{ $grade->name }}</option>
@@ -23,7 +23,7 @@
           <div class="col-md-6">
             <!-- SELECCION DE PERIODO -->
             <small class="form-text text-muted">PERIODO:</small>
-            <select class="form-control form-control-sm select2" name="period_id" id="period_id" required>
+            <select class="form-control form-control-sm" name="period_id" id="period_id" required>
               <option value="">Seleccione...</option>
               <!-- Select dinamico de periodos -->
             </select>
@@ -47,7 +47,7 @@
           <div class="col-md-4 offset-md-4">
             <!-- SELECCION DE CURSO -->
             <small class="form-text text-muted">CURSO:</small>
-            <select class="form-control form-control-sm select2" name="course_id" id="course_id" required>
+            <select class="form-control form-control-sm" name="course_id" id="course_id" required>
               <option value="">Seleccione...</option>
               <!-- Select dinamico de cursos -->
             </select>
@@ -59,7 +59,7 @@
           <div class="col-md-6">
             <!-- SELECCION DE INTELIGENCIA -->
             <small class="form-text text-muted">INTELIGENCIA:</small>
-            <select class="form-control form-control-sm select2" name="intelligence_id" id="intelligence_id" required="required">
+            <select class="form-control form-control-sm" name="intelligence_id" id="intelligence_id" required="required">
               <option value="">Seleccione...</option>
               @foreach($intelligences as $intelligence)
               <option value="{{ $intelligence->id }}">{{ $intelligence->type }}</option>
@@ -69,7 +69,7 @@
           <div class="col-md-6">
             <!-- SELECCION DE LOGRO -->
             <small class="form-text text-muted">LOGROS:</small>
-            <select class="form-control form-control-sm select2" name="achievement_id" id="achievement_id" required="required">
+            <select class="form-control form-control-sm" name="achievement_id" id="achievement_id" required="required">
               <option value="">Seleccione...</option>
               <!-- Select dinamico de logros -->
             </select>

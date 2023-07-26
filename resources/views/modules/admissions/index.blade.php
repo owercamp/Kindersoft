@@ -9,7 +9,7 @@
           <div class="col-md-9">
             <div class="form-group">
               <input type="text" class="form-control my-2 form-control-sm" name="admConcept" placeholder="Concepto" required>
-              <input type="number" max="1000000" class="form-control my-2 form-control-sm" name="admValue" placeholder="Valor" required>
+              <input type="number" class="form-control my-2 form-control-sm" name="admValue" placeholder="Valor" required>
             </div>
           </div>
           <div class="col-md-3 align-self-center">

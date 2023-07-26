@@ -134,7 +134,8 @@ return [
     |
     */
 
-    'version' => env('APP_VERSION','00.00.00'),
+  'version' => env('APP_VERSION','00.00.00'),
+  'sede' => env('APP_SEDE','PRINCIPAL'),
 
   'providers' => [
 

@@ -9,7 +9,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="shortcut icon" href="{{ asset('img/shortlogo.gif') }}" />
 
-  <title>{{ config('app.name', 'Colchildren') }}</title>
+  <title>{{ config('app.sede') }} - {{ config('app.name', 'Colchildren') }}</title>
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">

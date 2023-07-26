@@ -21,7 +21,7 @@
             <div class="row">
               <div class="col-md-6">
                 <small for="typedocument_id_edit" class="text-muted">TIPO DE DOCUMENTO: *</small>
-                <select class="form-control form-control-sm select2" id="typedocument_id_edit" name="typedocument_id_edit" required="required">
+                <select class="form-control form-control-sm" id="typedocument_id_edit" name="typedocument_id_edit" required="required">
                   <option value="">Seleccione tipo...</option>
                   @php $namedocument = '' @endphp
                   @foreach($documents as $document)
@@ -90,7 +90,7 @@
             <div class="row">
               <div class="col-md-6">
                 <small for="bloodtype_id_edit" class="text-muted">TIPO DE SANGRE: *</small>
-                <select class="form-control form-control-sm select2" id="bloodtype_id_edit" name="bloodtype_id_edit" required>
+                <select class="form-control form-control-sm" id="bloodtype_id_edit" name="bloodtype_id_edit" required>
                   <option value="">Seleccione grupo...</option>
                   @php $namebloodtypes = '' @endphp
                   @foreach($bloodtypes as $bloodtype)
@@ -110,7 +110,7 @@
               </div>
               <div class="col-md-6">
                 <small for="gender_edit" class="text-muted">GENERO: *</small>
-                <select class="form-control form-control-sm select2" id="gender_edit" name="gender_edit" required="required">
+                <select class="form-control form-control-sm" id="gender_edit" name="gender_edit" required="required">
                   <option value="">Seleccione genero...</option>
                   <option value="MASCULINO">MASCULINO</option>
                   <option value="FEMENINO">FEMENINO</option>
@@ -123,7 +123,7 @@
           </div>
           <div class="form-group">
             <small for="profession_id_edit" class="text-muted">PROFESION:</small>
-            <select class="form-control form-control-sm select2" id="profession_id_edit" name="profession_id_edit">
+            <select class="form-control form-control-sm" id="profession_id_edit" name="profession_id_edit">
               <option value="">Seleccione profesión...</option>
               @php $namedocument = '' @endphp
               @foreach($professions as $profession)
@@ -153,7 +153,7 @@
         <div class="col-md-6 border-left">
           <div class="form-group">
             <small for="cityhome_id_edit" class="text-muted">CIUDAD: *</small>
-            <select class="form-control form-control-sm select2" id="cityhome_id_edit" name="cityhome_id_edit" required="required">
+            <select class="form-control form-control-sm" id="cityhome_id_edit" name="cityhome_id_edit" required="required">
               <option value="">Seleccione ciudad...</option>
               @php $namecity = '' @endphp
               @foreach($citys as $city)
@@ -171,7 +171,7 @@
               <div class="col-md-6">
                 <small for="locationhome_id_edit" class="text-muted">LOCALIDAD: * </small>
                 <input type="hidden" id="locationhome_id_hidden" value="{{ $collaborator->locationhome_id }}">
-                <select class="form-control form-control-sm select2" id="locationhome_id_edit" name="locationhome_id_edit" required>
+                <select class="form-control form-control-sm" id="locationhome_id_edit" name="locationhome_id_edit" required>
                   <option value="">Seleccione localidad...</option>
                   <!-- Options dinamics -->
                 </select>
@@ -179,7 +179,7 @@
               <div class="col-md-6">
                 <small class="text-muted">BARRIO: *</small>
                 <input type="hidden" id="dictricthome_id_hidden" value="{{ $collaborator->dictricthome_id }}">
-                <select class="form-control form-control-sm select2" id="dictricthome_id_edit" name="dictricthome_id_edit" required>
+                <select class="form-control form-control-sm" id="dictricthome_id_edit" name="dictricthome_id_edit" required>
                   <option value="">Seleccione barrio...</option>
                   <!-- Options dinamics -->
                 </select>

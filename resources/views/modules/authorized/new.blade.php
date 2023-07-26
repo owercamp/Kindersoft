@@ -21,7 +21,7 @@
             <div class="row">
               <div class="col-md-6">
                 <small class="text-muted">TIPO DE DOCUMENTO: *</small>
-                <select class="form-control form-control-sm select2" name="autDocument_id" required value="{{ old('autDocument_id') }}">
+                <select class="form-control form-control-sm" name="autDocument_id" required value="{{ old('autDocument_id') }}">
                   <option value="">Seleccione tipo...</option>
                   @foreach($documents as $document)
                   <option value="{{ $document->id }}">{{ $document->type }}</option>

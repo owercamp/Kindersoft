@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\SGOperativeController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 

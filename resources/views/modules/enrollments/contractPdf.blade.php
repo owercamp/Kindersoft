@@ -258,7 +258,7 @@
             <b>PARÁGRAFO SEPTIMO:</b>
             El jardín podrá cobrar por horas adicionales el costo que defina si el horario de recogida se extiende al estipulado en la hoja de matrícula.
             <b>PARÁGRAFO OCTAVO:</b>
-            Cobros Periódicos: Son las sumas que pagan periódicamente los padres de familia o acudientes que voluntariamente lo hayan aceptado, por concepto de servicios de transporte y/o alimentación, prestados por el establecimiento. Estos cobros no constituyen elementos propios de la prestación del servicio, pero se originan como consecuencia del mismo. Este pago tiene una duración de un (1) año denominado lectivo que corresponde a diez (10) meses calendario, el que empezará a contar a partir del mes de <b>
+            Cobros Periódicos: Son las sumas que pagan periódicamente los padres de familia o acudientes que voluntariamente lo hayan aceptado, por concepto de servicios de transporte y/o alimentación, prestados por el establecimiento. Estos cobros no constituyen elementos propios de la prestación del servicio, pero se originan como consecuencia del mismo. Este pago tiene una duración de un (1) año denominado lectivo que corresponde a once (11) meses calendario, el que empezará a contar a partir del mes de <b>
               {{ returnFormatMount($legalization->legDateInitial) }} </b> a <b> {{ returnFormatMount($legalization->legDateFinal) }}
             </b>. Otros Cobros Periódicos: Son las sumas que se pagan por servicio del establecimiento, distintos de los anteriores conceptos y fijados de manera expresa en el reglamento o Pacto de Corresponsabilidad, y se deriven de manera directa de los servicios ofrecidos; estos serán variables cuando el beneficiario tome un servicio o utilice un insumo que no esté incluido en su pensión; estos serán ofrecidos al beneficiario con o sin autorización del padre velando siempre por el derecho superior del niño.
             <b>PARÁGRAFO NOVENO:</b>
@@ -307,13 +307,13 @@
             }else{
               echo (date('Y'));
             }
-            @endphp @endif. En @if(config('app.name') == "Dream Home By Creatyvia") noviembre @elseif(config('app.name') == "Colchildren Kindergarten") junio @endif tendremos receso previamente informado hasta @if(config('app.name') == "Dream Home By Creatyvia") diciembre de @php echo (date('Y')) @endphp @elseif(config('app.name') == "Colchildren Kindergarten") julio de @php
+            @endphp @endif. En @if(config('app.name') == "Dream Home By Creatyvia") diciembre @elseif(config('app.name') == "Colchildren Kindergarten") junio @endif tendremos receso previamente informado hasta @if(config('app.name') == "Dream Home By Creatyvia") enero de @php echo (date('Y')) @endphp @elseif(config('app.name') == "Colchildren Kindergarten") julio de @php
             if(date('m') == 12){
               echo (date('Y') + 1);
             } else {
               echo (date('Y'));
             }
-            @endphp @endif. Parte de @if(config('app.name') == "Dream Home By Creatyvia") noviembre y diciembre @elseif(config('app.name') == "Colchildren Kindergarten") junio y julio @endif de @php
+            @endphp @endif. Parte de @if(config('app.name') == "Dream Home By Creatyvia") diciembre y enero @elseif(config('app.name') == "Colchildren Kindergarten") junio y julio @endif de @php
             if(date('m') == 12){
               echo (date('Y') + 1);
             }else{

@@ -43,7 +43,7 @@
                   <div class="form-group">
                     <small class="text-muted">Forma de contacto:</small>
                     <input type="hidden" name="contactHidden" class="form-control form-control-sm" value="{{ $customer->cusContact }}">
-                    <select name="cusContact" class="form-control form-control-sm select2" required>
+                    <select name="cusContact" class="form-control form-control-sm" required>
                       <option value="">Seleccione una opción...</option>
                       <option value="LLAMADA TELEFÓNICA">LLAMADA TELEFÓNICA</option>
                       <option value="VISITA PUERTA">VISITA PUERTA</option>
@@ -58,7 +58,7 @@
 
               <!-- <div class="form-group">
 								<small class="text-muted">Forma de contacto:</small>
-								<select name="cusContact" class="form-control form-control-sm select2" required>
+								<select name="cusContact" class="form-control form-control-sm" required>
 									<option value="">Seleccione una opción...</option>
 									<option value="LLAMADA TELEFÓNICA">LLAMADA TELEFÓNICA</option>
 									<option value="VISITA PUERTA">VISITA PUERTA</option>

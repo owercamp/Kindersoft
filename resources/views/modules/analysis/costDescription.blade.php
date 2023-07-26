@@ -96,7 +96,7 @@
             <small class="text-muted">DESCRIPCION DE COSTO:</small>
             <textarea name="costDescription_new" cols="10" rows="2" class="form-control form-control-sm" title="DESCRIPCION DE 100 CARACTERES MAXIMO" placeholder="DESCRIPCION DE 100 CARACTERES MAXIMO" maxlength="100" required></textarea>
             <small class="text-muted">ESTRUCTURA DE COSTO:</small>
-            <select name="costStructure_id_new" class="form-control form-control-sm select2" required>
+            <select name="costStructure_id_new" class="form-control form-control-sm" required>
               <option value="">Seleccione una estructura de costo...</option>
               @foreach($structures as $structure)
               <option value="{{ $structure->csId }}">{{ $structure->csDescription }}</option>
@@ -129,7 +129,7 @@
             <input type="hidden" name="costDescription_id_edit" class="form-control form-control-sm" required>
             <input type="hidden" name="costStructure_id_edit" class="form-control form-control-sm" required>
             <small class="text-muted">ESTRUCTURA DE COSTO:</small>
-            <select name="costStructure_edit" class="form-control form-control-sm select2" required>
+            <select name="costStructure_edit" class="form-control form-control-sm" required>
               <option value="">Seleccione una estructura de costo...</option>
               @foreach($structures as $structure)
               <option value="{{ $structure->csId }}">{{ $structure->csDescription }}</option>

@@ -86,7 +86,7 @@
                     <div class="col-md-12 old">
                       <div class="form-group">
                         <small class="text-muted">Nombre y apellido:</small>
-                        <select id="schCustomer_id" name="schCustomer_id" class="form-control form-control-sm select2">
+                        <select id="schCustomer_id" name="schCustomer_id" class="form-control form-control-sm">
                           <option value="" selected>Seleccione un cliente...</option>
                           @foreach($customers as $customer)
                           <option value="{{ $customer->id }}">{{ $customer->cusFirstname }} {{ $customer->cusLastname }}</option>

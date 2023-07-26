@@ -166,7 +166,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <small>NUEVO ESTADO:</small>
-                      <select name="schResultVisit_change" class="form-control form-control-sm select2" required>
+                      <select name="schResultVisit_change" class="form-control form-control-sm" required>
                         <option value="">Seleccione una opción...</option>
                         <option value="ASISTIDO">ASISTIDO</option>
                         <option value="INASISTIDO">INASISTIDO</option>

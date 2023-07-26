@@ -7,7 +7,7 @@
       <form action="{{ route('course.new') }}" method="PUT">
         <div class="row">
           <div class="col-md-6">
-            <select class="form-control my-2 form-control-sm select2" name="grade_id" required>
+            <select class="form-control my-2 form-control-sm" name="grade_id" required>
               <option value="">Seleccione grado...</option>
               @foreach($grades as $grade)
               <option value="{{ $grade->id }}">{{ $grade->name }}</option>

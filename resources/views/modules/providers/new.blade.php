@@ -36,7 +36,7 @@
         <div class="col-md-6 border-right">
           <div class="form-group">
             <small class="text-muted">TIPO DE DOCUMENTO: *</small>
-            <select class="form-control form-control-sm select2" name="typedocument_id" id="typedocument_id" required value="{{ old('typedocument_id') }}">
+            <select class="form-control form-control-sm" name="typedocument_id" id="typedocument_id" required value="{{ old('typedocument_id') }}">
               <option value="">Seleccione tipo...</option>
               @foreach($documents as $document)
               <option value="{{ $document->id }}">{{ $document->type }}</option>
@@ -65,7 +65,7 @@
         <div class="col-md-6 border-left">
           <div class="form-group">
             <small class="text-muted">CIUDAD: *</small>
-            <select class="form-control form-control-sm select2" id="cityhome_id" name="cityhome_id" required value="{{ old('cityhome_id') }}">
+            <select class="form-control form-control-sm" id="cityhome_id" name="cityhome_id" required value="{{ old('cityhome_id') }}">
               <option value="">Seleccione ciudad...</option>
               @foreach($citys as $city)
               <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -76,14 +76,14 @@
             <div class="row">
               <div class="col-md-6">
                 <small class="text-muted">LOCALIDAD: *</small>
-                <select class="form-control form-control-sm select2" id="locationhome_id" name="locationhome_id" value="{{ old('locationhome_id') }}" required>
+                <select class="form-control form-control-sm" id="locationhome_id" name="locationhome_id" value="{{ old('locationhome_id') }}" required>
                   <option value="">Seleccione localidad...</option>
                   <!-- Options dinamics -->
                 </select>
               </div>
               <div class="col-md-6">
                 <small class="text-muted">BARRIO: *</small>
-                <select class="form-control form-control-sm select2" id="dictricthome_id" name="dictricthome_id" value="{{ old('dictricthome_id') }}" required>
+                <select class="form-control form-control-sm" id="dictricthome_id" name="dictricthome_id" value="{{ old('dictricthome_id') }}" required>
                   <option value="">Seleccione barrio...</option>
                   <!-- Options dinamics -->
                 </select>

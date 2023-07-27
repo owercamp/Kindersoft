@@ -307,14 +307,14 @@
             }else{
               echo (date('Y'));
             }
-            @endphp @endif. En @if(config('app.name') == "Dream Home By Creatyvia") diciembre @elseif(config('app.name') == "Colchildren Kindergarten") junio @endif tendremos receso previamente informado hasta @if(config('app.name') == "Dream Home By Creatyvia") enero de @php echo (date('Y')) @endphp @elseif(config('app.name') == "Colchildren Kindergarten") julio de @php
+            @endphp @endif. En @if(config('app.name') == "Dream Home By Creatyvia") diciembre @elseif(config('app.name') == "Colchildren Kindergarten") junio @endif tendremos receso previamente informado hasta @if(config('app.name') == "Dream Home By Creatyvia") enero de @php echo (date('Y') + 1) @endphp @elseif(config('app.name') == "Colchildren Kindergarten") julio de @php
             if(date('m') == 12){
               echo (date('Y') + 1);
             } else {
               echo (date('Y'));
             }
             @endphp @endif. Parte de @if(config('app.name') == "Dream Home By Creatyvia") diciembre y enero @elseif(config('app.name') == "Colchildren Kindergarten") junio y julio @endif de @php
-            if(date('m') == 12){
+            if(date('m') == 12 || config('app.name') == "Dream Home By Creatyvia"){
               echo (date('Y') + 1);
             }else{
               echo (date('Y'));
@@ -348,30 +348,57 @@
           </p>
           <table width="100%" style="text-align: left; font-size: 12px;">
             <tr>
-              <td style="width: 59%;">
-                @if($garden->garFirm != null)
-                <img src="{{ asset('storage/garden/firm/'.$garden->garFirm) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
-                @else
-                <br>________________________________<br>
-                @endif
-                Representante Legal <br>
-                {{ mb_strtoupper($garden->garNamerepresentative) }} <br>
-                C.C N° {{ mb_strtoupper($garden->garCardrepresentative) }} <br>
-              </td>
-              <td style="width: 59%;">
-                @if($garden->garFirmwitness != null)
-                <img src="{{ asset('storage/garden/firm/'.$garden->garFirmwitness) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
-                @else
-                <br>________________________________<br>
-                @endif
-                Testigo <br>
-                {{ mb_strtoupper($garden->garNamewitness) }} <br>
-                C.C N° {{ mb_strtoupper($garden->garCardwitness) }} <br>
-                <!-- ________________________________  <br>
-                        Testigo <br>
-                        ERIKA PATRICIA PERTUZ RUDAS <br>
-                        C.C N° 32.880.434 <br><br> -->
-              </td>
+              @if (config('app.name') == "Dream Home By Creatyvia")
+                <td style="width: 59%;">
+                  @if($garden->garFirmwitness != null)
+                    <img src="{{ asset('storage/garden/firm/'.$garden->garFirmwitness) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
+                  @else
+                  <br>________________________________<br>
+                  @endif
+                  Representante Legal <br>
+                  {{ mb_strtoupper($garden->garNamerepresentative) }} <br>
+                  C.C N° {{ mb_strtoupper($garden->garCardrepresentative) }} <br>
+                </td>
+                <td style="width: 59%;">
+                  @if($garden->garFirm != null)
+                    <img src="{{ asset('storage/garden/firm/'.$garden->garFirm) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
+                  @else
+                  <br>________________________________<br>
+                  @endif
+                  Testigo <br>
+                  {{ mb_strtoupper($garden->garNamewitness) }} <br>
+                  C.C N° {{ mb_strtoupper($garden->garCardwitness) }} <br>
+                  <!-- ________________________________  <br>
+                          Testigo <br>
+                          ERIKA PATRICIA PERTUZ RUDAS <br>
+                          C.C N° 32.880.434 <br><br> -->
+                </td>
+              @elseif (config('app.name') == "Colchildren Kindergarten")
+                <td style="width: 59%;">
+                  @if($garden->garFirm != null)
+                  <img src="{{ asset('storage/garden/firm/'.$garden->garFirm) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
+                  @else
+                  <br>________________________________<br>
+                  @endif
+                  Representante Legal <br>
+                  {{ mb_strtoupper($garden->garNamerepresentative) }} <br>
+                  C.C N° {{ mb_strtoupper($garden->garCardrepresentative) }} <br>
+                </td>
+                <td style="width: 59%;">
+                  @if($garden->garFirmwitness != null)
+                  <img src="{{ asset('storage/garden/firm/'.$garden->garFirmwitness) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
+                  @else
+                  <br>________________________________<br>
+                  @endif
+                  Testigo <br>
+                  {{ mb_strtoupper($garden->garNamewitness) }} <br>
+                  C.C N° {{ mb_strtoupper($garden->garCardwitness) }} <br>
+                  <!-- ________________________________  <br>
+                          Testigo <br>
+                          ERIKA PATRICIA PERTUZ RUDAS <br>
+                          C.C N° 32.880.434 <br><br> -->
+                </td>
+              @endif
             </tr>
             <tr>
               <td>

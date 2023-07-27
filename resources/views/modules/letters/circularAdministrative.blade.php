@@ -57,7 +57,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <small class="text-muted">CUERPO:</small>
-          <select name="cirBody_id" class="form-control form-control-sm select2" required>
+          <select name="cirBody_id" class="form-control form-control-sm" required>
             <option value="">Seleccione un cuerpo...</option>
             @foreach($bodys as $body)
             <option value="{{ $body->bcId }}">{{ $body->bcName }}</option>
@@ -71,7 +71,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <small class="text-muted">CORDIAL SALUDO,</small>
-          <select name="cirFrom" class="form-control form-control-sm select2" required>
+          <select name="cirFrom" class="form-control form-control-sm" required>
             <option value="">Seleccione un emisor...</option>
             @foreach($collaborators as $collaborator)
             <option value="{{ $collaborator->id }}">{{ $collaborator->firstname . ' ' . $collaborator->threename . ' ' . $collaborator->fourname }}</option>

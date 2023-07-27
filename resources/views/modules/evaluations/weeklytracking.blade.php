@@ -49,7 +49,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <small class="text-muted">CURSO:</small>
-          <select name="wtCourse" class="form-control form-control-sm select2" required>
+          <select name="wtCourse" class="form-control form-control-sm" required>
             <option value="">Seleccione un curso...</option>
             @foreach($courses as $course)
             <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -58,7 +58,7 @@
         </div>
         <div class="form-group">
           <small class="text-muted">PERIODO:</small>
-          <select name="wtPeriod" class="form-control form-control-sm select2" required>
+          <select name="wtPeriod" class="form-control form-control-sm" required>
             <option value="">Seleccione un periodo...</option>
             <!-- Select dinámico -->
           </select>
@@ -95,7 +95,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <small class="text-muted">SEMANAS CON ACTIVIDADES DEL PERIODO:</small>
-              <select name="wtChronological" class="form-control form-control-sm select2" required>
+              <select name="wtChronological" class="form-control form-control-sm" required>
                 <option value="">Seleccione una semana...</option>
               </select>
             </div>
@@ -103,7 +103,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <small class="text-muted">ALUMNO: </small>
-              <select name="wtStudent_id" class="form-control form-control-sm select2" required>
+              <select name="wtStudent_id" class="form-control form-control-sm" required>
                 <option value="">Seleccione un alumno...</option>
                 <!-- Options dinamicos, Apenas carga la pagina, se carga los estudiantes del curso seleccionado -->
               </select>
@@ -318,7 +318,7 @@
                 "<input type='range' class='form-control form-control-sm progress-bar progress-bar-striped bg-warning ml-2 porcentageLeft' value='0' min='0' max='100' step='1' style='font-weight: bold; font-size: 20px;'>" +
                 "</td>" +
                 "<td style='max-width: 200px;'>" +
-                "<select class='form-control form-control-sm select2 mt-4 selectAchievement' data-intelligence='" + objectBases[i][0] + "' required>" +
+                "<select class='form-control form-control-sm mt-4 selectAchievement' data-intelligence='" + objectBases[i][0] + "' required>" +
                 "<option value=''>Asigne un logro a la actividad...</option>" +
                 "</select>" +
                 "</td>" +
@@ -387,7 +387,7 @@
             "<option value='" + objectAchievement[a]['id'] + "'>" + objectAchievement[a]['name'] + "</option>"
           );
         }
-        // select = "<select class='form-control form-control-sm select2 selectAchievement' required>" +
+        // select = "<select class='form-control form-control-sm selectAchievement' required>" +
         // 				"<option value=''>Asigne un logro a la actividad...</option>" +
         // 					options +
         // 			"</select>";

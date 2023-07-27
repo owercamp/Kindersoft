@@ -16,7 +16,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <small class="text-muted">CURSO:</small>
-          <select name="apCourse" class="form-control form-control-sm select2" required>
+          <select name="apCourse" class="form-control form-control-sm" required>
             <option value="">Seleccione un curso...</option>
             @foreach($courses as $course)
             <option value="{{ $course->id }}">{{ $course->name }}</option>
@@ -57,7 +57,7 @@
         </div>
         <div class="form-group sectionAll">
           <small class="text-muted">CANTIDAD DE PERIODOS:</small>
-          <select name="countPeriod" class="form-control form-control-sm select2" required>
+          <select name="countPeriod" class="form-control form-control-sm" required>
             <option value="">Seleccione una cantidad...</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -73,7 +73,7 @@
           <div class="col-md-4 offset-md-4 border-left border-right">
             <div class="form-group">
               <h5>PERIODO:</h5>
-              <select name="apNamePeriodUnique" class="form-control form-control-sm select2" disabled>
+              <select name="apNamePeriodUnique" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un periodo...</option>
                 <option value="PRIMER PERIODO">PRIMER PERIODO</option>
                 <option value="SEGUNDO PERIODO">SEGUNDO PERIODO</option>
@@ -91,7 +91,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusUnique" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusUnique" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -114,7 +114,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusOne" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusOne" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -137,7 +137,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusTwo_one" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusTwo_one" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -158,7 +158,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusTwo_two" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusTwo_two" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -181,7 +181,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusThree_one" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusThree_one" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -202,7 +202,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusThree_two" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusThree_two" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -223,7 +223,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusThree_three" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusThree_three" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -246,7 +246,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusFour_one" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusFour_one" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -267,7 +267,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusFour_two" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusFour_two" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -288,7 +288,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusFour_three" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusFour_three" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -309,7 +309,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">Estado:</small>
-              <select name="apStatusFour_four" class="form-control form-control-sm select2" disabled>
+              <select name="apStatusFour_four" class="form-control form-control-sm" disabled>
                 <option value="">Seleccione un estado...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>

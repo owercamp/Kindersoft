@@ -112,7 +112,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <small class="text-muted">GRADO:</small>
-              <select name="grade_change" class="form-control form-control-sm select2">
+              <select name="grade_change" class="form-control form-control-sm">
                 <option value="">Seleccione un grado...</option>
                 @foreach($grades as $grade)
                 <option value="{{ $grade->id }}">{{ $grade->name }}</option>
@@ -123,7 +123,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <small class="text-muted">CURSO:</small>
-              <select name="course_change" class="form-control form-control-sm select2">
+              <select name="course_change" class="form-control form-control-sm">
                 <option value="">Seleccione un curso...</option>
                 <!-- option dinamics -->
               </select>
@@ -182,7 +182,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <small class="text-muted">GRADO ORIGEN:</small>
-              <select name="grade_translate_origin" class="form-control form-control-sm select2">
+              <select name="grade_translate_origin" class="form-control form-control-sm">
                 <option value="">Seleccione ...</option>
                 @foreach($grades as $grade)
                 <option value="{{ $grade->id }}">{{ $grade->name }}</option>
@@ -191,7 +191,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">CURSO ORIGEN:</small>
-              <select name="course_translate_origin" class="form-control form-control-sm select2">
+              <select name="course_translate_origin" class="form-control form-control-sm">
                 <option value="">Seleccione ...</option>
               </select>
             </div>
@@ -199,7 +199,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <small class="text-muted">ALUMNO:</small>
-              <select name="student_translate" class="form-control form-control-sm select2">
+              <select name="student_translate" class="form-control form-control-sm">
                 <option value="">Seleccione ...</option>
                 <!-- option dinamics -->
               </select>
@@ -211,7 +211,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <small class="text-muted">GRADO DESTINO:</small>
-              <select name="grade_translate_destiny" class="form-control form-control-sm select2">
+              <select name="grade_translate_destiny" class="form-control form-control-sm">
                 <option value="">Seleccione ...</option>
                 @foreach($grades as $grade)
                 <option value="{{ $grade->id }}">{{ $grade->name }}</option>
@@ -220,7 +220,7 @@
             </div>
             <div class="form-group">
               <small class="text-muted">CURSO DESTINO:</small>
-              <select name="course_translate_destiny" class="form-control form-control-sm select2">
+              <select name="course_translate_destiny" class="form-control form-control-sm">
                 <option value="">Seleccione ...</option>
               </select>
             </div>

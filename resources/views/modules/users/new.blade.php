@@ -33,7 +33,7 @@
     @csrf
     <div class="form-group">
       <label>COLABORADOR:</label>
-      <select class="form-control form-control-sm select2" name="collaborator" required>
+      <select class="form-control form-control-sm" name="collaborator" required>
         <option value="">SELECCIONE EL COLABORADOR...</option>
         @foreach($collaborators as $collaborator)
         <option value="{{ $collaborator->id }}">{{ $collaborator->numberdocument . ' - ' . $collaborator->firstname . ' ' . $collaborator->threename . ' ' . $collaborator->fourname }}</option>
@@ -63,7 +63,7 @@
     </div>
     <div class="form-group">
       <label>ROL DE PERMISOS:</label>
-      <select class="form-control form-control-sm select2" name="role" required>
+      <select class="form-control form-control-sm" name="role" required>
         <option value="">SELECCIONE EL TIPO DE ACCESO...</option>
         <option value="Indefinido">Indefinido</option>
         @foreach($roles as $role)

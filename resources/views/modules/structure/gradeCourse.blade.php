@@ -49,7 +49,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <small class="text-muted">GRADO:</small>
-          <select name="ccGrade" class="form-control form-control-sm select2" required>
+          <select name="ccGrade" class="form-control form-control-sm" required>
             <option value="">Seleccione un grado...</option>
             @foreach($grades as $grade)
             <option value="{{ $grade->id }}">{{ $grade->name }}</option>
@@ -58,7 +58,7 @@
         </div>
         <div class="form-group">
           <small class="text-muted">CURSO:</small>
-          <select name="ccCourse" class="form-control form-control-sm select2" required>
+          <select name="ccCourse" class="form-control form-control-sm" required>
             <option value="">Seleccione un curso...</option>
             <!-- Select dinamico con la seleccion del grado -->
           </select>
@@ -77,7 +77,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <small class="text-muted">DIRECTOR/A DE GRUPO:</small>
-          <select name="ccCollaborator" class="form-control form-control-sm select2" required>
+          <select name="ccCollaborator" class="form-control form-control-sm" required>
             <option value="">Seleccione un colaborador...</option>
             @foreach($collaborators as $collaborator)
             <option value="{{ $collaborator->id }}">{{ $collaborator->firstname . ' ' . $collaborator->threename . ' ' . $collaborator->fourname }}</option>

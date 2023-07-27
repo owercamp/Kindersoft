@@ -105,7 +105,7 @@
             <div class="form-group">
               <small class="text-muted">¿Es un requisito obligatorio?</small>
               <span><a href="#" title="Si se indica que NO, queda OPCIONAL al momento de que el cliente presente el documento para la matrícula"><i class="fas fa-question-circle"></i></a></span>
-              <select id="deRequiredNew" class="form-control form-control-sm select2" required>
+              <select id="deRequiredNew" class="form-control form-control-sm" required>
                 <option value="">Seleccione...</option>
                 <option value="SI" selected>SI</option>
                 <option value="NO">NO</option>
@@ -115,7 +115,7 @@
             <div class="form-group">
               <small class="text-muted">¿Requisito activo/Inactivo?</small>
               <span><a href="#" title="Dependiendo de su estado ACTIVO/INACTIVO se mostrará o no como requisito al momento de realizar una matricula. En estado INACTIVO estará guardado en la base de datos pero es como si no existiera. En estado INACTIVO es una opción que se brinda para que no tenga la necesidad de eliminarlo de la lista"><i class="fas fa-question-circle"></i></a></span>
-              <select name="deStatusNew" class="form-control form-control-sm select2" required>
+              <select name="deStatusNew" class="form-control form-control-sm" required>
                 <option value="">Seleccione...</option>
                 <option value="ACTIVO" selected>ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -124,7 +124,7 @@
             <div class="form-group">
               <small class="text-muted">¿Posición del requisito?</small>
               <span><a href="#" title="Si el estado del nuevo requisito es ACTIVO en el campo, anterior es obligatorio indicar la posicion"><i class="fas fa-question-circle"></i></a></span>
-              <select name="dePositionNew" class="form-control form-control-sm select2" required>
+              <select name="dePositionNew" class="form-control form-control-sm" required>
                 <option value="">Seleccione...</option>
                 @foreach($documentsEnrollment as $document)
                 <option value="{{ $document->dePosition }}">{{ $document->dePosition . ' - Posicion de: ' . $document->deConcept }}</option>
@@ -194,7 +194,7 @@
             <div class="form-group">
               <small class="text-muted">¿Es un requisito obligatorio?</small>
               <span><a href="#" title="Indique si el requisito que se añadirá es opcional o obligatorio para el cliente/persona que realizará la matricula"><i class="fas fa-question-circle"></i></a></span>
-              <select id="deRequiredEdit" class="form-control form-control-sm select2" required>
+              <select id="deRequiredEdit" class="form-control form-control-sm" required>
                 <option value="" selected>Seleccione...</option>
                 <option value="SI">SI</option>
                 <option value="NO">NO</option>
@@ -204,7 +204,7 @@
             <div class="form-group">
               <small class="text-muted">¿Requisito activo/Inactivo?</small>
               <span><a href="#" title="Dependiendo de su estado ACTIVO/INACTIVO se mostrará o no como requisito al momento de realizar una matricula. En estado INACTIVO estará guardado en la base de datos pero es como si no existiera. En estado INACTIVO es una opción que se brinda para que no tenga la necesidad de eliminarlo de la lista"><i class="fas fa-question-circle"></i></a></span>
-              <select name="deStatusEdit" class="form-control form-control-sm select2" required>
+              <select name="deStatusEdit" class="form-control form-control-sm" required>
                 <option value="" selected>Seleccione...</option>
                 <option value="ACTIVO">ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
@@ -213,7 +213,7 @@
             <div class="form-group">
               <small class="text-muted">¿Posición del requisito?</small>
               <span><a href="#" title="Si el estado del nuevo requisito es ACTIVO en el campo anterior es obligatorio indicar la posicion"><i class="fas fa-question-circle"></i></a></span>
-              <select name="dePositionEdit" class="form-control form-control-sm select2" required>
+              <select name="dePositionEdit" class="form-control form-control-sm" required>
                 <option value="">Seleccione...</option>
                 @foreach($documentsEnrollment as $document)
                 <option value="{{ $document->dePosition }}">{{ $document->dePosition . ' - Posicion de: ' . $document->deConcept }}</option>

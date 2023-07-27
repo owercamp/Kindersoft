@@ -24,7 +24,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <small class="text-muted">ALUMNO:</small>
-        <select name="pcStudent" class="form-control form-control-sm select2" required>
+        <select name="pcStudent" class="form-control form-control-sm" required>
           <option value="">Seleccione un alumno...</option>
           @foreach($students as $student)
           @if ($student->status == 'ACTIVO')
@@ -35,7 +35,7 @@
       </div>
       <div class="form-group">
         <small class="text-muted">PERIODO:</small>
-        <select name="pcPeriod" class="form-control form-control-sm select2" required>
+        <select name="pcPeriod" class="form-control form-control-sm" required>
           <option value="">Seleccione un periodo...</option>
           <!-- Option dinamicos de seleccion del estudiante -->
         </select>

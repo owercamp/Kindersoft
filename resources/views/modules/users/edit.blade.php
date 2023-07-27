@@ -34,7 +34,7 @@
       @else
       @php $rol = $user->roles->implode('name',',') @endphp
       @endif
-      <select class="form-control form-control-sm select2" name="role" id="role" required="required">
+      <select class="form-control form-control-sm" name="role" id="role" required="required">
         <option value="">SELECCIONE EL TIPO DE ACCESO...</option>
         <option value="Indefinido" selected="selected">Indefinido</option>
         @foreach($roles as $role)

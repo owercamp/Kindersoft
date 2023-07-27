@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <select class="form-control form-control-sm select2 mx-sm-1" name="city_id" id="city_id" required>
+              <select class="form-control form-control-sm mx-sm-1" name="city_id" id="city_id" required>
                 <option value="">Seleccione ciudad...</option>
                 @foreach($citys as $city)
                 <option value="{{ $city->id }}">{{ $city->name }}</option>

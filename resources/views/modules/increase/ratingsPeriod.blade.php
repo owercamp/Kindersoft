@@ -101,7 +101,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">ALUMNO:</small>
-                <select name="rpStudent_id" class="form-control form-control-sm select2" required>
+                <select name="rpStudent_id" class="form-control form-control-sm" required>
                   <option value="">Seleccion un alumno...</option>
                   @foreach($students as $student)
                   @if ($student->status == 'ACTIVO')
@@ -114,7 +114,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <small class="text-muted">PERIODO:</small>
-                <select name="rpAcademicperiod_id" class="form-control form-control-sm select2" required>
+                <select name="rpAcademicperiod_id" class="form-control form-control-sm" required>
                   <option value="">Seleccion un periodo...</option>
                   <!-- Dinamics periods -->
                 </select>
@@ -270,7 +270,7 @@
                           <i class="fas fa-notes-medical"></i>
                         </span>
                       </div>
-                      <select name="rpObservationhealth_id" class="form-control form-control-sm select2">
+                      <select name="rpObservationhealth_id" class="form-control form-control-sm">
                         <option value="">Seleccione observacion de salud...</option>
                         @foreach($observationsHealth as $observation)
                         <option value="{{ $observation->ohId }}">{{ $observation->ohObservation }}</option>
@@ -345,7 +345,7 @@
                           <i class="fas fa-medkit"></i>
                         </span>
                       </div>
-                      <select name="rpProfessionalhealth_id" class="form-control form-control-sm select2">
+                      <select name="rpProfessionalhealth_id" class="form-control form-control-sm">
                         <option value="">Seleccione profesional de la salud...</option>
                         @foreach($professionalHealths as $professional)
                         <option value="{{ $professional->phId }}">{{ $professional->phName }}</option>
@@ -535,7 +535,7 @@
                           <i class="fas fa-notes-medical"></i>
                         </span>
                       </div>
-                      <select name="rpObservationhealth_idEdit" class="form-control form-control-sm select2">
+                      <select name="rpObservationhealth_idEdit" class="form-control form-control-sm">
                         <option value="">Seleccione observacion de salud...</option>
                         @foreach($observationsHealth as $observation)
                         <option value="{{ $observation->ohId }}">{{ $observation->ohObservation }}</option>
@@ -610,7 +610,7 @@
                           <i class="fas fa-medkit"></i>
                         </span>
                       </div>
-                      <select name="rpProfessionalhealth_idEdit" class="form-control form-control-sm select2">
+                      <select name="rpProfessionalhealth_idEdit" class="form-control form-control-sm">
                         <option value="">Seleccione profesional de la salud...</option>
                         @foreach($professionalHealths as $professional)
                         <option value="{{ $professional->phId }}">{{ $professional->phName }}</option>

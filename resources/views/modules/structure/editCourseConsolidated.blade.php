@@ -40,7 +40,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <small class="text-muted">DIRECTOR/A DE GRUPO:</small>
-              <select name="ccCollaboratorEdit" class="form-control form-control-sm select2" required>
+              <select name="ccCollaboratorEdit" class="form-control form-control-sm" required>
                 <option value="">Seleccione un colaborador...</option>
                 @foreach($collaborators as $collaborator)
                 @if($courseConsolidated->ccCollaborator_id == $collaborator->id)
@@ -53,7 +53,7 @@
             </div>
             <div class="from-froup">
               <small class="text-muted">ESTADO</small>
-              <select name="ccStatusEdit" class="form-control form-control-sm select2">
+              <select name="ccStatusEdit" class="form-control form-control-sm">
                 <option value="">Seleccione un estado...</option>
                 @if($courseConsolidated->ccStatus == 'ACTIVO')
                 <option value="ACTIVO" selected>ACTIVO</option>

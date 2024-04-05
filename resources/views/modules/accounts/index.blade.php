@@ -315,9 +315,9 @@
           if (response[num] === "DevOps") {
             window.location = `/financial/accounttants/facturations?${join}`;
           } else if (response[num] === "Dream Home By Creatyvia") {
-            window.location = `/dreamhome/financial/accounttants/facturations?${join}`;
+            window.location = `/financial/accounttants/facturations?${join}`;
           } else if (response[num] === "Colchildren Kindergarten") {
-            window.location = `/colchildren/financial/accounttants/facturations?${join}`;
+            window.location = `/financial/accounttants/facturations?${join}`;
           }
         } else {
           $('.link-saveAccountsStatus').css('display', 'none');

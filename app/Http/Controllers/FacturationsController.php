@@ -5,22 +5,18 @@ namespace App\Http\Controllers;
 use App\Mail\MessageFactureGenerate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 use App\Models\Student;
 use App\Models\Course;
 use App\Models\Listcourse;
 use App\Models\CourseConsolidated;
 use App\Models\Facturation;
-
 use App\Models\Wallet;
 use App\Models\Entry;
-
 use App\Models\Legalization;
 use App\Models\Autorization;
 use App\Models\Concept;
 use App\Models\General;
 use App\Models\Attendant;
-
 use App\Models\Garden;
 use App\Models\Pay;
 use App\Models\User;
@@ -40,15 +36,7 @@ class FacturationsController extends Controller
 
   public function facturationTo(Request $request)
   {
-    // dd($request->all());
     $all = $request->all();
-    // dd($all);
-    // $students = Student::select(
-    //         'students.id',
-    //         DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent")
-    //     )->get();
-    // $courses = Course::all();
-    // return view('modules.facturations.index', compact('students','courses'));
     return view('modules.facturations.index', compact('all'));
   }
 
@@ -135,7 +123,6 @@ class FacturationsController extends Controller
         return response()->json("POR FAVOR VUELVA A INTENTARLO: HUBO UNA COINCIDENCIA DE FACTURA YA EXISTENTE");
       }
     } catch (Exception $ex) {
-      //Code in case error
     }
   }
 
@@ -149,7 +136,8 @@ class FacturationsController extends Controller
       'facturations.facCode',
       'facturations.facDateFinal',
       DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-      'facturations.facValueIva'
+      'facturations.facValueIva',
+      'facturations.facValueCopy'
     )
       ->join('legalizations', 'legalizations.legId', 'facturations.facLegalization_id')
       ->join('students', 'students.id', 'legalizations.legStudent_id')
@@ -166,24 +154,17 @@ class FacturationsController extends Controller
         $facturation->facCode,
         $facturation->facDateFinal,
         $facturation->nameStudent,
-        $facturation->facValueIva
+        ((int) $facturation->facValueCopy == 0) ? $facturation->facValueIva : $facturation->facValueCopy
       ]);
     }
+
     $students = Student::all();
     $courses = Course::all();
-    // dd($allDates);
     return view('modules.facturations.all', compact('allDates', 'courses', 'students'));
   }
 
   public function editFacturation(Request $request)
   {
-    // dd($request->all());
-    /*
-            $request->facValuediscountnew_edit
-            $request->facDateInitialnew_edit
-            $request->facDateFinalnew_edit
-            $request->facId_edit
-        */
     $validate = Facturation::find(trim($request->facId_edit));
     if ($validate != null) {
       $code = $validate->facCode;
@@ -195,6 +176,7 @@ class FacturationsController extends Controller
       $validate->facDateFinal = $dateFinal;
       $validate->facValueIva = $valueTotal;
       $validate->save();
+
       return redirect()->route('facturation.all')->with('PrimaryUpdateFacturation', 'Factura ' . $code . ', actualizada');
     } else {
       return redirect()->route('facturation.all')->with('SecondaryUpdateFacturation', 'No se encuentra la factura');
@@ -203,10 +185,9 @@ class FacturationsController extends Controller
 
   public function pdfFacturationEmail(Request $request)
   {
-
     $facture = array(); // DONDE SE GUARDA TODA LA INFORMACIÖN QUE SE MUESTRA EN EL PDF
     $facturation = Facturation::select(
-      'facturations.*', // facCode, facDateInitial, facFateFinal, facValue, facLegalization_id, facConcepts, facStatus
+      'facturations.*',
       DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
       'citys.name as nameCity'
     )
@@ -215,10 +196,12 @@ class FacturationsController extends Controller
       ->join('citys', 'citys.id', 'students.cityhome_id')
       ->where('facId', $request->facId)
       ->first();
+
     $garden = Garden::select('garden.*', 'citys.name as nameCity', 'locations.name as nameLocation')
       ->join('citys', 'citys.id', 'garden.garCity_id')
       ->join('locations', 'locations.id', 'garden.garLocation_id')
       ->first();
+
     array_push($facture, [
       'SECTION ONE',
       $facturation->facCode,
@@ -235,6 +218,7 @@ class FacturationsController extends Controller
     ]);
 
     $general = General::first();
+
     $father = Legalization::select(
       'legalizations.*',
       DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameFather"),
@@ -248,6 +232,7 @@ class FacturationsController extends Controller
       ->join('documents', 'documents.id', 'attendants.typedocument_id')
       ->join('citys', 'citys.id', 'attendants.cityhome_id')
       ->where('legId', $request->legId)->first();
+
     $mother = Legalization::select(
       'legalizations.*',
       DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameMother"),
@@ -261,6 +246,7 @@ class FacturationsController extends Controller
       ->join('documents', 'documents.id', 'attendants.typedocument_id')
       ->join('citys', 'citys.id', 'attendants.cityhome_id')
       ->where('legId', $request->legId)->first();
+
     $student = Legalization::select(
       DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
       'documents.type',
@@ -271,15 +257,19 @@ class FacturationsController extends Controller
       ->join('documents', 'documents.id', 'students.typedocument_id')
       ->join('grades', 'grades.id', 'legalizations.legGrade_id')
       ->where('legId', $request->legId)->first();
-    // $user = User::select('collaborators.firm', 'collaborators.position')->join('collaborators', 'collaborators.id', 'users.collaborator_id')->where('users.id', auth()->id())->first();
+
     $user = User::find(auth()->id());
+
     $firm = 'N/A';
+
     if ($user->id != 0 and $user->id != "1024500065" and $user->id != "80503717") {
       $firm = Collaborator::where('numberdocument', $user->id)->first();
+
       if (!$firm) {
         return back()->with('WarningUpdateFacturation', 'Este usuario no se encuentra registrado como colaborador');
       }
     }
+
     if ($firm != 'N/A') {
       if ($father != null && $mother != null) {
         array_push($facture, [
@@ -501,14 +491,20 @@ class FacturationsController extends Controller
         ]);
       }
     }
+
     $totalAbsolut = 0;
+
     $totalAbsolutNotIva = 0;
+
     $totalAbsolutOnlyIva = 0;
+
     $separatedConcepts = explode(':', $facturation->facConcepts);
+
     for ($i = 0; $i < count($separatedConcepts); $i++) {
-      $concept = Concept::find($separatedConcepts[$i]); // conId, conDate, conConcept, conValue, conStatus, conLegalization_id
-      // var value = $(this).find('td:last').text();
+      $concept = Concept::find($separatedConcepts[$i]);
+
       $resultTotalWithIva = ($facturation->facPorcentageIva * $concept->conValue) / 100 + $concept->conValue;
+
       $resultOnlyIva = ($facturation->facPorcentageIva * $concept->conValue) / 100;
 
       array_push($facture, [
@@ -520,25 +516,41 @@ class FacturationsController extends Controller
         $resultTotalWithIva,
         $facturation->facPorcentageIva
       ]);
+
       $totalAbsolut += $resultTotalWithIva;
+
       $totalAbsolutNotIva += $concept->conValue;
+
       $totalAbsolutOnlyIva += ($facturation->facPorcentageIva * $concept->conValue) / 100;
     }
+
     $iva = $facturation->facPorcentageIva;
+
     $discount = $facturation->facValuediscount;
+
     $totalAbsolutOnlyIva = ($iva * $facturation->facValue) / 100;
+
     $totalAbsolutNotIva = $facturation->facValue - $facturation->facValuediscount;
+
     $totalAbsolut = $totalAbsolutNotIva + $totalAbsolutOnlyIva;
+    $total = $facturation->facValueIva;
 
     $pdf = App::make('dompdf.wrapper');
+
     $namefile = 'FACTURA_' . $facture[0][1] . ', ' . $facture[1][4] . '.pdf';
-    $pdf->loadView('modules.facturations.facturePdf', compact('facture', 'garden', 'totalAbsolut', 'totalAbsolutNotIva', 'iva', 'totalAbsolutOnlyIva', 'discount'));
+
+    $pdf->loadView('modules.facturations.facturePdf', compact('facture', 'garden', 'totalAbsolut', 'totalAbsolutNotIva', 'iva', 'totalAbsolutOnlyIva', 'discount', 'total'));
+
     $pdfOutput = $pdf->output();
 
     $mydate = $facturation->facDateFinal;
+
     $separatedDate = \mb_split("-", $mydate);
+
     $month = $separatedDate[1];
+
     $year = $separatedDate[0];
+
     $day = $separatedDate[2];
 
     switch ($month) {
@@ -581,16 +593,20 @@ class FacturationsController extends Controller
     }
 
     $nameFat = $father->nameFather;
+
     $nameMot = $mother->nameMother;
+
     $code = $facturation->facCode;
+
     $val = $totalAbsolut;
+
     $subjects = "ORDEN DE PAGO - " . Str::upper(config('app.name'));
+
     $countData = General::select('fgAccounttype', 'fgBank', 'fgNumberaccount')->first();
 
     $garden = Garden::select('garReasonsocial', 'garNit')->first();
 
     $recipients = [$father->emailone, $mother->emailone];
-    // $recipients = ["cavid32399@galotv.com", "cavid32399@galotv.com"];
 
     Mail::to($recipients)->send(new MessageFactureGenerate($code, $dateFinal, $nameFat, $nameMot, $val, $pdfOutput, $namefile, $subjects, $countData, $garden));
 
@@ -598,15 +614,12 @@ class FacturationsController extends Controller
   }
 
   public function pdfFacturation(Request $request)
+
   {
-    // dd($request->all());
-    /*
-            $request->legId;
-            $request->facId;
-            */
     $facture = array(); // DONDE SE GUARDA TODA LA INFORMACIÖN QUE SE MUESTRA EN EL PDF
+
     $facturation = Facturation::select(
-      'facturations.*', // facCode, facDateInitial, facFateFinal, facValue, facLegalization_id, facConcepts, facStatus
+      'facturations.*',
       DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
       'citys.name as nameCity'
     )
@@ -615,10 +628,12 @@ class FacturationsController extends Controller
       ->join('citys', 'citys.id', 'students.cityhome_id')
       ->where('facId', $request->facId)
       ->first();
+
     $garden = Garden::select('garden.*', 'citys.name as nameCity', 'locations.name as nameLocation')
       ->join('citys', 'citys.id', 'garden.garCity_id')
       ->join('locations', 'locations.id', 'garden.garLocation_id')
       ->first();
+
     array_push($facture, [
       'SECTION ONE',
       $facturation->facCode,
@@ -634,19 +649,8 @@ class FacturationsController extends Controller
       $garden->garPhone
     ]);
 
-    /*
-                $facture[0][1] //NUMERO DE FACTURA
-                $facture[0][2] //FECHA DE EMISION
-                $facture[0][3] //FECHA DE VENCIMIENTO
-                $facture[0][4] //NOMBRE JARDIN
-                $facture[0][5] //NOMBRE DE REPRESENTANTE
-                $facture[0][6] //NIT DE JARDIN
-                $facture[0][7] //DIRECCION DE JARDIN
-                $facture[0][8] //CIUDAD DE JARDIN
-                $facture[0][9] //CORREO DE JARDIN
-                $facture[0][10] //TELEFONO DE JARDIN
-            */
     $general = General::first();
+
     $father = Legalization::select(
       'legalizations.*',
       DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameFather"),
@@ -659,6 +663,7 @@ class FacturationsController extends Controller
       ->join('documents', 'documents.id', 'attendants.typedocument_id')
       ->join('citys', 'citys.id', 'attendants.cityhome_id')
       ->where('legId', $request->legId)->first();
+
     $mother = Legalization::select(
       'legalizations.*',
       DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameMother"),
@@ -671,6 +676,7 @@ class FacturationsController extends Controller
       ->join('documents', 'documents.id', 'attendants.typedocument_id')
       ->join('citys', 'citys.id', 'attendants.cityhome_id')
       ->where('legId', $request->legId)->first();
+
     $student = Legalization::select(
       DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
       'documents.type',
@@ -681,44 +687,20 @@ class FacturationsController extends Controller
       ->join('documents', 'documents.id', 'students.typedocument_id')
       ->join('grades', 'grades.id', 'legalizations.legGrade_id')
       ->where('legId', $request->legId)->first();
-    // $user = User::select('collaborators.firm', 'collaborators.position')->join('collaborators', 'collaborators.id', 'users.collaborator_id')->where('users.id', auth()->id())->first();
+
     $user = User::find(auth()->id());
+
     $firm = 'N/A';
+
     if ($user->id != 0 and $user->id != "1024500065" and $user->id != "80503717") {
+
       $firm = Collaborator::where('numberdocument', $user->id)->first();
+
       if (!$firm) {
         return back()->with('WarningUpdateFacturation', 'Este usuario no se encuentra registrado como colaborador');
       }
     }
-    /*
-                array_push($facture, [
-                    'SECTION TWO',
-                    '',
-                    '',
-                    '',
-                    $student->nameStudent,
-                    $student->type,
-                    $student->numberdocument,
-                    $student->grade,
-                    '',
-                    '',
-                    $general->fgRegime,
-                    $general->fgTaxpayer,
-                    $general->fgAutoretainer,
-                    $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-                    $general->fgResolution,
-                    $general->fgDateresolution,
-                    $general->fgNumerationsince,
-                    $general->fgNumerationuntil,
-                    $general->fgBank,
-                    $general->fgAccounttype,
-                    $general->fgNumberaccount,
-                    $general->fgNotes,
-                    $firm->firm,
-                    $firm->firstname . ' ' . $firm->threename . ' ' . $firm->fourname,
-                    $firm->position
-                ]);
-            */
+
     if ($firm != 'N/A') {
       if ($father != null && $mother != null) {
         array_push($facture, [
@@ -939,98 +921,24 @@ class FacturationsController extends Controller
           $firm
         ]);
       }
-      // if($father != null){
-      //     array_push($facture, [
-      //         'SECTION TWO',
-      //         $father->nameFather,
-      //         $father->type,
-      //         $father->numberdocument,
-      //         $student->nameStudent,
-      //         $student->type,
-      //         $student->numberdocument,
-      //         $student->grade,
-      //         $father->address,
-      //         $father->city,
-      //         $general->fgRegime,
-      //         $general->fgTaxpayer,
-      //         $general->fgAutoretainer,
-      //         $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-      //         $general->fgResolution,
-      //         $general->fgDateresolution,
-      //         $general->fgNumerationsince,
-      //         $general->fgNumerationuntil,
-      //         $general->fgBank,
-      //         $general->fgAccounttype,
-      //         $general->fgNumberaccount,
-      //         $general->fgNotes,
-      //         $firm
-      //     ]);
-      // }else if($mother != null){
-      //     array_push($facture, [
-      //         'SECTION TWO',
-      //         $mother->nameMother,
-      //         $mother->type,
-      //         $mother->numberdocument,
-      //         $student->nameStudent,
-      //         $student->type,
-      //         $student->numberdocument,
-      //         $student->grade,
-      //         $mother->address,
-      //         $mother->city,
-      //         $general->fgRegime,
-      //         $general->fgTaxpayer,
-      //         $general->fgAutoretainer,
-      //         $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-      //         $general->fgResolution,
-      //         $general->fgDateresolution,
-      //         $general->fgNumerationsince,
-      //         $general->fgNumerationuntil,
-      //         $general->fgBank,
-      //         $general->fgAccounttype,
-      //         $general->fgNumberaccount,
-      //         $general->fgNotes,
-      //         $firm
-      //     ]);
-      // }else{
-      //     array_push($facture, [
-      //         'SECTION TWO',
-      //         '',
-      //         '',
-      //         '',
-      //         $student->nameStudent,
-      //         $student->type,
-      //         $student->numberdocument,
-      //         $student->grade,
-      //         '',
-      //         '',
-      //         $general->fgRegime,
-      //         $general->fgTaxpayer,
-      //         $general->fgAutoretainer,
-      //         $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-      //         $general->fgResolution,
-      //         $general->fgDateresolution,
-      //         $general->fgNumerationsince,
-      //         $general->fgNumerationuntil,
-      //         $general->fgBank,
-      //         $general->fgAccounttype,
-      //         $general->fgNumberaccount,
-      //         $general->fgNotes,
-      //         $firm
-      //     ]);
-      // }
     }
+
     $totalAbsolut = 0;
+
     $totalAbsolutNotIva = 0;
+
     $totalAbsolutOnlyIva = 0;
+
     $separatedConcepts = explode(':', $facturation->facConcepts);
+
     for ($i = 0; $i < count($separatedConcepts); $i++) {
-      $concept = Concept::find($separatedConcepts[$i]); // conId, conDate, conConcept, conValue, conStatus, conLegalization_id
-      // var value = $(this).find('td:last').text();
+
+      $concept = Concept::find($separatedConcepts[$i]);
+
       $resultTotalWithIva = ($facturation->facPorcentageIva * $concept->conValue) / 100 + $concept->conValue;
+
       $resultOnlyIva = ($facturation->facPorcentageIva * $concept->conValue) / 100;
 
-
-      // total += resultIva
       array_push($facture, [
         'CONCEPTOS',
         $concept->conId,
@@ -1040,472 +948,45 @@ class FacturationsController extends Controller
         $resultTotalWithIva,
         $facturation->facPorcentageIva
       ]);
+
       $totalAbsolut += $resultTotalWithIva;
+
       $totalAbsolutNotIva += $concept->conValue;
+
       $totalAbsolutOnlyIva += ($facturation->facPorcentageIva * $concept->conValue) / 100;
     }
+
     $iva = $facturation->facPorcentageIva;
+
     $discount = $facturation->facValuediscount;
+
     $totalAbsolutOnlyIva = ($iva * $facturation->facValue) / 100;
+
     $totalAbsolutNotIva = $facturation->facValue - $facturation->facValuediscount;
+
     $totalAbsolut = $totalAbsolutNotIva + $totalAbsolutOnlyIva;
+    $total = $facturation->facValue;
 
     $pdf = App::make('dompdf.wrapper');
+
     $namefile = 'FACTURA_' . $facture[0][1] . ', ' . $facture[1][4] . '.pdf';
-    $pdf->loadView('modules.facturations.facturePdf', compact('facture', 'garden', 'totalAbsolut', 'totalAbsolutNotIva', 'iva', 'totalAbsolutOnlyIva', 'discount'));
-    //$pdf->setPaper("A6", "landscape");
-    // return $pdf->stream($namefile);
+
+    $pdf->loadView('modules.facturations.facturePdf', compact('facture', 'garden', 'totalAbsolut', 'totalAbsolutNotIva', 'iva', 'totalAbsolutOnlyIva', 'discount', 'total'));
+
     return $pdf->download($namefile);
   }
-
-  public function xmlFacturation(Request $request)
-  {
-    // dd($request->all());
-    /*
-          $request->legId;
-          $request->facId;
-          */
-    $facture = array(); // DONDE SE GUARDA TODA LA INFORMACIÖN QUE SE MUESTRA EN EL PDF
-    $facturation = Facturation::select(
-      'facturations.*', // facCode, facDateInitial, facFateFinal, facValue, facLegalization_id, facConcepts, facStatus
-      DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-      'citys.name as nameCity'
-    )
-      ->join('legalizations', 'legalizations.legId', 'facturations.facLegalization_id')
-      ->join('students', 'students.id', 'legalizations.legStudent_id')
-      ->join('citys', 'citys.id', 'students.cityhome_id')
-      ->where('facId', $request->facId)
-      ->first();
-    $garden = Garden::select('garden.*', 'citys.name as nameCity', 'locations.name as nameLocation')
-      ->join('citys', 'citys.id', 'garden.garCity_id')
-      ->join('locations', 'locations.id', 'garden.garLocation_id')
-      ->first();
-    array_push($facture, [
-      'SECTION ONE',
-      $facturation->facCode,
-      $facturation->facDateInitial,
-      $facturation->facDateFinal,
-      $garden->garReasonsocial,
-      $garden->garNamerepresentative,
-      $garden->garNit,
-      $garden->garAddress,
-      $garden->nameCity,
-      $garden->nameLocation,
-      $garden->garMailone,
-      $garden->garPhone
-    ]);
-
-    $general = General::first();
-    $father = Legalization::select(
-      'legalizations.*',
-      DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameFather"),
-      'documents.type',
-      'attendants.numberdocument',
-      'attendants.address',
-      'citys.name as city'
-    )
-      ->join('attendants', 'attendants.id', 'legalizations.legAttendantfather_id')
-      ->join('documents', 'documents.id', 'attendants.typedocument_id')
-      ->join('citys', 'citys.id', 'attendants.cityhome_id')
-      ->where('legId', $request->legId)->first();
-    $mother = Legalization::select(
-      'legalizations.*',
-      DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameMother"),
-      'documents.type',
-      'attendants.numberdocument',
-      'attendants.address',
-      'citys.name as city'
-    )
-      ->join('attendants', 'attendants.id', 'legalizations.legAttendantmother_id')
-      ->join('documents', 'documents.id', 'attendants.typedocument_id')
-      ->join('citys', 'citys.id', 'attendants.cityhome_id')
-      ->where('legId', $request->legId)->first();
-    $student = Legalization::select(
-      DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-      'documents.type',
-      'students.numberdocument',
-      'grades.name as grade'
-    )
-      ->join('students', 'students.id', 'legalizations.legStudent_id')
-      ->join('documents', 'documents.id', 'students.typedocument_id')
-      ->join('grades', 'grades.id', 'legalizations.legGrade_id')
-      ->where('legId', $request->legId)->first();
-    // $user = User::select('collaborators.firm', 'collaborators.position')->join('collaborators', 'collaborators.id', 'users.collaborator_id')->where('users.id', auth()->id())->first();
-    $user = User::find(auth()->id());
-    $firm = 'N/A';
-    if ($user->id != 0 and $user->id != "1024500065" and $user->id != "80503717") {
-      $firm = Collaborator::where('numberdocument', $user->id)->first();
-      if (!$firm) {
-        return back()->with('WarningUpdateFacturation', 'Este usuario no se encuentra registrado como colaborador');
-      }
-    }
-
-    if ($firm != 'N/A') {
-      if ($father != null && $mother != null) {
-        array_push($facture, [
-          'SECTION TWO',
-          $father->nameFather . ' ' . $father->numberdocument,
-          $mother->nameMother . ' ' . $mother->numberdocument,
-          $father->type  . ' - ' . $mother->type,
-          $student->nameStudent,
-          $student->type,
-          $student->numberdocument,
-          $student->grade,
-          $father->address,
-          $father->city,
-          $general->fgRegime,
-          $general->fgTaxpayer,
-          $general->fgAutoretainer,
-          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-          $general->fgResolution,
-          $general->fgDateresolution,
-          $general->fgNumerationsince,
-          $general->fgNumerationuntil,
-          $general->fgBank,
-          $general->fgAccounttype,
-          $general->fgNumberaccount,
-          $general->fgNotes,
-          $firm->firm,
-          $firm->firstname . ' ' . $firm->threename . ' ' . $firm->fourname,
-          $firm->position
-        ]);
-      } else if ($mother != null && $father == null) {
-        array_push($facture, [
-          'SECTION TWO',
-          '',
-          $mother->nameMother . ' ' . $mother->numberdocument,
-          $mother->type,
-          $student->nameStudent,
-          $student->type,
-          $student->numberdocument,
-          $student->grade,
-          $mother->address,
-          $mother->city,
-          $general->fgRegime,
-          $general->fgTaxpayer,
-          $general->fgAutoretainer,
-          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-          $general->fgResolution,
-          $general->fgDateresolution,
-          $general->fgNumerationsince,
-          $general->fgNumerationuntil,
-          $general->fgBank,
-          $general->fgAccounttype,
-          $general->fgNumberaccount,
-          $general->fgNotes,
-          $firm->firm,
-          $firm->firstname . ' ' . $firm->threename . ' ' . $firm->fourname,
-          $firm->position
-        ]);
-      } else if ($mother == null && $father != null) {
-        array_push($facture, [
-          'SECTION TWO',
-          $father->nameFather . ' ' . $father->numberdocument,
-          '',
-          $father->type,
-          $student->nameStudent,
-          $student->type,
-          $student->numberdocument,
-          $student->grade,
-          $father->address,
-          $father->city,
-          $general->fgRegime,
-          $general->fgTaxpayer,
-          $general->fgAutoretainer,
-          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-          $general->fgResolution,
-          $general->fgDateresolution,
-          $general->fgNumerationsince,
-          $general->fgNumerationuntil,
-          $general->fgBank,
-          $general->fgAccounttype,
-          $general->fgNumberaccount,
-          $general->fgNotes,
-          $firm->firm,
-          $firm->firstname . ' ' . $firm->threename . ' ' . $firm->fourname,
-          $firm->position
-        ]);
-      } else {
-        array_push($facture, [
-          'SECTION TWO',
-          '',
-          '',
-          '',
-          $student->nameStudent,
-          $student->type,
-          $student->numberdocument,
-          $student->grade,
-          '',
-          '',
-          $general->fgRegime,
-          $general->fgTaxpayer,
-          $general->fgAutoretainer,
-          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-          $general->fgResolution,
-          $general->fgDateresolution,
-          $general->fgNumerationsince,
-          $general->fgNumerationuntil,
-          $general->fgBank,
-          $general->fgAccounttype,
-          $general->fgNumberaccount,
-          $general->fgNotes,
-          $firm->firm,
-          $firm->firstname . ' ' . $firm->threename . ' ' . $firm->fourname,
-          $firm->position
-        ]);
-      }
-    } else {
-      if ($father != null && $mother != null) {
-        array_push($facture, [
-          'SECTION TWO',
-          $father->nameFather . ' ' . $father->numberdocument,
-          $mother->nameMother . ' ' . $mother->numberdocument,
-          $father->type  . ' - ' . $mother->type,
-          $student->nameStudent,
-          $student->type,
-          $student->numberdocument,
-          $student->grade,
-          $father->address,
-          $father->city,
-          $general->fgRegime,
-          $general->fgTaxpayer,
-          $general->fgAutoretainer,
-          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-          $general->fgResolution,
-          $general->fgDateresolution,
-          $general->fgNumerationsince,
-          $general->fgNumerationuntil,
-          $general->fgBank,
-          $general->fgAccounttype,
-          $general->fgNumberaccount,
-          $general->fgNotes,
-          $firm
-        ]);
-      } else if ($mother != null && $father == null) {
-        array_push($facture, [
-          'SECTION TWO',
-          '',
-          $mother->nameMother . ' ' . $mother->numberdocument,
-          $mother->type,
-          $student->nameStudent,
-          $student->type,
-          $student->numberdocument,
-          $student->grade,
-          $mother->address,
-          $mother->city,
-          $general->fgRegime,
-          $general->fgTaxpayer,
-          $general->fgAutoretainer,
-          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-          $general->fgResolution,
-          $general->fgDateresolution,
-          $general->fgNumerationsince,
-          $general->fgNumerationuntil,
-          $general->fgBank,
-          $general->fgAccounttype,
-          $general->fgNumberaccount,
-          $general->fgNotes,
-          $firm
-        ]);
-      } else if ($mother == null && $father != null) {
-        array_push($facture, [
-          'SECTION TWO',
-          $father->nameFather . ' ' . $father->numberdocument,
-          '',
-          $father->type,
-          $student->nameStudent,
-          $student->type,
-          $student->numberdocument,
-          $student->grade,
-          $father->address,
-          $father->city,
-          $general->fgRegime,
-          $general->fgTaxpayer,
-          $general->fgAutoretainer,
-          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-          $general->fgResolution,
-          $general->fgDateresolution,
-          $general->fgNumerationsince,
-          $general->fgNumerationuntil,
-          $general->fgBank,
-          $general->fgAccounttype,
-          $general->fgNumberaccount,
-          $general->fgNotes,
-          $firm
-        ]);
-      } else {
-        array_push($facture, [
-          'SECTION TWO',
-          '',
-          '',
-          '',
-          $student->nameStudent,
-          $student->type,
-          $student->numberdocument,
-          $student->grade,
-          '',
-          '',
-          $general->fgRegime,
-          $general->fgTaxpayer,
-          $general->fgAutoretainer,
-          $general->fgActivityOne . '-' . $general->fgActivityTwo . '-' . $general->fgActivityThree . '-' . $general->fgActivityFour,
-          $general->fgResolution,
-          $general->fgDateresolution,
-          $general->fgNumerationsince,
-          $general->fgNumerationuntil,
-          $general->fgBank,
-          $general->fgAccounttype,
-          $general->fgNumberaccount,
-          $general->fgNotes,
-          $firm
-        ]);
-      }
-    }
-
-    $totalAbsolut = 0;
-    $totalAbsolutNotIva = 0;
-    $totalAbsolutOnlyIva = 0;
-    $separatedConcepts = explode(':', $facturation->facConcepts);
-    $concepts = [];
-    for ($i = 0; $i < count($separatedConcepts); $i++) {
-      $concept = Concept::find($separatedConcepts[$i]); // conId, conDate, conConcept, conValue, conStatus, conLegalization_id
-      // var value = $(this).find('td:last').text();
-      $resultTotalWithIva = ($facturation->facPorcentageIva * $concept->conValue) / 100 + $concept->conValue;
-      $resultOnlyIva = ($facturation->facPorcentageIva * $concept->conValue) / 100;
-
-
-      // total += resultIva
-      array_push($facture, [
-        'CONCEPTOS',
-        $concept->conId,
-        $concept->conConcept,
-        $concept->conValue,
-        $resultOnlyIva,
-        $resultTotalWithIva,
-        $facturation->facPorcentageIva
-      ]);
-      array_push($concepts, [
-        'ID' => $concept->conId,
-        'Concept' => $concept->conConcept,
-        'Value' => $concept->conValue,
-        'Iva' => $resultOnlyIva,
-        'Total' => $resultTotalWithIva,
-        'Porcentage' => $facturation->facPorcentageIva
-      ]);
-      $totalAbsolut += $resultTotalWithIva;
-      $totalAbsolutNotIva += $concept->conValue;
-      $totalAbsolutOnlyIva += ($facturation->facPorcentageIva * $concept->conValue) / 100;
-    }
-
-    $iva = $facturation->facPorcentageIva;
-    $discount = $facturation->facValuediscount;
-    $totalAbsolutOnlyIva = ($iva * $facturation->facValue) / 100;
-    $totalAbsolutNotIva = $facturation->facValue - $facturation->facValuediscount;
-    $totalAbsolut = $totalAbsolutNotIva + $totalAbsolutOnlyIva;
-    /**
-     * ESTE ES EL CODIGO PARA LA FACTURACION XML
-     */
-    // dd($facture);
-    $regime = "";
-    switch ($facture[1][10]) {
-      case 'COMUN':
-        $regime = 'IVA regimen común';
-        break;
-      case 'SIMPLIFICADO':
-        $regime = 'IVA regimen simplificado';
-        break;
-      case 'ESPECIAL':
-        $regime = 'IVA regimen especial';
-        break;
-    }
-    $taxpayer = "";
-    switch ($facture[1][11]) {
-      case 'SI':
-        $taxpayer = 'somos grandes contribuyentes';
-        break;
-      case 'NO':
-        $taxpayer = 'no somos grandes contribuyentes';
-        break;
-    }
-    $autoretainer = "";
-    switch ($facture[1][12]) {
-      case 'SI':
-        $autoretainer = 'somos autoretenedores';
-        break;
-      case 'NO':
-        $autoretainer = 'no somos autoretenedores';
-        break;
-    }
-    $array = [
-      'Header' => [
-        'Number' => $facture[0][1],
-        'Date' => $facture[0][2],
-        'Expiration' => $facture[0][3],
-        'Garden' => [
-          'Name' => $facture[0][4],
-          'Nit' => $facture[0][6],
-          'Address' => $facture[0][7],
-          'Neighborhood' => $facture[0][9],
-          'City' => $facture[0][8],
-          'Mail' => $facture[0][10],
-          'Contact' => $facture[0][11]
-        ]
-      ],
-      'Clients' => [
-        'Attendants' => [
-          'Attendant1' => $facture[1][1],
-          'Attendant2' => $facture[1][2],
-        ],
-        'Student' => [
-          'Name' => $facture[1][4],
-          'ID Type' => $facture[1][5],
-          'ID Number' => $facture[1][6],
-          'Grade' => $facture[1][7],
-          'Home' => $facture[1][8]
-        ]
-      ],
-      'Information' => [
-        'Regime' => $regime,
-        'Taxpayer' => $taxpayer,
-        'Autoretainer' => $autoretainer,
-        'Economic Activity' => $facture[1][13],
-        'Resolution' => $facture[1][14],
-      ],
-      'Concepts' => [
-        'information' => [
-          $concepts
-        ]
-      ],
-      'Values' => [
-        'TotalIva' => $iva,
-        'Discount' => $discount,
-        'ValueWithIva' => $totalAbsolutOnlyIva,
-        'ValueWithoutiva' => $totalAbsolutNotIva,
-        'Total' => $totalAbsolut
-      ]
-    ];
-
-    return response()->xml($array,  200, [], 'Root', 'UTF-8');
-  }
-
 
   public function pdfFilter(Request $request)
   {
     try {
-      //dd($request->all());
-      /*
-            REUQEST GET RECIBIDO:
-            $request->optionFilterPdf //Si se ha filtrado por curso o estudiante
-            $request->pdfCourse //Id del curso filtrado
-            $request->pdfStudent //Id del estudiante filtrado
-            */
       if ($request->optionFilterPdf == 'course') {
         $countStudent = Listcourse::where('listCourse_id', $request->pdfCourse)->count();
-
         $students = Listcourse::where('listCourse_id', $request->pdfCourse)->get();
 
         $initialDates = array();
+
         $allfacturations = array();
+
         foreach ($students as $student) {
           $basicDates = Legalization::select(
             'legalizations.legId',
@@ -1518,7 +999,9 @@ class FacturationsController extends Controller
             ->join('wallets', 'wallets.waStudent_id', 'students.id')
             ->where('legalizations.legStudent_id', $student->listStudent_id)
             ->first();
+
           $countfacturations = Facturation::where('facturations.facLegalization_id', $basicDates->legId)->count();
+
           $facturations = Facturation::where('facturations.facLegalization_id', $basicDates->legId)->get();
 
           if ($countfacturations > 0) {
@@ -1526,6 +1009,7 @@ class FacturationsController extends Controller
             foreach ($facturations as $facturation) {
               $totalFactures += $facturation->facValue;
             }
+
             array_push($initialDates, [
               $basicDates->legId,
               $basicDates->nameStudent,
@@ -1535,7 +1019,7 @@ class FacturationsController extends Controller
               $countfacturations,
               $totalFactures
             ]);
-            //dd($initialDates);
+
             foreach ($facturations as $facturation) {
               $entrys = Entry::where('venFacturation_id', $facturation->facId)->get();
               $origin = '';
@@ -1554,7 +1038,8 @@ class FacturationsController extends Controller
                     $origin .= 'CONSIGNACION-EFECTIVO Y ';
                   }
                 }
-              } //foreach entrys
+              }
+
               array_push($allfacturations, [
                 $facturation->facLegalization_id,
                 $facturation->facCode,
@@ -1563,22 +1048,7 @@ class FacturationsController extends Controller
                 $facturation->facStatus,
                 $origin
               ]);
-              /*array_push($initialDates, [
-                                [
-                                    $basicDates->nameStudent,
-                                    $basicDates->waMoney,
-                                    $basicDates->waStatus,
-                                    $basicDates->nameAttendant,
-                                    $countfacturations,
-                                    $totalFactures
-                                ],
-                                $facturation->facCode,
-                                $facturation->facValue,
-                                $facturation->facDateInitial,
-                                $facturation->facStatus,
-                                $origin
-                            ]);*/
-            } // close foreach facturations
+            }
           } else {
             array_push($initialDates, [
               $basicDates->legId,
@@ -1589,9 +1059,9 @@ class FacturationsController extends Controller
               '0',
               '$ 0'
             ]);
-          } //end else
-        } // close foreach students
-        //dd($allDates);
+          }
+        }
+
         $datesfirst = CourseConsolidated::select(
           'courses.id AS idCourse',
           'courses.name AS nameCourse',
@@ -1603,13 +1073,14 @@ class FacturationsController extends Controller
           ->join('grades', 'grades.id', 'coursesconsolidated.ccGrade_id')
           ->join('collaborators', 'collaborators.id', 'coursesconsolidated.ccCollaborator_id')
           ->where('courses.id', $request->pdfCourse)->first();
+
         if ($datesfirst != null) {
           $countStudent = Listcourse::where('listCourse_id', $datesfirst->idCourse)
             ->where('listGrade_id', $datesfirst->idGrade)->count();
           $pdf = \App::make('dompdf.wrapper');
           $namefile = 'REPORTE_DE_CARTERA_DE_CURSO' . $datesfirst->nameCourse . '.pdf';
           $pdf->loadView('modules.facturations.reportCoursePdf', compact('datesfirst', 'countStudent', 'initialDates', 'allfacturations'));
-          //$pdf->setPaper("A6", "landscape");
+
           return $pdf->download($namefile);
         } else {
           $course = Course::select('name')->where('id', trim($request->pdfCourse))->first();
@@ -1633,6 +1104,7 @@ class FacturationsController extends Controller
           ->join('wallets', 'wallets.waStudent_id', 'students.id')
           ->where('legalizations.legStudent_id', trim($request->pdfStudent))
           ->first();
+
         if ($datehead != null) {
           $collaborator = CourseConsolidated::select(
             DB::raw("CONCAT(collaborators.firstname,' ',collaborators.threename) AS nameCollaborator")
@@ -1641,14 +1113,19 @@ class FacturationsController extends Controller
             ->where('ccGrade_id', $datehead->idGrade)
             ->where('ccStatus', 'ACTIVO')
             ->first();
+
           $allfacturations = array();
+
           $countfacturations = Facturation::where('facturations.facLegalization_id', $datehead->legId)->count();
+
           $facturations = Facturation::where('facturations.facLegalization_id', $datehead->legId)->get();
+
           if ($countfacturations > 0) {
             $totalFactures = 0;
             foreach ($facturations as $facturation) {
               $totalFactures += $facturation->facValue;
             }
+
             foreach ($facturations as $facturation) {
               $entrys = Entry::where('venFacturation_id', $facturation->facId)->get();
               $origin = '';
@@ -1667,7 +1144,8 @@ class FacturationsController extends Controller
                     $origin .= 'CONSIGNACION-EFECTIVO Y ';
                   }
                 }
-              } //foreach entrys
+              }
+
               array_push($allfacturations, [
                 $facturation->facCode,
                 $facturation->facValue,
@@ -1675,17 +1153,22 @@ class FacturationsController extends Controller
                 $facturation->facStatus,
                 $origin
               ]);
-            } // close foreach facturations
+            }
           }
 
           $student = Student::find($request->pdfStudent);
+
           $pdf = \App::make('dompdf.wrapper');
+
           $namefile = 'REPORTE_DE_CARTERA_INDIVIDUAL_' . $student->firstname . '_' . $student->threename . '.pdf';
+
           $pdf->loadView('modules.facturations.reportStudentPdf', compact('datehead', 'collaborator', 'allfacturations', 'countfacturations', 'totalFactures'));
-          //$pdf->setPaper("A6", "landscape");
+
           return $pdf->download($namefile);
         } else {
+
           $student = Student::find($request->pdfStudent);
+
           return redirect()->route('facturation.all')->with('WarningUpdateFacturation', 'No hay informes del alumno ' . $student->firstname . ' ' . $student->threename);
         }
       }
@@ -1693,22 +1176,23 @@ class FacturationsController extends Controller
     }
   }
 
+
+
   public function accountsPendingPdf(Request $request)
   {
     try {
-      // dd($request->all());
-      /*
-                $request->concepts
-                $request->legalization
-            */
       $concept = explode(':', $request->concepts);
+
       $concepts = array();
+
       for ($i = 0; $i < count($concept); $i++) {
         $find = Concept::find($concept[$i]);
+
         if ($find != null) {
           if ($i == 0) {
             $leg = $find->conLegalization_id;
           }
+
           array_push($concepts, [
             $find->conId,
             $find->conDate,
@@ -1718,11 +1202,12 @@ class FacturationsController extends Controller
           ]);
         }
       }
-      // dd($concepts);
+
       $garden = Garden::select('garden.*', 'citys.name as nameCity', 'locations.name as nameLocation')
         ->join('citys', 'citys.id', 'garden.garCity_id')
         ->join('locations', 'locations.id', 'garden.garLocation_id')
         ->first();
+
       $legalization = Legalization::select(
         DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
         DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
@@ -1733,25 +1218,16 @@ class FacturationsController extends Controller
         ->join('attendants', 'attendants.id', 'legalizations.legAttendantfather_id')
         ->join('grades', 'grades.id', 'legalizations.legGrade_id')
         ->where('legId', trim($request->legalization))->first();
-      // if($legalization == null){
-      //     $legalization = Legalization::select(
-      //             DB::raw("CONCAT(students.firstname,' ',students.threename,' ',students.fourname) AS nameStudent"),
-      //             DB::raw("CONCAT(attendants.firstname,' ',attendants.threename) AS nameAttendant"),
-      //             'grades.name as nameGrade',
-      //             'students.address'
-      //         )
-      //         ->join('students','students.id','legalizations.legStudent_id')
-      //         ->join('attendants','attendants.id','legalizations.legAttendantmother_id')
-      //         ->join('grades','grades.id','legalizations.legGrade_id')
-      //         ->where('legId',trim($request->legalization))->first();
-      // }
+
       $pdf = \App::make('dompdf.wrapper');
+
       $namefile = 'CARTERA_PENDIENTE_ALUMNO_' . $legalization->nameStudent . '.pdf';
+
       $pdf->loadView('modules.facturations.accountsPendingPdf', compact('garden', 'concepts', 'legalization'));
-      //$pdf->setPaper("A6", "landscape");
+
+
       return $pdf->download($namefile);
     } catch (Exception $ex) {
-      // Code exception...
     }
   }
 
@@ -1766,8 +1242,11 @@ class FacturationsController extends Controller
         ->join('students', 'students.id', 'legalizations.legStudent_id')
         ->join('grades', 'grades.id', 'legalizations.legGrade_id')
         ->get();
+
       $today = Date('Y-m-d');
+
       $result = array();
+
       foreach ($legalizations as $legalization) {
         $fromLegalization = array();
         $facturations = Facturation::where('facLegalization_id', $legalization->legId)
@@ -1782,6 +1261,7 @@ class FacturationsController extends Controller
             foreach ($vouchers as $voucher) {
               $voucherCodes .= ',' . $voucher->venCode;
             }
+
             array_push($fromLegalization, [
               $facturation->facCode,
               $facturation->facDateFinal,
@@ -1799,13 +1279,18 @@ class FacturationsController extends Controller
             ]);
           }
         }
+
         if (count($fromLegalization) > 0) {
           array_push($result, [$legalization->nameStudent, $legalization->nameGrade, $fromLegalization]);
         }
       }
+
       $pdf = App::make('dompdf.wrapper');
+
       $namefile = 'CARTERA_VENCIDA.pdf';
+
       $pdf->loadView('modules.facturations.defeatedFacturation', compact('result'));
+
       return $pdf->download($namefile);
     } catch (Exception $ex) {
     }

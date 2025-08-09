@@ -1814,7 +1814,8 @@ Route::get('getDatesFacture', function (Request $request) {
       $facture->facStatus
     ]);
     array_push($dates, [
-      $count, $paid
+      $count,
+      $paid
     ]);
     return response()->json($dates);
   } else {
@@ -2033,6 +2034,8 @@ Route::get('getDetailsVoucherEntry', function (Request $request) {
     $voucher->facDateFinal,
     $voucher->facValue,
     $voucher->facValueIva,
+    $voucher->facValueCopy,
+    $voucher->venPaid
   ]);
   $concepts = explode(':', $voucher->facConcepts);
   for ($i = 0; $i < count($concepts); $i++) {
@@ -3255,9 +3258,9 @@ Route::post('daily-student', function (Request $request) {
 
   $data = DB::table('daily_students')->join('students', 'students.id', 'daily_students.id_student')
     ->join('info_dailies', 'info_dailies.id_id', 'daily_students.id_daily')
-    ->join('listcourses','listcourses.listStudent_id','students.id')
-    ->join('courses','courses.id','listcourses.listCourse_id')
-    ->where('daily_students.id_student', $student)->select('students.firstname as firstname', 'students.threename as threename', 'students.fourname as fourname', 'info_dailies.id_fulldate as id_fulldate', 'info_dailies.id_cont as id_cont', 'daily_students.id as id_pivot','courses.name as course');
+    ->join('listcourses', 'listcourses.listStudent_id', 'students.id')
+    ->join('courses', 'courses.id', 'listcourses.listCourse_id')
+    ->where('daily_students.id_student', $student)->select('students.firstname as firstname', 'students.threename as threename', 'students.fourname as fourname', 'info_dailies.id_fulldate as id_fulldate', 'info_dailies.id_cont as id_cont', 'daily_students.id as id_pivot', 'courses.name as course');
 
   if ($request->initial != "" && $request->final != "") {
     $consult = $data->whereBetween('info_dailies.created_at', [$initials, $finals])->get();

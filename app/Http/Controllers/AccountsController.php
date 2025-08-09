@@ -36,12 +36,22 @@ class AccountsController extends Controller
   public function getAccount(Request $request)
   {
     /** SE CONSULTAN LAS LEGALIZACIONES ACTIVAS **/
-    $accounts = Legalization::with('student:id,firstname,threename,fourname', 'father:id,firstname,threename', 'mother:id,firstname,threename', 'grade:id,name', 'journey')
-      ->join('concepts', 'concepts.conLegalization_id', 'legalizations.legId')
-      ->where([['legStatus', 'ACTIVO'],['concepts.conStatus', 'PENDIENTE']])
-      ->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])
+    $accounts = Legalization::with(
+      'student:id,firstname,threename,fourname',
+      'father:id,firstname,threename',
+      'mother:id,firstname,threename',
+      'grade:id,name',
+      'journey',
+      'concept'
+    )->where('legStatus', 'ACTIVO') // Se corrige el uso de where
+      ->whereHas('concept', function ($query) use ($request) {
+        $query->where('conStatus', 'PENDIENTE') // Se corrige el uso de where
+          ->whereBetween('conDate', [
+            $request->year . "-" . $request->mount . "-01",
+            $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))
+          ]);
+      })
       ->get();
-
     $datas = array();
 
     $temporal = "";
@@ -49,18 +59,16 @@ class AccountsController extends Controller
     foreach ($accounts as $key => $account) {
       if ($account->legStudent_id != $temporal) {
         array_push($datas, [
-          $account->legId,
-          $account->student->id,
-          $account->student->firstname . " " . $account->student->threename . " " . $account->student->fourname,
-          $account->grade->name,
+          optional($account)->legId,
+          optional($account->student)->id,
+          optional($account->student)->firstname . " " . optional($account->student)->threename . " " . optional($account->student)->fourname,
+          optional($account->grade)->name,
           // $account->nameCourse,
-          $account->father->firstname . " " . $account->father->threename . "</br>" . $account->mother->firstname . " " . $account->mother->threename
+          optional($account->father)->firstname . " " . optional($account->father)->threename . "</br>" . optional($account->mother)->firstname . " " . optional($account->mother)->threename
         ]);
-        $temporal = $account->legStudent_id;
       }
     }
-
-    return response()->json($datas);
+    return $datas;
   }
 
   function getItemsConcepts(Request $request)
@@ -77,7 +85,7 @@ class AccountsController extends Controller
       ->where('legId', trim($request->legId))->first();
     $father = Attendant::find($legalization->legAttendantfather_id);
     $mother = Attendant::find($legalization->legAttendantmother_id);
-    $concepts = Concept::where([['conLegalization_id', trim($request->legId)],['conStatus','PENDIENTE']])->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])->get();
+    $concepts = Concept::where([['conLegalization_id', trim($request->legId)], ['conStatus', 'PENDIENTE']])->whereBetween('conDate', [$request->year . "-" . $request->mount . "-01", $request->year . "-" . $request->mount . "-" . date('t', strtotime($request->year . '-' . $request->mount . '-15'))])->get();
     $dates = array();
 
     if (isset($father) && isset($mother)) {
@@ -258,29 +266,8 @@ class AccountsController extends Controller
 
     $appName = config('app.name');
     array_push($datesFacture, $appName);
-    // for ($i=0; $i < count($datesFacture); $i++) { 
-    //     if(){
-
-    //     }
-    // }
-
-    // redirect()->route('facturations',['dates' => $datesFacture]);
 
     return response()->json($datesFacture);
-    // return route('facturations',compact('datesFacture'));
-    // $ids = explode(':', $request->ids);
-    // $count = 0;
-    // for ($i=0; $i < count($ids); $i++){
-    //     $concept = Concept::find($ids[$i]);
-    //     $concept->conStatus = 'FACTURADO';
-    //     $concept->save();
-    //     $count++;
-    // }
-    // if($count == count($ids)){
-    //     return response()->json('OK' . $request->ids);
-    // }else{
-    //     return response()->json('NO');
-    // }
   }
 
   function getFacturationtramited(Request $request)
@@ -290,7 +277,6 @@ class AccountsController extends Controller
 
   function getFacturationtramitedcount(Request $request)
   {
-    // dd($request->all());
     $tramited = Facturation::select(
       'facturations.*',
       'legalizations.legId',
@@ -339,8 +325,11 @@ class AccountsController extends Controller
   }
 
   /*====================================================*/
+
   // METODOS DE ITEM ANALISIS DE PRESUPUESTO \\
+
   /*====================================================*/
+
   function coststructureTo()
   {
     $structure = Coststructure::all();
@@ -453,12 +442,6 @@ class AccountsController extends Controller
   function editCostdescription(Request $request)
   {
     try {
-      /*
-                costDescription_edit
-                costDescription_id_edit
-                costStructure_id_edit
-                costStructure_edit
-            */
       $validateDescription = Costdescription::find(trim($request->costDescription_id_edit));
       if ($validateDescription != null) {
         $validateDescription->cdDescription = mb_strtoupper(trim($request->costDescription_edit));
@@ -485,7 +468,7 @@ class AccountsController extends Controller
         return redirect()->route('analysis.description')->with('SecondaryDeleteDescription', 'NO SE ENCUENTRA EL REGISTRO, INTENTELO MAS TARDE');
       }
     } catch (Exception $ex) {
-      return redirect()->route('analysis.description')->with('SecondaryDeleteDescription', 'PROCESO INTERUMPIDO, COMUNIQUESE CON EL ADMINISTRADOR');
+      return redirect()->route('analysis.description')->with('SecondaryDeleteDescription', 'PROCESO INTERUMPIDO, COMUNIQUEE CON EL ADMINISTRADOR');
     }
   }
 
@@ -502,12 +485,12 @@ class AccountsController extends Controller
 
   function getReportcloseExcel(Request $request)
   {
-    // $request->rYear
-    // dd($request->all());
     return Excel::download(new ReportcloseExcel(trim($request->rYear)), 'Presupuesto ' . trim($request->rYear) . '.xlsx');
   }
 
   /*====================================================*/
+
   // ## METODOS DE ITEM ANALISIS DE PRESUPUESTO ## \\
+
   /*====================================================*/
 }

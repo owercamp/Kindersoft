@@ -243,7 +243,7 @@
              contado a partir de <b>
               {{ returnFormatDate($legalization->legDateInitial) }} </b> hasta <b> {{ returnFormatDate($legalization->legDateFinal) }} </b>, Su ejecución será sucesiva por periodos mensuales y podrá renovarse para el año siguiente, siempre y cuando el Beneficiario, los Padres de Familia o Acudiente, Deudor y Codeudor hayan cumplido estrictamente las condiciones estipuladas en el presente contrato, en el Pacto de Corresponsabilidad y modelo aplicado y estar a paz y salvo por todo concepto con {{ mb_strtoupper($garden->garReasonsocial) }} - {{ mb_strtoupper($garden->garNamecomercial) }}. En caso que un beneficiario se matricule extemporáneo la duración y el monto a cancelar se ajustará en relación al tiempo faltante para la finalización del año lectivo.
             <b>CLÁUSULA QUINTA</b>.
-            @if(isset($paid))
+            @if(isset($paid) && count($paid) > 0)
             COSTOS: El presente contrato por este servicio tendrá un costo anual de <b>${{ number_format($paid[0]['payValueContract'],0,',','.') }}</b> que corresponde a <b>${{ number_format($paid[0]['payValuemountContract'],0,',','.') }}</b> por concepto de pensión mensual del año lectivo, el cual debe ser cancelado en (<b>{{ $paid[0]['payDuesQuotationContract'] }}</b>) cuota/s mensuales dentro de los (<b>{{ returnNumberDay($paid[0]['payDatepaidsContract']) }}</b>) primeros días de cada mes y <b>${{ number_format($paid[0]['payValueEnrollment'],0,',','.') }}</b> por concepto de matrícula. El costo anual se ajustará cada año, según lo autorizado por la Ley.
             @else
             COSTOS: El presente contrato por este servicio tendrá un costo anual especificado en la matrícula que corresponde a un concepto de pensión mensual del año lectivo, el cual debe ser cancelado en varias cuotas mensuales dentro de los plazos establecidos cada mes y un concepto de matrícula. El costo anual se ajustará cada año, según lo autorizado por la Ley.
@@ -258,7 +258,7 @@
             <b>PARÁGRAFO SEPTIMO:</b>
             El jardín podrá cobrar por horas adicionales el costo que defina si el horario de recogida se extiende al estipulado en la hoja de matrícula.
             <b>PARÁGRAFO OCTAVO:</b>
-            Cobros Periódicos: Son las sumas que pagan periódicamente los padres de familia o acudientes que voluntariamente lo hayan aceptado, por concepto de servicios de transporte y/o alimentación, prestados por el establecimiento. Estos cobros no constituyen elementos propios de la prestación del servicio, pero se originan como consecuencia del mismo. Este pago tiene una duración de un (1) año denominado lectivo que corresponde a once (11) meses calendario, el que empezará a contar a partir del mes de <b>
+            Cobros Periódicos: Son las sumas que pagan periódicamente los padres de familia o acudientes que voluntariamente lo hayan aceptado, por concepto de servicios de transporte y/o alimentación, prestados por el establecimiento. Estos cobros no constituyen elementos propios de la prestación del servicio, pero se originan como consecuencia del mismo. Este pago tiene una duración de un (1) año denominado lectivo que corresponde a diez (10) meses calendario, el que empezará a contar a partir del mes de <b>
               {{ returnFormatMount($legalization->legDateInitial) }} </b> a <b> {{ returnFormatMount($legalization->legDateFinal) }}
             </b>. Otros Cobros Periódicos: Son las sumas que se pagan por servicio del establecimiento, distintos de los anteriores conceptos y fijados de manera expresa en el reglamento o Pacto de Corresponsabilidad, y se deriven de manera directa de los servicios ofrecidos; estos serán variables cuando el beneficiario tome un servicio o utilice un insumo que no esté incluido en su pensión; estos serán ofrecidos al beneficiario con o sin autorización del padre velando siempre por el derecho superior del niño.
             <b>PARÁGRAFO NOVENO:</b>
@@ -307,14 +307,14 @@
             }else{
               echo (date('Y'));
             }
-            @endphp @endif. En @if(config('app.name') == "Dream Home By Creatyvia") diciembre @elseif(config('app.name') == "Colchildren Kindergarten") junio @endif tendremos receso previamente informado hasta @if(config('app.name') == "Dream Home By Creatyvia") enero de @php echo (date('Y') + 1) @endphp @elseif(config('app.name') == "Colchildren Kindergarten") julio de @php
+            @endphp @endif. En @if(config('app.name') == "Dream Home By Creatyvia") noviembre @elseif(config('app.name') == "Colchildren Kindergarten") junio @endif tendremos receso previamente informado hasta @if(config('app.name') == "Dream Home By Creatyvia") diciembre de @php echo (date('Y')) @endphp @elseif(config('app.name') == "Colchildren Kindergarten") julio de @php
             if(date('m') == 12){
               echo (date('Y') + 1);
             } else {
               echo (date('Y'));
             }
-            @endphp @endif. Parte de @if(config('app.name') == "Dream Home By Creatyvia") diciembre y enero @elseif(config('app.name') == "Colchildren Kindergarten") junio y julio @endif de @php
-            if(date('m') == 12 || config('app.name') == "Dream Home By Creatyvia"){
+            @endphp @endif. Parte de @if(config('app.name') == "Dream Home By Creatyvia") noviembre y diciembre @elseif(config('app.name') == "Colchildren Kindergarten") junio y julio @endif de @php
+            if(date('m') == 12){
               echo (date('Y') + 1);
             }else{
               echo (date('Y'));
@@ -348,57 +348,30 @@
           </p>
           <table width="100%" style="text-align: left; font-size: 12px;">
             <tr>
-              @if (config('app.name') == "Dream Home By Creatyvia")
-                <td style="width: 59%;">
-                  @if($garden->garFirmwitness != null)
-                    <img src="{{ asset('storage/garden/firm/'.$garden->garFirmwitness) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
-                  @else
-                  <br>________________________________<br>
-                  @endif
-                  Representante Legal <br>
-                  {{ mb_strtoupper($garden->garNamerepresentative) }} <br>
-                  C.C N° {{ mb_strtoupper($garden->garCardrepresentative) }} <br>
-                </td>
-                <td style="width: 59%;">
-                  @if($garden->garFirm != null)
-                    <img src="{{ asset('storage/garden/firm/'.$garden->garFirm) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
-                  @else
-                  <br>________________________________<br>
-                  @endif
-                  Testigo <br>
-                  {{ mb_strtoupper($garden->garNamewitness) }} <br>
-                  C.C N° {{ mb_strtoupper($garden->garCardwitness) }} <br>
-                  <!-- ________________________________  <br>
-                          Testigo <br>
-                          ERIKA PATRICIA PERTUZ RUDAS <br>
-                          C.C N° 32.880.434 <br><br> -->
-                </td>
-              @elseif (config('app.name') == "Colchildren Kindergarten")
-                <td style="width: 59%;">
-                  @if($garden->garFirm != null)
-                  <img src="{{ asset('storage/garden/firm/'.$garden->garFirm) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
-                  @else
-                  <br>________________________________<br>
-                  @endif
-                  Representante Legal <br>
-                  {{ mb_strtoupper($garden->garNamerepresentative) }} <br>
-                  C.C N° {{ mb_strtoupper($garden->garCardrepresentative) }} <br>
-                </td>
-                <td style="width: 59%;">
-                  @if($garden->garFirmwitness != null)
-                  <img src="{{ asset('storage/garden/firm/'.$garden->garFirmwitness) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
-                  @else
-                  <br>________________________________<br>
-                  @endif
-                  Testigo <br>
-                  {{ mb_strtoupper($garden->garNamewitness) }} <br>
-                  C.C N° {{ mb_strtoupper($garden->garCardwitness) }} <br>
-                  <!-- ________________________________  <br>
-                          Testigo <br>
-                          ERIKA PATRICIA PERTUZ RUDAS <br>
-                          C.C N° 32.880.434 <br><br> -->
-                </td>
-              @endif
+              <td style="width: 59%;">
+                @if($garden->garFirm != null)
+                <img src="{{ asset('storage/garden/firm/'.$garden->garFirm) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
+                @else
+                <br>________________________________<br>
+                @endif
+                Representante Legal <br>
+                {{ mb_strtoupper($garden->garNamerepresentative) }} <br>
+                C.C N° {{ mb_strtoupper($garden->garCardrepresentative) }} <br>
+              </td>
+              <td style="width: 59%;">
+                @if($garden->garFirmwitness != null)
+                <img src="{{ asset('storage/garden/firm/'.$garden->garFirmwitness) }}" style="width: 70px; height: auto; transform:  scale(1.9); margin-left: 50px; background: transparent;"><br>
+                @else
+                <br>________________________________<br>
+                @endif
+                Testigo <br>
+                {{ mb_strtoupper($garden->garNamewitness) }} <br>
+                C.C N° {{ mb_strtoupper($garden->garCardwitness) }} <br>
+                <!-- ________________________________  <br>
+                        Testigo <br>
+                        ERIKA PATRICIA PERTUZ RUDAS <br>
+                        C.C N° 32.880.434 <br><br> -->
+              </td>
             </tr>
             <tr>
               <td>

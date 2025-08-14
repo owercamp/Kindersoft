@@ -55,12 +55,13 @@ class EntrysController extends Controller
       $legalization = Legalization::find($request->venLegalization_id);
       $voucherentryValidate = Entry::where('venCode', trim($request->venCode))->first();
       if ($voucherentryValidate == null && $legalization != null) {
+        $venPaid = filter_var($request->venPaid, FILTER_SANITIZE_NUMBER_INT);
         Entry::create([
           'venCode' => trim($request->venCode),
           'venFacturation_id' => trim($request->venFacturation_id),
           'venStudent_id' => $legalization->legStudent_id,
           'venDate' => trim($request->venDate),
-          'venPaid' => trim($request->venPaid),
+          'venPaid' => trim($venPaid),
           'venObs' => trim($request->venObs),
           'venDescription' => trim($request->venDescrimtion)
         ]);

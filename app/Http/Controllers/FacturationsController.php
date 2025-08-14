@@ -154,7 +154,7 @@ class FacturationsController extends Controller
         $facturation->facCode,
         $facturation->facDateFinal,
         $facturation->nameStudent,
-        ((int) $facturation->facValueCopy == 0) ? $facturation->facValueIva : $facturation->facValueCopy
+        ((int)$facturation->facValueCopy === 0) ? $facturation->facValueIva : $facturation->facValueCopy
       ]);
     }
 
@@ -614,7 +614,6 @@ class FacturationsController extends Controller
   }
 
   public function pdfFacturation(Request $request)
-
   {
     $facture = array(); // DONDE SE GUARDA TODA LA INFORMACIÖN QUE SE MUESTRA EN EL PDF
 
@@ -1175,8 +1174,6 @@ class FacturationsController extends Controller
     } catch (Exception $ex) {
     }
   }
-
-
 
   public function accountsPendingPdf(Request $request)
   {
